@@ -1,3 +1,3 @@
 <?php
-	header("Location: components/tools/home.php");
+	header("Location: components/pages/home.php");
 ?>
