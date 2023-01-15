@@ -1,3 +1,3 @@
 <div class="sidebar">
-  	<a <?php echo $CurrentPage == 'home' ? 'class="active"' : '';?> href="<?php echo "$ProjectPublicRoot/components/tools/home.php" ?>">Home</a>
+  	<a <?php echo $CurrentPage == 'home' ? 'class="active"' : '';?> href="<?php echo "/components/tools/home.php" ?>">Home</a>
 </div>
