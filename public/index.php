@@ -1,1 +1,3 @@
-<?php echo 'hi'; ?>
+<?php
+	header("Location: components/tools/home.php");
+?>
