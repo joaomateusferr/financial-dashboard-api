@@ -1,6 +1,6 @@
 <?php
     require_once("../start.php");
-    $CurrentTool = basename(__FILE__, '.php');
+    $CurrentPage = basename(__FILE__, '.php');
 ?>
 
 <!DOCTYPE html>
