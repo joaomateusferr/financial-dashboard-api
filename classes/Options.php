@@ -12,7 +12,7 @@ class Options {
 
     function __construct() {
 
-        $OptionsFilePath = $_SERVER['DOCUMENT_ROOT'].'/dev-toolkit/config/options.json';
+        $OptionsFilePath = Constants::getProjectPath().'/config/options.json';
 
         if(file_exists($OptionsFilePath)){
             
