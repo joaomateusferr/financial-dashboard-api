@@ -1,6 +1,9 @@
 <?php
     require_once("../start.php");
     $CurrentPage = basename(__FILE__, '.php');
+
+    $Indicators = new Indicators();
+
 ?>
 
 <!DOCTYPE html>
