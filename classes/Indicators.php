@@ -15,7 +15,7 @@ class Indicators {
             
             $Indicators = json_decode(file_get_contents($this->IndicatorsFilePath), true);
 
-            if(!isset($Indicators['LatestUpdate']) || $Indicators['LatestUpdate'] > time() - 300) { //if it's not set or the last update was more than 5 minutes ago
+            if(!isset($Indicators['LatestUpdate']) || $Indicators['LatestUpdate'] < time() - Constants::getIndicatorUpdateTime()) {
 
                 $this->updateIndicators();
 
