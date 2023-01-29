@@ -72,7 +72,7 @@ class Indicators {
 
         curl_close($Curl);
 
-        if($Response === false){
+        if($Response === false){    //error
             
             return false;
         
@@ -118,11 +118,11 @@ class Indicators {
 
         curl_close($Curl);
 
-        if($Response === false){
+        if($Response === false){    //error
             
             return false;
         
-        } else {
+        } else {    //parse api response
 
             $Selic = json_decode($Response, true);
 
