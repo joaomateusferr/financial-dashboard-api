@@ -22,8 +22,20 @@
 
         <div class="main">
 
-            <div class="container center">
-                indicators
+            <div class="container">
+
+                <div class="row">
+                    
+                    <div class="col-sm-2">
+                        <?php echo 'R$ 1' $Indicators->$DollarRealExchangeRate->AskPrice.'<br>'.
+                    </div>
+
+                    <div class="col-sm-2">
+                        
+                    </div>
+                
+                </div>
+                
             </div>
 
         </div>
