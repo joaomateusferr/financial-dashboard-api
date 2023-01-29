@@ -3,9 +3,9 @@
 class Indicators {
     
     private $IndicatorsFilePath;
-    private $DollarRealExchangeRate;
-    private $SpecialSettlementAndCustodySystem; //AKA SELIC
-    private $LatestUpdate;
+    public $DollarRealExchangeRate;
+    public $SpecialSettlementAndCustodySystem; //AKA SELIC
+    public $LatestUpdate;
 
     function __construct() {
 
@@ -15,7 +15,7 @@ class Indicators {
             
             $Indicators = json_decode(file_get_contents($this->IndicatorsFilePath), true);
 
-            if(!isset($Indicators['LatestUpdate']) || $Indicators['LatestUpdate'] > time() - 300) { //if it's not set or the last update was more than 5 minutes ago
+            if(!isset($Indicators['LatestUpdate']) || $Indicators['LatestUpdate'] < time() - Constants::getIndicatorUpdateTime()) {
 
                 $this->updateIndicators();
 
@@ -72,7 +72,7 @@ class Indicators {
 
         curl_close($Curl);
 
-        if($Response === false){
+        if($Response === false){    //error
             
             return false;
         
@@ -118,11 +118,11 @@ class Indicators {
 
         curl_close($Curl);
 
-        if($Response === false){
+        if($Response === false){    //error
             
             return false;
         
-        } else {
+        } else {    //parse api response
 
             $Selic = json_decode($Response, true);
 

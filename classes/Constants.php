@@ -6,6 +6,8 @@ class Constants {
 
     private const B3_API_BASE_URL = 'https://sistemaswebb3-balcao.b3.com.br';
 
+    private const INDICATOR_UPDATE_TIME = 300; //5 minutes
+
     public static function getProjectPath() {
 
         $ProjectPath = explode("/", $_SERVER['DOCUMENT_ROOT']);
@@ -24,6 +26,12 @@ class Constants {
     public static function getB3ApiBaseUrl() {
         
         return self::B3_API_BASE_URL;
+    
+    }
+
+    public static function getIndicatorUpdateTime() {
+        
+        return self::INDICATOR_UPDATE_TIME;
     
     }
     
