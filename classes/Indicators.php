@@ -3,9 +3,9 @@
 class Indicators {
     
     private $IndicatorsFilePath;
-    private $DollarRealExchangeRate;
-    private $SpecialSettlementAndCustodySystem; //AKA SELIC
-    private $LatestUpdate;
+    public $DollarRealExchangeRate;
+    public $SpecialSettlementAndCustodySystem; //AKA SELIC
+    public $LatestUpdate;
 
     function __construct() {
 
