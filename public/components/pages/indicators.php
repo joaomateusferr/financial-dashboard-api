@@ -60,6 +60,20 @@
                     <div class="row col-sm-12">
 
                         <div class="col-sm-8">
+                            <?php echo 'Taxa DI: '?>
+                            <?php echo (isset($Indicators->InterbankDepositRate['Rate']) && $Indicators->InterbankDepositRate['Rate']) ? $Indicators->InterbankDepositRate['Rate'] : 0;?>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <?php echo 'Latest Update: '?>
+                            <?php echo (isset($Indicators->InterbankDepositRate['LatestUpdate']) && $Indicators->InterbankDepositRate['LatestUpdate']) ? $Indicators->InterbankDepositRate['LatestUpdate'] : 0;?>
+                        </div>
+
+                    </div>
+
+                    <div class="row col-sm-12">
+
+                        <div class="col-sm-8">
                             <button type="submit" value="Submit">Update Indicators</button>
                         </div>
 

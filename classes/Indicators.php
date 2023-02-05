@@ -5,6 +5,7 @@ class Indicators {
     private $IndicatorsFilePath;
     public $DollarRealExchangeRate;
     public $SpecialSettlementAndCustodySystem; //AKA SELIC
+    public $InterbankDepositRate;//AKA TAXA DI
     public $LatestUpdate;
 
     function __construct() {
@@ -40,6 +41,7 @@ class Indicators {
         $this->IndicatorsFilePath = Constants::getProjectPath().'/config/indicators.json';
         $this->DollarRealExchangeRate = $this->getDollarRealExchangeRate();
         $this->SpecialSettlementAndCustodySystem = $this->getSpecialSettlementAndCustodySystem();
+        $this->InterbankDepositRate = $this->getInterbankDepositRate();
         $this->LatestUpdate = time();
 
         $Indicators = [];
@@ -96,7 +98,7 @@ class Indicators {
     
     }
 
-    function getSpecialSettlementAndCustodySystem() {
+    function getInterbankDepositRate() {
 
         $Curl = curl_init();
 
@@ -124,12 +126,59 @@ class Indicators {
         
         } else {    //parse api response
 
-            $Selic = json_decode($Response, true);
+            $DI = json_decode($Response, true);
 
-            if(isset($Selic['rate']) && isset($Selic['date'])){
+            if(isset($DI['rate']) && isset($DI['date'])){
 
-                $SpecialSettlementAndCustodySystem['Rate'] = number_format(str_replace(",",".",$Selic['rate']), 2);
-                $SpecialSettlementAndCustodySystem['LatestUpdate'] = strtotime(str_replace("/","-",$Selic['date']));
+                $InterbankDepositRate['Rate'] = number_format(str_replace(",",".",$DI['rate']), 2);
+                $InterbankDepositRate['LatestUpdate'] = strtotime(str_replace("/","-",$DI['date']));
+
+                return $InterbankDepositRate;
+
+            } else {
+
+                return false;
+
+            }
+
+        }
+    
+    }
+
+    function getSpecialSettlementAndCustodySystem() {
+
+        $Curl = curl_init();
+
+        curl_setopt_array($Curl, [
+                CURLOPT_URL => Constants::getBrapiBaseUrl().'/prime-rate?country=brazil&historical=false',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false,
+            ]
+        );
+
+        $Response = curl_exec($Curl);
+
+        curl_close($Curl);
+
+        if($Response === false){    //error
+            
+            return false;
+        
+        } else {    //parse api response
+
+            $Selic = (json_decode($Response, true))['prime-rate'];
+
+            if(isset($Selic[0]['value']) && isset($Selic[0]['epochDate'])){
+
+                $SpecialSettlementAndCustodySystem['Rate'] = number_format($Selic[0]['value'], 2);
+                $SpecialSettlementAndCustodySystem['LatestUpdate'] = $Selic[0]['epochDate'];
 
                 return $SpecialSettlementAndCustodySystem;
 
