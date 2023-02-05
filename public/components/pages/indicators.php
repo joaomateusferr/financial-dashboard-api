@@ -4,6 +4,12 @@
 
     $Indicators = new Indicators();
 
+    $UpdateIndicators = $_POST['UpdateIndicators'] ?? 0;
+
+    if($UpdateIndicators){
+        $Indicators->updateIndicators();
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +30,7 @@
 
             <div class="container">
 
-                <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" name="Indicators">
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>" name="Indicators" id="Indicators">
 
                     <div class="row col-sm-12">
                         
@@ -91,7 +97,7 @@
                     <div class="row col-sm-12">
 
                         <div class="col-sm-8">
-                            <button type="submit" value="Submit">Update Indicators</button>
+                            <button type="button" value="UpdateIndicators" onclick="UpdateIndicators()">Update Indicators</button>
                         </div>
 
                         <div class="col-sm-4">
@@ -106,6 +112,21 @@
             </div>
 
         </div>
+
+        <script>
+
+            function UpdateIndicators(){
+
+                var Indicators = document.getElementById("Indicators");
+                var UpdateIndicators = document.createElement("input");
+                UpdateIndicators.setAttribute("type", "hidden");
+                UpdateIndicators.setAttribute("name", "UpdateIndicators");
+                UpdateIndicators.setAttribute("value", "1");
+                Indicators.appendChild(UpdateIndicators);
+                Indicators.submit();
+            }
+
+        </script>
 
 	</body>
 	
