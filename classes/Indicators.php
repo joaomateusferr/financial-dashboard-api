@@ -5,7 +5,8 @@ class Indicators {
     private $IndicatorsFilePath;
     public $DollarRealExchangeRate;
     public $SpecialSettlementAndCustodySystem; //AKA SELIC
-    public $InterbankDepositRate;//AKA TAXA DI
+    public $InterbankDepositRate; //AKA TAXA DI
+    public $InflationRate; //AKA INFLAÇÃO
     public $LatestUpdate;
 
     function __construct() {
@@ -42,6 +43,7 @@ class Indicators {
         $this->DollarRealExchangeRate = $this->getDollarRealExchangeRate();
         $this->SpecialSettlementAndCustodySystem = $this->getSpecialSettlementAndCustodySystem();
         $this->InterbankDepositRate = $this->getInterbankDepositRate();
+        $this->InflationRate = $this->getInflationRate();
         $this->LatestUpdate = time();
 
         $Indicators = [];
@@ -80,12 +82,12 @@ class Indicators {
         
         } else {    //parse api response
             
-            $Currency = (json_decode($Response, true))['currency'];
+            $Currency = (json_decode($Response, true))['currency'][0];
             
-            if(isset($Currency[0]['askPrice']) && isset($Currency[0]['updatedAtTimestamp'])){
+            if(isset($Currency['askPrice']) && isset($Currency['updatedAtTimestamp'])){
                 
-                $DollarRealExchangeRate['AskPrice'] = number_format($Currency[0]['askPrice'], 2);
-                $DollarRealExchangeRate['LatestUpdate'] = intval($Currency[0]['updatedAtTimestamp']);
+                $DollarRealExchangeRate['AskPrice'] = number_format($Currency['askPrice'], 2);
+                $DollarRealExchangeRate['LatestUpdate'] = intval($Currency['updatedAtTimestamp']);
                 
                 return $DollarRealExchangeRate;
 
@@ -176,12 +178,12 @@ class Indicators {
         
         } else {    //parse api response
 
-            $Selic = (json_decode($Response, true))['prime-rate'];
+            $Selic = (json_decode($Response, true))['prime-rate'][0];
 
-            if(isset($Selic[0]['value']) && isset($Selic[0]['date'])){
+            if(isset($Selic['value']) && isset($Selic['date'])){
 
-                $SpecialSettlementAndCustodySystem['Rate'] = number_format($Selic[0]['value'], 2);
-                $SpecialSettlementAndCustodySystem['LatestUpdate'] = strtotime(str_replace("/","-",$Selic[0]['date']));
+                $SpecialSettlementAndCustodySystem['Rate'] = number_format($Selic['value'], 2);
+                $SpecialSettlementAndCustodySystem['LatestUpdate'] = strtotime(str_replace("/","-",$Selic['date']));
 
                 return $SpecialSettlementAndCustodySystem;
 
@@ -191,6 +193,53 @@ class Indicators {
 
             }
 
+        }
+    
+    }
+
+    function getInflationRate() {
+        
+        $Curl = curl_init();
+
+        $Date = date("d/m/Y");
+        $Date = str_replace("/", "%2F", $Date);
+
+        curl_setopt_array($Curl, [
+                CURLOPT_URL => Constants::getBrapiBaseUrl()."/inflation?country=brazil&historical=false&start=$Date&end=$Date&sortBy=date&sortOrder=desc",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ]
+        );
+
+        $Response = curl_exec($Curl);
+
+        curl_close($Curl);
+
+        if($Response === false){    //error
+            
+            return false;
+        
+        } else {    //parse api response
+            
+            $Inflation = (json_decode($Response, true))['inflation'][0];
+            
+            if(isset($Inflation['value']) && isset($Inflation['date'])){
+                
+                $InflationRate['Rate'] = number_format($Inflation['value'], 2);
+                $InflationRate['LatestUpdate'] = strtotime(str_replace("/","-",$Inflation['date']));
+                
+                return $InflationRate;
+
+            } else {
+
+                return false;
+
+            }
         }
     
     }

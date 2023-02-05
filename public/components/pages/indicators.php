@@ -48,6 +48,7 @@
                         <div class="col-sm-8">
                             <?php echo 'Selic: '?>
                             <?php echo (isset($Indicators->SpecialSettlementAndCustodySystem['Rate']) && $Indicators->SpecialSettlementAndCustodySystem['Rate']) ? $Indicators->SpecialSettlementAndCustodySystem['Rate'] : 0;?>
+                            <?php echo '%'?>
                         </div>
                         
                         <div class="col-sm-4">
@@ -60,13 +61,29 @@
                     <div class="row col-sm-12">
 
                         <div class="col-sm-8">
-                            <?php echo 'Taxa DI: '?>
+                            <?php echo 'DI: '?>
                             <?php echo (isset($Indicators->InterbankDepositRate['Rate']) && $Indicators->InterbankDepositRate['Rate']) ? $Indicators->InterbankDepositRate['Rate'] : 0;?>
+                            <?php echo '%'?>
                         </div>
 
                         <div class="col-sm-4">
                             <?php echo 'Latest Update: '?>
                             <?php echo (isset($Indicators->InterbankDepositRate['LatestUpdate']) && $Indicators->InterbankDepositRate['LatestUpdate']) ? date('d/m/Y', $Indicators->InterbankDepositRate['LatestUpdate']) : 0;?>
+                        </div>
+
+                    </div>
+
+                    <div class="row col-sm-12">
+
+                        <div class="col-sm-8">
+                            <?php echo 'Inflation: '?>
+                            <?php echo (isset($Indicators->InflationRate['Rate']) && $Indicators->InflationRate['Rate']) ? $Indicators->InflationRate['Rate'] : 0;?>
+                            <?php echo '%'?>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <?php echo 'Latest Update: '?>
+                            <?php echo (isset($Indicators->InflationRate['LatestUpdate']) && $Indicators->InflationRate['LatestUpdate']) ? date('d/m/Y', $Indicators->InflationRate['LatestUpdate']) : 0;?>
                         </div>
 
                     </div>
