@@ -149,8 +149,11 @@ class Indicators {
 
         $Curl = curl_init();
 
+        $Date = date("d/m/Y");
+        $Date = str_replace("/", "%2F", $Date);
+
         curl_setopt_array($Curl, [
-                CURLOPT_URL => Constants::getBrapiBaseUrl().'/prime-rate?country=brazil&historical=false',
+                CURLOPT_URL => Constants::getBrapiBaseUrl()."/prime-rate?country=brazil&historical=true&start=$Date&end=$Date&sortBy=date&sortOrder=desc",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -175,10 +178,10 @@ class Indicators {
 
             $Selic = (json_decode($Response, true))['prime-rate'];
 
-            if(isset($Selic[0]['value']) && isset($Selic[0]['epochDate'])){
+            if(isset($Selic[0]['value']) && isset($Selic[0]['date'])){
 
                 $SpecialSettlementAndCustodySystem['Rate'] = number_format($Selic[0]['value'], 2);
-                $SpecialSettlementAndCustodySystem['LatestUpdate'] = $Selic[0]['epochDate'];
+                $SpecialSettlementAndCustodySystem['LatestUpdate'] = strtotime(str_replace("/","-",$Selic[0]['date']));
 
                 return $SpecialSettlementAndCustodySystem;
 
