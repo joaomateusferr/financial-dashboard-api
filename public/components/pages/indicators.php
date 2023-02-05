@@ -38,7 +38,7 @@
 
                         <div class="col-sm-4">
                             <?php echo 'Latest Update: '?>
-                            <?php echo (isset($Indicators->DollarRealExchangeRate['LatestUpdate']) && $Indicators->DollarRealExchangeRate['LatestUpdate']) ? $Indicators->DollarRealExchangeRate['LatestUpdate'] : 0;?>
+                            <?php echo (isset($Indicators->DollarRealExchangeRate['LatestUpdate']) && $Indicators->DollarRealExchangeRate['LatestUpdate']) ? date('d/m/Y H:i:s', $Indicators->DollarRealExchangeRate['LatestUpdate']) : 0;?>
                         </div>
                     
                     </div>
@@ -52,7 +52,21 @@
                         
                         <div class="col-sm-4">
                             <?php echo 'Latest Update: '?>
-                            <?php echo (isset($Indicators->SpecialSettlementAndCustodySystem['LatestUpdate']) && $Indicators->SpecialSettlementAndCustodySystem['LatestUpdate']) ? $Indicators->SpecialSettlementAndCustodySystem['LatestUpdate'] : 0;?>
+                            <?php echo (isset($Indicators->SpecialSettlementAndCustodySystem['LatestUpdate']) && $Indicators->SpecialSettlementAndCustodySystem['LatestUpdate']) ? date('d/m/Y', $Indicators->SpecialSettlementAndCustodySystem['LatestUpdate']) : 0;?>
+                        </div>
+
+                    </div>
+
+                    <div class="row col-sm-12">
+
+                        <div class="col-sm-8">
+                            <?php echo 'Taxa DI: '?>
+                            <?php echo (isset($Indicators->InterbankDepositRate['Rate']) && $Indicators->InterbankDepositRate['Rate']) ? $Indicators->InterbankDepositRate['Rate'] : 0;?>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <?php echo 'Latest Update: '?>
+                            <?php echo (isset($Indicators->InterbankDepositRate['LatestUpdate']) && $Indicators->InterbankDepositRate['LatestUpdate']) ? date('d/m/Y', $Indicators->InterbankDepositRate['LatestUpdate']) : 0;?>
                         </div>
 
                     </div>
@@ -65,7 +79,7 @@
 
                         <div class="col-sm-4">
                             <?php echo 'Last General Update: '?>
-                            <?php echo (isset($Indicators->LatestUpdate) && $Indicators->LatestUpdate) ? $Indicators->LatestUpdate : 0;?>
+                            <?php echo (isset($Indicators->LatestUpdate) && $Indicators->LatestUpdate) ? date('d/m/Y H:i:s', $Indicators->LatestUpdate) : 0;?>
                         </div>
 
                     </div>
