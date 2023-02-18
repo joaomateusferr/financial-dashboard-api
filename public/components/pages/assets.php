@@ -77,6 +77,15 @@
 
         </div>
 
+        <script>
+
+            function RemoveAssetRow(El) {
+                var Table = document.getElementById('Table');
+                Table.deleteRow(El.parentNode.parentNode.rowIndex);
+            }
+
+        </script>
+
 	</body>
 	
 </html>
