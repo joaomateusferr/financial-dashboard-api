@@ -117,7 +117,12 @@
 
 
             function AddAssetFromModalToTable() {
-                //do it
+
+                //add asset from modal to table here
+
+                var Modal = document.getElementById("AddAssetModal");
+                var AddAssetModal = bootstrap.Modal.getInstance(Modal)
+                AddAssetModal.hide();
             }
 
             document.getElementById("AddAssetModal").addEventListener("show.bs.modal", function(){
