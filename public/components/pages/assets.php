@@ -63,7 +63,7 @@
 
                     <div class="row col-sm-12">
                         <div class="col-sm-8">
-                            <button type="button" onclick="AddAssetRow(this)">+ Add Asset</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#AddAssetModal">+ Add Asset</button>
                         </div>
                         <div class="col-sm-4">
                             <button type="submit"> Save </button>
@@ -76,6 +76,66 @@
             </div>
 
         </div>
+
+        <div class="modal fade" id="AddAssetModal">
+
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5 class="modal-title" id="AddAssetModalLabel">Modal title</h5>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        ...
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" data-bs-dismiss="modal">Close</button>
+                        <button type="button" >Save changes</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <script>
+
+            function RemoveAssetRow(El) {
+                var Table = document.getElementById('Table');
+                Table.deleteRow(El.parentNode.parentNode.rowIndex);
+            }
+
+
+            function AddAssetFromModalToTable() {
+
+                //add asset from modal to table here
+
+                var Modal = document.getElementById("AddAssetModal");
+                var AddAssetModal = bootstrap.Modal.getInstance(Modal)
+                AddAssetModal.hide();
+            }
+
+            document.getElementById("AddAssetModal").addEventListener("show.bs.modal", function(){
+                alert('open')
+            });
+
+            document.getElementById("AddAssetModal").addEventListener("hidden.bs.modal", function(){
+                alert('close')
+            });
+
+            
+
+        </script>
 
 	</body>
 	
