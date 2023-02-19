@@ -22,8 +22,10 @@
         <div class="main">
 
             <div class="container center">
+
+                <input type="hidden" name="CurrentModal" id="CurrentModal" value="">
                 
-                <form class="col-sm-12" id="FormAssets" action="" method="post">
+                <form class="col-sm-12" id="FormAssets" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
 
                     <div class="row col-sm-12">
 
@@ -45,8 +47,8 @@
                                     echo'<tr>
                                             <td>'.$AssetName.'</td>
                                             <td>
-                                                <button type="button" onclick="RemoveAssetRow(this)">Remove</button>
-                                                <button type="button" onclick="EditAssetRow(this)">Edit</button>
+                                                <button type="button" onclick="RemoveAssetRow('.$ID.')">Remove</button>
+                                                <button type="button" onclick="EditAssetRow('.$ID.')">Edit</button>
                                                 <input type="hidden" name="IDs[]" value="'.$ID.'">
                                             </td>
                                         </tr>';
@@ -98,7 +100,7 @@
                     <div class="modal-footer">
 
                         <button type="button" data-bs-dismiss="modal">Close</button>
-                        <button type="button" >Save changes</button>
+                        <button type="button" onclick="AddAssetFromModal()" >Save changes</button>
 
                     </div>
 
@@ -110,27 +112,44 @@
 
         <script>
 
-            function RemoveAssetRow(El) {
-                var Table = document.getElementById('Table');
-                Table.deleteRow(El.parentNode.parentNode.rowIndex);
-            }
+            function EditAssetRow(ID) {
 
-
-            function AddAssetFromModalToTable() {
-
-                //add asset from modal to table here
-
-                var Modal = document.getElementById("AddAssetModal");
+                var CurrentModal = document.getElementById("CurrentModal");
+                CurrentModal.setAttribute("value", ID);
+                var Modal = document.getElementById("AddAssetModal")
                 var AddAssetModal = bootstrap.Modal.getInstance(Modal)
-                AddAssetModal.hide();
+                AddAssetModal.show();
+
             }
 
-            document.getElementById("AddAssetModal").addEventListener("show.bs.modal", function(){
-                alert('open')
-            });
+            function RemoveAssetRow(ID) {
+
+                //post to delete
+
+                var FormAssets = document.getElementById("FormAssets");
+                FormAssets.submit();
+
+            }
+
+
+            function AddAssetFromModal() {
+
+                //add asset from modal post here
+
+                var Modal = document.getElementById("AddAssetModal")
+                var AddAssetModal = bootstrap.Modal.getInstance(Modal)
+                AddAssetModal.hide()
+
+                var FormAssets = document.getElementById("FormAssets");
+                FormAssets.submit();
+
+            }
+
+            //document.getElementById("AddAssetModal").addEventListener("show.bs.modal", function(){});
 
             document.getElementById("AddAssetModal").addEventListener("hidden.bs.modal", function(){
-                alert('close')
+                var CurrentModal = document.getElementById("CurrentModal");
+                CurrentModal.setAttribute("value", "");
             });
 
             
