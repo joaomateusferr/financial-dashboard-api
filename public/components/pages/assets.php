@@ -115,6 +115,21 @@
                 Table.deleteRow(El.parentNode.parentNode.rowIndex);
             }
 
+
+            function AddAssetFromModalToTable() {
+                //do it
+            }
+
+            document.getElementById("AddAssetModal").addEventListener("show.bs.modal", function(){
+                alert('open')
+            });
+
+            document.getElementById("AddAssetModal").addEventListener("hidden.bs.modal", function(){
+                alert('close')
+            });
+
+            
+
         </script>
 
 	</body>
