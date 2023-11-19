@@ -1,7 +1,7 @@
 <?php
 
 class Options {
-    
+
     private const DEFAULT_OPTIONS = [
         'Theme' => 'DARK',
         'UsefulLinks' => [],
@@ -15,7 +15,7 @@ class Options {
         $OptionsFilePath = Constants::getProjectPath().'/config/options.json';
 
         if(file_exists($OptionsFilePath)){
-            
+
             $Options = json_decode(file_get_contents($OptionsFilePath), true);
 
             foreach ($Options as $Key => $Option){
@@ -30,7 +30,7 @@ class Options {
 
             file_put_contents($OptionsFilePath, json_encode(self::DEFAULT_OPTIONS, JSON_PRETTY_PRINT)); 
         }
-    
+
     }
-    
+
 }

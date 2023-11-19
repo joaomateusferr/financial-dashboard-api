@@ -1,7 +1,7 @@
 <?php
 
 class Indicators {
-    
+
     private $IndicatorsFilePath;
     public $DollarRealExchangeRate;
     public $SpecialSettlementAndCustodySystem; //AKA SELIC
@@ -14,7 +14,7 @@ class Indicators {
         $this->IndicatorsFilePath = Constants::getProjectPath().'/config/indicators.json';
 
         if(file_exists($this->IndicatorsFilePath)){
-            
+
             $Indicators = json_decode(file_get_contents($this->IndicatorsFilePath), true);
 
             if(!isset($Indicators['LatestUpdate']) || $Indicators['LatestUpdate'] < time() - Constants::getIndicatorUpdateTime()) {
@@ -22,11 +22,11 @@ class Indicators {
                 $this->updateIndicators();
 
             } else {
-                
+
                 foreach ($Indicators as $Key => $Indicator){
                     $this->$Key = $Indicator;
                 }
-            
+
             }
 
         } else {
@@ -34,7 +34,7 @@ class Indicators {
             $this->updateIndicators();
 
         }
-    
+
     }
 
     function updateIndicators() {
@@ -53,11 +53,11 @@ class Indicators {
         }
 
         file_put_contents($this->IndicatorsFilePath, json_encode($Indicators, JSON_PRETTY_PRINT));
-    
+
     }
 
     function getDollarRealExchangeRate() {
-        
+
         $Curl = curl_init();
 
         curl_setopt_array($Curl, [
@@ -77,18 +77,18 @@ class Indicators {
         curl_close($Curl);
 
         if($Response === false){    //error
-            
+
             return false;
-        
+
         } else {    //parse api response
-            
+
             $Currency = (json_decode($Response, true))['currency'][0];
-            
+
             if(isset($Currency['askPrice']) && isset($Currency['updatedAtTimestamp'])){
-                
+
                 $DollarRealExchangeRate['AskPrice'] = number_format($Currency['askPrice'], 2);
                 $DollarRealExchangeRate['LatestUpdate'] = intval($Currency['updatedAtTimestamp']);
-                
+
                 return $DollarRealExchangeRate;
 
             } else {
@@ -97,7 +97,7 @@ class Indicators {
 
             }
         }
-    
+
     }
 
     function getInterbankDepositRate() {
@@ -123,9 +123,9 @@ class Indicators {
         curl_close($Curl);
 
         if($Response === false){    //error
-            
+
             return false;
-        
+
         } else {    //parse api response
 
             $DI = json_decode($Response, true);
@@ -144,7 +144,7 @@ class Indicators {
             }
 
         }
-    
+
     }
 
     function getSpecialSettlementAndCustodySystem() {
@@ -173,9 +173,9 @@ class Indicators {
         curl_close($Curl);
 
         if($Response === false){    //error
-            
+
             return false;
-        
+
         } else {    //parse api response
 
             $Selic = (json_decode($Response, true))['prime-rate'][0];
@@ -194,11 +194,11 @@ class Indicators {
             }
 
         }
-    
+
     }
 
     function getInflationRate() {
-        
+
         $Curl = curl_init();
 
         $Date = date("d/m/Y");
@@ -221,18 +221,18 @@ class Indicators {
         curl_close($Curl);
 
         if($Response === false){    //error
-            
+
             return false;
-        
+
         } else {    //parse api response
-            
+
             $Inflation = (json_decode($Response, true))['inflation'][0];
-            
+
             if(isset($Inflation['value']) && isset($Inflation['date'])){
-                
+
                 $InflationRate['Rate'] = number_format($Inflation['value'], 2);
                 $InflationRate['LatestUpdate'] = strtotime(str_replace("/","-",$Inflation['date']));
-                
+
                 return $InflationRate;
 
             } else {
@@ -241,7 +241,7 @@ class Indicators {
 
             }
         }
-    
+
     }
-    
+
 }
