@@ -144,7 +144,7 @@ try{
 
     }
 
-    $$CustomerDatabaseConnection->close();
+    $CustomerDatabaseConnection->close();
 
 } catch (Exception $Ex) {
 
