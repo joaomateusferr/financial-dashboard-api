@@ -5,8 +5,7 @@
     $ProjectPath = implode("/", $ProjectPath);
     $ProjectPublicRoot = $_SERVER['DOCUMENT_ROOT'];
     $CurrentPage = '';
-        
     include "$ProjectPath/settings/configuration_file.php";
-    
+
     $Options = new Options();
 ?>

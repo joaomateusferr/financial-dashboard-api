@@ -100,8 +100,7 @@
                     <div class="modal-footer">
 
                         <button type="button" data-bs-dismiss="modal">Close</button>
-                        <button type="button" onclick="AddAssetFromModal()" >Save changes</button>
-
+                    
                     </div>
 
                 </div>

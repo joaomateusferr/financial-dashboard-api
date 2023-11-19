@@ -1,0 +1,3 @@
+Data,Ticker,Number of shares,Amount paid,Taxes,Net amount paid,Share value,Type ,Financial institution
+YYYY/MM/DD,TICKER,"0.00","0.00","0.00","0.00","0.0",,FINANCIAL_INSTITUTION
+YYYY/MM/DD,TICKER,"0.00","0.00","0.00","0.00","0.00",0,FINANCIAL_INSTITUTION
