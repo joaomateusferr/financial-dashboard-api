@@ -144,6 +144,8 @@ try{
 
     }
 
+    $$CustomerDatabaseConnection->close();
+
 } catch (Exception $Ex) {
 
     echo $Ex->getMessage()."\n";
