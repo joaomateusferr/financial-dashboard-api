@@ -2,7 +2,7 @@ FROM ubuntu
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive TZ=America/Sao_Paulo apt-get -y install tzdata
-RUN apt-get -y install vim nano git apache2 php8.1 libapache2-mod-php8.1 php-soap php-xml php-curl php-opcache php-gd php-sqlite3 php-mbstring
+RUN apt-get -y install vim nano git apache2 php8.1 libapache2-mod-php8.1 php-soap php-xml php-curl php-opcache php-gd php-sqlite3 php-mysql php-mbstring
 
 COPY ./deploy-config.sh /
 RUN sh /deploy-config.sh
