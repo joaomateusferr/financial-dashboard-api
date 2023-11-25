@@ -115,8 +115,6 @@ try{
         $TimeTrokens = explode("/",$Content['Date']);
         $Content['Date'] = strtotime($TimeTrokens[0].'-'.$TimeTrokens[1].'-'.$TimeTrokens[2].' 00:00:00');
 
-        var_dump($Content['Date']);exit;
-
         $AssetID = '';
 
         foreach($CostumerExchangeTradedAssets as $Key => $ExchangeTradedAsset){
