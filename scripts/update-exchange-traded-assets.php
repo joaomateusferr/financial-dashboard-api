@@ -114,13 +114,13 @@ try{
             }
 
             if(empty($Content['average_annual_dividend']) || $Content['average_annual_dividend'] == '-')
-                $Content['average_annual_dividend'] = 0;
+                $Content['average_annual_dividend'] = null;
 
             if(is_string($Content['average_annual_dividend']))
                 $Content['average_annual_dividend'] = (float)$Content['average_annual_dividend'];
 
             if(empty($Content['average_monthly_dividend']) || $Content['average_monthly_dividend'] == '-')
-                $Content['average_monthly_dividend'] = 0;
+                $Content['average_monthly_dividend'] = null;
 
             if(is_string($Content['average_monthly_dividend']))
                 $Content['average_monthly_dividend'] = (float)$Content['average_monthly_dividend'];
