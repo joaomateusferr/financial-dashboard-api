@@ -2,7 +2,7 @@
 
 $Routes = [
     'GET' => [
-        'ExchangeTradedAssets' => ['Arguments' => [] , 'Midwares' => [], 'Controler' => 'Controler', 'Method' => 'Method']
+        'ExchangeTradedAssets' => ['Arguments' => [] , 'Midwares' => [], 'Controller' => 'ControllerCommonExchangeTradedAssets', 'Method' => 'getExchangeTradedAssets']
     ],
     'POST' => [
         'rota/ARG/aaa', 'controler', 'method', 'midwere'
