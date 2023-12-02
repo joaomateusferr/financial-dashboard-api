@@ -125,6 +125,8 @@ try{
             if(is_string($Content['average_monthly_dividend']))
                 $Content['average_monthly_dividend'] = (float)$Content['average_monthly_dividend'];
 
+            $Content['update_date'] = time();
+
             $Assets[$YfinanceTicker] = $Content;
 
         }
@@ -135,7 +137,7 @@ try{
 
     foreach($Assets as $Key => $Asset){
 
-        $Sql = "UPDATE exchange_traded_assets SET market_price = :market_price, payment_months = :payment_months, average_annual_dividend = :average_annual_dividend, average_monthly_dividend = :average_monthly_dividend WHERE yfinance_ticker = '$Key'";
+        $Sql = "UPDATE exchange_traded_assets SET market_price = :market_price, update_date = :update_date, payment_months = :payment_months, average_annual_dividend = :average_annual_dividend, average_monthly_dividend = :average_monthly_dividend WHERE yfinance_ticker = '$Key'";
         $Stmt = $CommonInformationConnection->prepare($Sql);
         $Result = $Stmt->execute($Asset);
 
