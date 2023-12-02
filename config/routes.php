@@ -2,7 +2,17 @@
 
 $Routes = [
     'GET' => [
-        'ExchangeTradedAssets' => ['Arguments' => [] , 'Midwares' => [], 'Controller' => 'ControllerCommonExchangeTradedAssets', 'Method' => 'getExchangeTradedAssets']
+        'CommonExchangeTradedAssets' => [
+            'Arguments' => [] ,
+            'Midwares' => [
+                [
+                    'Class' => 'AuthenticationMidware',
+                    'Method' => 'validateApiToken'
+                ]
+            ],
+            'Controller' => 'CommonExchangeTradedAssetsController',
+            'Method' => 'getCommonExchangeTradedAssets'
+        ]
     ],
     'POST' => [
         'rota/ARG/aaa', 'controler', 'method', 'midwere'

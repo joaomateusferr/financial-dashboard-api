@@ -1,12 +1,7 @@
 <?php
 
-	spl_autoload_register(function ($Class) {
-		require_once dirname(__FILE__)."/../classes/$Class.php";
-	});
+	require_once dirname(__FILE__)."/../settings/configuration_file_api.php";
 
-	set_error_handler("ErrorHandler::handleError");
-	set_exception_handler("ErrorHandler::handleException");
-
-	Request::process();
+	RequestHelper::process();
 
 ?>

@@ -146,6 +146,7 @@ try{
 
 } catch (Exception $Ex) {
 
+    error_log($Ex->getMessage()."\n");
     echo $Ex->getMessage()."\n";
 
 }
