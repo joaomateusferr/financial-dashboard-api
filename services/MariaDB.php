@@ -1,8 +1,5 @@
 <?php
 
-require_once dirname(__FILE__) . '/IPMapping.php';
-require_once dirname(__FILE__) . '/Credentials.php';
-
 class MariaDB {
 
     private $Server = '';

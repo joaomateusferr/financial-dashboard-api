@@ -17,7 +17,7 @@
 			elseif(str_ends_with($Class, 'Helper'))
 				require_once dirname(__FILE__)."/../api/helpers/$Class.php";
 			else
-				require_once dirname(__FILE__)."/../classes/$Class.php";
+				require_once dirname(__FILE__)."/../services/$Class.php";
 
 		}
 
