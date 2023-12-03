@@ -25,6 +25,13 @@ class Constants {
         $ProjectPath = explode("/", $_SERVER['DOCUMENT_ROOT']);
 	    unset($ProjectPath[array_key_last($ProjectPath)]);
 	    $ProjectPath = implode("/", $ProjectPath);
+
+        if(!empty($ProjectPath))
+            return $ProjectPath;
+
+        $ProjectPath = explode("/", dirname(__FILE__));
+        unset($ProjectPath[array_key_last($ProjectPath)]);
+        $ProjectPath = implode("/", $ProjectPath);
         return $ProjectPath;
 
     }

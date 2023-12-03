@@ -1,16 +1,17 @@
 <?php
 
-	//front pages
-	$ProjectPath = explode("/", $_SERVER['DOCUMENT_ROOT']);
-	unset($ProjectPath[array_key_last($ProjectPath)]);
-	$ProjectPath = implode("/", $ProjectPath);
+	require_once dirname(__FILE__)."/../api/helpers/ErrorHandlerHelper.php";
 
-	//scripts
 	if(empty($ProjectPath)){
 		$ProjectPath = explode("/", dirname(__FILE__));
 		unset($ProjectPath[array_key_last($ProjectPath)]);
 		$ProjectPath = implode("/", $ProjectPath);
 	}
 
-	foreach (glob("$ProjectPath/classes/*.php") as $FileName)
-		include $FileName;
+	spl_autoload_register(
+
+		function ($Class) {
+			require_once dirname(__FILE__)."/../services/$Class.php";
+		}
+
+	);
