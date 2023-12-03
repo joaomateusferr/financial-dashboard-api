@@ -2,7 +2,7 @@
 
 class ErrorHandlerHelper {
 
-    public static function handleException(Throwable $Exception): void {
+    public static function handleException(Throwable $Exception) : void {
 
         $Error = ["ErrorCode" => $Exception->getCode(), "ErrorMessage" => $Exception->getMessage(), "ErrorFile" => $Exception->getFile(), "ErrorLine" => $Exception->getLine()];
 

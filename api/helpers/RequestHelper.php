@@ -2,7 +2,7 @@
 
 class RequestHelper {
 
-    public static function process() {
+    public static function process() : void {
 
         require_once dirname(__FILE__)."/../../config/routes.php";
 
