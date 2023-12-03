@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_GIT_REPOSITORY='https://github.com/joaomateusferr/financial-dashboard.git'
+API_GIT_REPOSITORY='https://github.com/joaomateusferr/financial-dashboard-api.git'
 
 APACHE_SITE_PATH='/var/www/html'
 DEFAULT_APACHE_SITES_PATH='/etc/apache2/sites-available/000-default.conf'
