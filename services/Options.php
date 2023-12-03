@@ -8,7 +8,7 @@ class Options {
 
     function __construct() {
 
-        $OptionsPath = Constants::getProjectPath().'/options/options.json';
+        $OptionsPath = Constants::getProjectPath().'/../financial-dashboard-options.json';
         $OptionsJson = file_get_contents($OptionsPath);
 
         if(!$OptionsJson)
