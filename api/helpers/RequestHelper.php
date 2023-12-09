@@ -56,7 +56,7 @@ class RequestHelper {
         if (!method_exists($Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['Controller'], $Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['Method']))
             throw new Exception('Controller method does not exist in controller class!');
 
-        $Args = isset($Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['RequireRequest']) && $Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['RequireRequest'] ? [&$Request] : [];
+        $Args = isset($Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['RequireRequest']) && $Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['RequireRequest'] ? [$Request] : [];
 
         $Result = call_user_func_array([$Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['Controller'], $Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['Method']], $Args);
 
