@@ -46,4 +46,8 @@ class AuthenticationMidware {
             RequestHelper::prepareResponse(401);
     }
 
+    public static function validateCustomerToken(array $Request) {
+
+    }
+
 }

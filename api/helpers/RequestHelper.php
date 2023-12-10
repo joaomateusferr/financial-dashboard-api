@@ -6,7 +6,8 @@ class RequestHelper {
 
         require_once dirname(__FILE__)."/../../config/routes.php";
 
-        $Tokens = array_values(array_filter(explode("/", $_SERVER["REQUEST_URI"])));
+        $Tokens = array_values(array_filter(explode("?", $_SERVER["REQUEST_URI"]))); //Ignore get parameters
+        $Tokens = array_values(array_filter(explode("/", $Tokens[0])));
 
         if(empty($Tokens))
             self::prepareResponse(400, ["ErrorMessage" => "Please use one endpoint!"]);
@@ -16,6 +17,12 @@ class RequestHelper {
         }
 
         $Request = [];
+
+        if($_SERVER["REQUEST_METHOD"] == 'GET'){
+
+            $Request['Parameters'] = $_GET;
+
+        }
 
         if(!empty($Routes[$_SERVER["REQUEST_METHOD"]][$Tokens[0]]['Arguments'])){
 
