@@ -6,23 +6,7 @@ require_once dirname(__FILE__)."/../settings/configuration_file.php";
 
 try{
 
-    $CustomersConnection = new MariaDB('customers', 'customers');
-
-    $Sql = 'SELECT server  FROM customers WHERE id = ?';
-    $Stmt = $CustomersConnection->prepare($Sql);
-    $Result = $Stmt->execute([$CustomerID]);
-
-    $Server = '';
-
-    if($Result && $Stmt->rowCount() > 0)
-        $CustomerServer = $Stmt->fetch()['server'];
-
-    if(empty($CustomerServer)){
-        error_log("Empty server for $CustomerID");
-        exit("Empty server for $CustomerID");
-    }
-
-    $CustomersConnection->close();
+    $CustomerServer = (new Customer($CustomerID))->getServer();
 
     $CustomerDatabaseConnection = new MariaDB($CustomerServer, "c_$CustomerID");
 
