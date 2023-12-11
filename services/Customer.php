@@ -55,7 +55,7 @@ class Customer {
 
         $CommonInformationConnection = new MariaDB('common-information', 'common_information');
 
-        $Sql = 'SELECT id, ticker FROM exchange_traded_assets WHERE id IN ("'.implode('","', $CustomerAssetIDs).'")';
+        $Sql = 'SELECT id, ticker, currency_id FROM exchange_traded_assets WHERE id IN ("'.implode('","', $CustomerAssetIDs).'")';
         $Stmt = $CommonInformationConnection->prepare($Sql);
         $Result = $Stmt->execute();
 
