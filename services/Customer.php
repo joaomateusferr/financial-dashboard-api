@@ -100,23 +100,13 @@ class Customer {
 
     }
 
-    public function getPositions(bool $Dividends = false) : array {
+    public function getPositions() : array {
 
         $Positions = [];
 
-        $Columns = ['asset_id'];
-
-        if($Dividends){
-            $Columns = array_merge($Columns, ['monetary_return_with_dividends', 'percentage_return_with_dividends']);
-            $Order = 'monetary_return_with_dividends';
-        } else {
-            $Columns = array_merge($Columns, ['monetary_return', 'percentage_return']);
-            $Order = 'monetary_return';
-        }
-
         $CommonInformationConnection = new MariaDB($this->Server, 'c_'.$this->ID);
 
-        $Sql = 'SELECT '.implode(',', $Columns).' FROM consolidated_exchange_traded_assets ORDER BY '.$Order.' DESC';
+        $Sql = 'SELECT asset_id, monetary_return, percentage_return, monetary_return_with_dividends, percentage_return_with_dividends FROM consolidated_exchange_traded_assets';
         $Stmt = $CommonInformationConnection->prepare($Sql);
         $Result = $Stmt->execute();
 
