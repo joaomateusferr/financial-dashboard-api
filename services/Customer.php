@@ -5,6 +5,7 @@ class Customer {
     private $ID;
     private $Server = '';
     private $ExchangeTradedAssets = [];
+    private $Currencys = [];
 
     function __construct(?int $ID = null) {
 
@@ -59,7 +60,7 @@ class Customer {
         $Stmt = $CommonInformationConnection->prepare($Sql);
         $Result = $Stmt->execute();
 
-        $ExchangeTradedAssets = [];
+        $ExchangeTradedAssets = $Currencys = [];
 
         if($Result && $Stmt->rowCount() > 0){
 
@@ -76,7 +77,37 @@ class Customer {
 
                 }
 
+                if(!isset($Currencys[$Row['currency_id']]))
+                    $Currencys[$Row['currency_id']] = [];
+
                 $ExchangeTradedAssets[$Row['id']] = $Infos;
+
+            }
+
+        }
+
+        $CurrencyIDs = array_keys($Currencys);
+
+        $Sql = 'SELECT id, name, symbol, iso_code FROM currencys WHERE id IN ("'.implode('","', $CurrencyIDs).'")';
+        $Stmt = $CommonInformationConnection->prepare($Sql);
+        $Result = $Stmt->execute();
+
+        if($Result && $Stmt->rowCount() > 0){
+
+            while($Row = $Stmt->fetch()){
+
+                $Infos = [];
+
+                foreach($Row as $Key => $Value){
+
+                    if($Key == 'id')
+                        continue;
+
+                    $Infos[$Key] = $Value;
+
+                }
+
+                $Currencys[$Row['id']] = $Infos;
 
             }
 
@@ -85,6 +116,7 @@ class Customer {
         $CommonInformationConnection->close();
 
         $this->ExchangeTradedAssets = $ExchangeTradedAssets;
+        $this->Currencys = $Currencys;
 
     }
 
@@ -97,6 +129,12 @@ class Customer {
     public function getExchangeTradedAssets() : array {
 
         return $this->ExchangeTradedAssets;
+
+    }
+
+    public function getCurrencys() : array {
+
+        return $this->Currencys;
 
     }
 

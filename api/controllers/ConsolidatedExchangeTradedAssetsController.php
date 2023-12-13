@@ -14,6 +14,7 @@ class ConsolidatedExchangeTradedAssetsController {
 
             $Positions = $Customer->getPositions($Dividends);
             $ExchangeTradedAssets = $Customer->getExchangeTradedAssets();
+            $Currencys = $Customer->getCurrencys();
 
             $Response = [];
 
@@ -24,10 +25,18 @@ class ConsolidatedExchangeTradedAssetsController {
                 else
                     $Infos = ['monetary' => $Position['monetary_return'], 'percentage' => $Position['percentage_return']];
 
-                //$Infos['currency_id'] = $ExchangeTradedAssets[$Key]['currency_id'];
 
-                $Response[$ExchangeTradedAssets[$Key]['currency_id']][$ExchangeTradedAssets[$Key]['ticker']] = $Infos;
+                $Response[$Currencys[$ExchangeTradedAssets[$Key]['currency_id']]['iso_code']]['Assets'][$ExchangeTradedAssets[$Key]['ticker']] = $Infos;
 
+            }
+
+
+            foreach($Currencys as $Currency){
+
+                $Infos = $Currency;
+                unset($Infos['iso_code']);
+
+                $CurrencysDetails[$Currency['iso_code']] = $Infos;
             }
 
             function monetaryReturnDescSort($Position1, $Position2) {
@@ -35,7 +44,11 @@ class ConsolidatedExchangeTradedAssetsController {
                 return ($Position1['monetary'] > $Position2['monetary']) ? -1 : 1;
             }
 
-            //uasort($Response,"monetaryReturnDescSort");
+            foreach($Response as $IsoCode => $Currency){
+
+                uasort($Response[$IsoCode]['Assets'],"monetaryReturnDescSort");
+                $Response[$IsoCode]['CurrencysDetails'] = $CurrencysDetails[$IsoCode];
+            }
 
            return $Response;
 
