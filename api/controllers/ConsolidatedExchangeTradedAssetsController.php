@@ -9,7 +9,23 @@ class ConsolidatedExchangeTradedAssetsController {
         try{
 
             $Dividends = isset($Request['Parameters']['Dividends']) && $Request['Parameters']['Dividends'] ? true : false;
+            $OrderBy = isset($Request['Parameters']['OrderBy']) && $Request['Parameters']['OrderBy'] ? $Request['Parameters']['OrderBy'] : null;
+            $Sort = isset($Request['Parameters']['Sort']) && $Request['Parameters']['Sort'] ? $Request['Parameters']['Sort'] : null;
 
+            if(!isset($Sort))
+                $Sort = 'Desc';
+
+            if(!in_array($Sort,['Desc', 'Asc']))
+                RequestHelper::prepareResponse(400, ["ErrorMessage" => "Invalid Sort value use Desc or Asc!"]);
+
+            if(!isset($OrderBy))
+                $OrderBy = 'Monetary';
+
+            if(!in_array($OrderBy,['Monetary', 'Percentage']))
+                RequestHelper::prepareResponse(400, ["ErrorMessage" => "Invalid OrderBy value use Monetary or Percentage!"]);
+
+            $SortSring = strtolower($OrderBy).'Return'.$Sort.'Sort';
+            
             $Customer = new Customer($Request['Arguments']['CustomerID']);
 
             $Positions = $Customer->getPositions($Dividends);
@@ -44,9 +60,24 @@ class ConsolidatedExchangeTradedAssetsController {
                 return ($Position1['monetary'] > $Position2['monetary']) ? -1 : 1;
             }
 
+            function monetaryReturnAscSort($Position1, $Position2) {
+                if ($Position1['monetary'] == $Position2['monetary']) return 0;
+                return ($Position1['monetary'] < $Position2['monetary']) ? -1 : 1;
+            }
+
+            function percentageReturnDescSort($Position1, $Position2) {
+                if ($Position1['percentage'] == $Position2['percentage']) return 0;
+                return ($Position1['percentage'] > $Position2['percentage']) ? -1 : 1;
+            }
+
+            function percentageReturnAscSort($Position1, $Position2) {
+                if ($Position1['percentage'] == $Position2['percentage']) return 0;
+                return ($Position1['percentage'] < $Position2['percentage']) ? -1 : 1;
+            }
+
             foreach($Response as $IsoCode => $Currency){
 
-                uasort($Response[$IsoCode]['Assets'],"monetaryReturnDescSort");
+                uasort($Response[$IsoCode]['Assets'], $SortSring);
                 $Response[$IsoCode]['CurrencysDetails'] = $CurrencysDetails[$IsoCode];
             }
 
