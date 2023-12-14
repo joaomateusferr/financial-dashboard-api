@@ -2,7 +2,7 @@
 
 class CommonExchangeTradedAssetsController {
 
-    public static function getCommonExchangeTradedAssets() {
+    public static function getCommonExchangeTradedAssets() : array {
 
         try{
 
