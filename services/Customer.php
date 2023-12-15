@@ -5,6 +5,7 @@ class Customer {
     private $ID;
     private $Server = '';
     private $ExchangeTradedAssets = [];
+    private $ConsolidatedExchangeTradedAssets = [];
     private $Currencys = [];
 
     function __construct(?int $ID = null) {
@@ -51,6 +52,33 @@ class Customer {
 
         if($Result && $Stmt->rowCount() > 0)
             $CustomerAssetIDs = $Stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $Sql = 'SELECT asset_id, number_of_shares, average_price FROM consolidated_exchange_traded_assets';
+        $Stmt = $CustomerDatabaseConnection->prepare($Sql);
+        $Result = $Stmt->execute();
+    
+        $ConsolidatedExchangeTradedAssets = [];
+    
+        if($Result && $Stmt->rowCount() > 0){
+
+            while($Row = $Stmt->fetch()){
+
+                $Infos = [];
+
+                foreach($Row as $Key => $Value){
+
+                    if($Key == 'asset_id')
+                        continue;
+
+                    $Infos[$Key] = $Value;
+
+                }
+
+                $ConsolidatedExchangeTradedAssets[$Row['asset_id']] = $Infos;
+
+            }
+
+        }
 
         $CustomerDatabaseConnection->close();
 
@@ -116,6 +144,7 @@ class Customer {
         $CommonInformationConnection->close();
 
         $this->ExchangeTradedAssets = $ExchangeTradedAssets;
+        $this->ConsolidatedExchangeTradedAssets = $ConsolidatedExchangeTradedAssets;
         $this->Currencys = $Currencys;
 
     }
@@ -129,6 +158,12 @@ class Customer {
     public function getExchangeTradedAssets() : array {
 
         return $this->ExchangeTradedAssets;
+
+    }
+
+    public function getConsolidatedExchangeTradedAssets() : array {
+
+        return $this->ConsolidatedExchangeTradedAssets;
 
     }
 

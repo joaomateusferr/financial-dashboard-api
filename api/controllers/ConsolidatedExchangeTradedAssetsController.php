@@ -91,4 +91,50 @@ class ConsolidatedExchangeTradedAssetsController {
 
     }
 
+    public static function getConsolidatedExchangeTradedAssets(array $Request) : array {
+
+        //validadte costumer id from auth here
+
+        try{
+
+            $Customer = new Customer($Request['Arguments']['CustomerID']);
+            
+            $ConsolidatedExchangeTradedAssets = $Customer->getConsolidatedExchangeTradedAssets();
+            $ExchangeTradedAssets = $Customer->getExchangeTradedAssets();
+            $Currencys = $Customer->getCurrencys();
+
+            foreach($Currencys as $Currency){
+
+                $Infos = $Currency;
+                unset($Infos['iso_code']);
+
+                $CurrencysDetails[$Currency['iso_code']] = $Infos;
+
+            }
+
+            $Response = [];
+
+            foreach($ConsolidatedExchangeTradedAssets as $Key => $Infos){
+
+                $Response[$Currencys[$ExchangeTradedAssets[$Key]['currency_id']]['iso_code']]['Assets'][$ExchangeTradedAssets[$Key]['ticker']] = $Infos;
+
+            }
+
+            foreach($Response as $IsoCode => $Infos){
+
+                ksort($Response[$IsoCode]['Assets']);
+                $Response[$IsoCode]['CurrencysDetails'] = $CurrencysDetails[$IsoCode];
+
+            }
+
+            return $Response;
+
+        } catch (Exception $Ex) {
+
+            echo(var_export($Ex,1)."\n");
+
+        }
+
+    }
+
 }
