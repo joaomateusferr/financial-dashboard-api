@@ -1,2 +1,2 @@
-config/options.json
-config/indicators.json
+/vendor/
+composer.lock

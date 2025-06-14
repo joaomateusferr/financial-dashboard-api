@@ -1,7 +1,17 @@
 <?php
 
-	require_once dirname(__FILE__)."/../settings/configuration_file_api.php";
+use Slim\Factory\AppFactory;
 
-	RequestHelper::process();
+require __DIR__ . '/../vendor/autoload.php';
 
-?>
+$app = AppFactory::create();
+
+// Register auth middleware
+$middleware = require __DIR__ . '/../app/middleware.php';
+$middleware($app);
+
+// Register routes
+$routes = require __DIR__ . '/../app/routes.php';
+$routes($app);
+
+$app->run();
