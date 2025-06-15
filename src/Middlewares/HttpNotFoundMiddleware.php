@@ -8,7 +8,7 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Factory\ResponseFactory;
 use App\Helpers\ResponseHelper;
 
-class NotFoundMiddleware {
+class HttpNotFoundMiddleware {
 
     public function __invoke(Request $Request, $Handler): Response {
 
