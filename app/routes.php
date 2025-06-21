@@ -12,7 +12,4 @@ return function (App $app) {
     $app->get('/ping', [PublicController::class, 'ping']);
     $app->post('/login', [PublicController::class, 'login']);
 
-    $app->get('/hello/{name}', [HelloController::class, 'greetName']);
-
-
 };
