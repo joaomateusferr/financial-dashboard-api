@@ -4,14 +4,14 @@ namespace App\Helpers;
 
 class RouteHelper {
 
-    private static $NoAuthRoots = [
+    private const NoAuthRoots = [
         'ping',
         'login'
     ];
 
     public static function getNoAuthRoots() : array {
 
-        return self::$NoAuthRoots;
+        return self::NoAuthRoots;
 
     }
 

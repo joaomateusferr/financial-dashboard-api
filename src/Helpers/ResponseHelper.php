@@ -4,10 +4,10 @@ namespace App\Helpers;
 
 class ResponseHelper {
 
-    private static $DefaultContentType = 'application/json';
+    private const DefaultContentType = 'application/json';
 
     public static function getDefaultContentType() : string {
-        return self::$DefaultContentType;
+        return self::DefaultContentType;
     }
 
     public static function format(array|string $Payload, bool $Error = false) : string {
