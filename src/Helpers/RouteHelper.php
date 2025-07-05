@@ -6,7 +6,7 @@ class RouteHelper {
 
     private const NoAuthRoots = [
         'ping',
-        'login'
+        'user'
     ];
 
     public static function getNoAuthRoots() : array {
@@ -17,7 +17,7 @@ class RouteHelper {
 
     public static function getRouteRoot(string $Route) : string {
 
-        return explode('/', $Route, 2)[1];
+        return explode('/', $Route)[1];
 
     }
 
