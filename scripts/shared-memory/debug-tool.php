@@ -26,6 +26,10 @@ try{
             echo "Key - $Key\nID - $ID\nString - ".$SharedMemoryData['Control']['String']."\nContent:\n";
 
             foreach($SharedMemoryData['Data'] as $Key => $Value){
+
+                if(is_array($Value))
+                    $Value = json_encode($Value);
+
                 echo "$Key -> $Value\n";
             }
 
