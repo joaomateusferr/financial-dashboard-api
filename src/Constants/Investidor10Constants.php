@@ -2,8 +2,7 @@
 
 namespace App\Constants;
 
-class Investidor10Constants
-{
+class Investidor10Constants {
 
     private const BaseUrl = 'https://investidor10.com.br';
 

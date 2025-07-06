@@ -2,8 +2,7 @@
 
 namespace App\Constants;
 
-class TaxesConstants
-{
+class TaxesConstants {
 
     private const BrazilianTaxes = [
         'ACAO' => [
