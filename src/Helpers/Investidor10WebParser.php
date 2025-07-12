@@ -6,8 +6,7 @@ use \Exception;
 use \DOMDocument;
 use \DOMXPath;
 
-class Investidor10WebParser
-{
+class Investidor10WebParser {
 
     private $MarketPrice = 0;
     private $DividendsHistory = [];

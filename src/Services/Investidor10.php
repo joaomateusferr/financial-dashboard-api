@@ -6,8 +6,7 @@ use App\Constants\Investidor10Constants;
 use App\Constants\TaxesConstants;
 use App\Helpers\Investidor10WebParser;
 
-class Investidor10
-{
+class Investidor10 {
 
     public static function getAssetsData(array $Assets) : array {
 
