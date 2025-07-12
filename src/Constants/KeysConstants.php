@@ -4,11 +4,11 @@ namespace App\Constants;
 
 class KeysConstants {
 
-    private const DatabaseUserCredentials = 'db-credentials';
+    private const DatabaseCredentials = 'db-credentials';
     private const ServersList = 'servers-list';
 
-    public static function getDatabaseUserCredentials() : string {
-        return self::DatabaseUserCredentials;
+    public static function getDatabaseCredentials() : string {
+        return self::DatabaseCredentials;
     }
 
     public static function getServersList() : string {

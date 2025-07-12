@@ -12,14 +12,14 @@ if(pathinfo($CredentialsPath, PATHINFO_EXTENSION) != 'json')
 
 $Json = file_get_contents($CredentialsPath);
 
-//if(!json_validate($Json))
-    //exit(3);   //Credentials file is not formatted as json!
+if(!json_validate($Json))
+    exit(3);   //Credentials file is not formatted as json!
 
 $Credentials = json_decode($Json, true);
 
 try{
 
-    $SharedMemory = new SharedMemory(KeysConstants::getDatabaseUserCredentials());
+    $SharedMemory = new SharedMemory(KeysConstants::getDatabaseCredentials());
     $SharedMemory->write($Credentials);
     var_dump($SharedMemory->read(true));
 

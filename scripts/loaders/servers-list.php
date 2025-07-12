@@ -12,8 +12,8 @@ if(pathinfo($ServersListPath, PATHINFO_EXTENSION) != 'json')
 
 $Json = file_get_contents($ServersListPath);
 
-//if(!json_validate($Json))
-    //exit(3); //Servers list file is not formatted as json!
+if(!json_validate($Json))
+    exit(3); //Servers list file is not formatted as json!
 
 $ServersList = json_decode($Json, true);
 
