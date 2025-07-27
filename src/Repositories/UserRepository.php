@@ -31,7 +31,15 @@ class UserRepository {
 
         $AlreadyExists = false;
 
-        $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
+        try{
+
+            $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
+
+        } catch (Exception $Exception){
+
+            return ['Code' => 500,'Message' => 'Unable to fetch data!'];
+
+        }
 
         $Filter = ['Email' => $UserData['Email']];
 
