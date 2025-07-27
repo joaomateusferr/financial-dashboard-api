@@ -34,21 +34,20 @@ class UserRepository {
         try{
 
             $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
+            $Filter = ['Email' => $UserData['Email']];
+
+            $Sql = 'SELECT ID FROM users WHERE Email = :Email LIMIT 1';
+            $Stmt = $CustomersSystemConnection->prepare($Sql);
+            $Result = $Stmt->execute($Filter);
+
+            if($Result && $Stmt->rowCount() > 0)
+                $AlreadyExists = true;
 
         } catch (Exception $Exception){
 
             return ['Code' => 500,'Message' => 'Unable to fetch data!'];
 
         }
-
-        $Filter = ['Email' => $UserData['Email']];
-
-        $Sql = 'SELECT ID FROM users WHERE Email = :Email LIMIT 1';
-        $Stmt = $CustomersSystemConnection->prepare($Sql);
-        $Result = $Stmt->execute($Filter);
-
-        if($Result && $Stmt->rowCount() > 0)
-           $AlreadyExists = true;
 
         if($AlreadyExists)
             throw new Exception('User already registered!');
@@ -66,12 +65,20 @@ class UserRepository {
             'CustomerServerID' => ServersConstants::getCurrentCustomerServerID(),
         ];
 
-        $Sql = 'INSERT INTO users (Email, PasswordHash, Type, ApiToken, CustomerServerID) VALUES (:Email, :PasswordHash, :Type, :ApiToken, :CustomerServerID)';
-        $Stmt = $CustomersSystemConnection->prepare($Sql);
-        $Result = $Stmt->execute($User);
+        try{
 
-        if($Result)
-            return ['Code' => 200,'Message' => 'User created successfully!', 'ApiToken' => $User['ApiToken']];
+            $Sql = 'INSERT INTO users (Email, PasswordHash, Type, ApiToken, CustomerServerID) VALUES (:Email, :PasswordHash, :Type, :ApiToken, :CustomerServerID)';
+            $Stmt = $CustomersSystemConnection->prepare($Sql);
+            $Result = $Stmt->execute($User);
+
+            if($Result)
+                return ['Code' => 200,'Message' => 'User created successfully!', 'ApiToken' => $User['ApiToken']];
+
+        }catch (Exception $Exception){
+
+            return ['Code' => 500,'Message' => 'Unable to update data!'];
+
+        }
 
         return ['Code' => 500,'Message' => 'Invalid Result!'];
 
