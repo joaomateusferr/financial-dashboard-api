@@ -11,15 +11,6 @@ use \Exception;
 
 class UserController {
 
-    public function login(Request $Request, Response $Response) {
-
-        $Data = RequestHelper::formatBody($Request->getBody()->getContents());
-
-        $Response->getBody()->write(ResponseHelper::format($Data));
-        return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType())->withStatus(200);
-
-    }
-
     public function create(Request $Request, Response $Response) {
 
         $Data = RequestHelper::formatBody($Request->getBody()->getContents());
@@ -34,6 +25,35 @@ class UserController {
 
             if($UserResult['Code'] == 200)
                 $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message'], 'token' => $UserResult['ApiToken']]));
+            else
+                $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
+
+
+        } catch (Exception $Exception){
+
+            $ResultCode = 400;
+            $Response->getBody()->write(ResponseHelper::format(['message' => $Exception->getMessage()]));
+
+        }
+
+        return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType())->withStatus($ResultCode);
+
+    }
+
+    public function login(Request $Request, Response $Response) {
+
+        $Data = RequestHelper::formatBody($Request->getBody()->getContents());
+
+        $ResultCode = 0;
+
+        try{
+
+            $UserResult = UserRepository::login($Data);
+
+            $ResultCode = $UserResult['Code'];
+
+            if($UserResult['Code'] == 200)
+                $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message'], 'token' => $UserResult['JWT']]));
             else
                 $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
 

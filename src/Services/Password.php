@@ -9,7 +9,7 @@ class Password {
 
     }
 
-    public static function verifyPasswordHash(string $Password, string $Hash): string {
+    public static function verifyPasswordHash(string $Password, string $Hash): bool {
 
         return password_verify($Password, $Hash);
 

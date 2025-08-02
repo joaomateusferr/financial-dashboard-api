@@ -50,7 +50,7 @@ class UserRepository {
         }
 
         if($AlreadyExists)
-            throw new Exception('User already registered!');
+            return ['Code' => 409,'Message' => 'User already registered!'];
 
         $PasswordResultString = Password::validateMinimumPasswordSecurity($UserData['Password']);
 
@@ -81,6 +81,54 @@ class UserRepository {
         }
 
         return ['Code' => 500,'Message' => 'Invalid Result!'];
+
+    }
+
+    public static function login(array $UserData) : array {
+
+        if(!isset($UserData['Email']))
+            throw new Exception('Email field is mandatory!');
+
+        if(!filter_var($UserData['Email'], FILTER_VALIDATE_EMAIL))
+            throw new Exception('Invalid email!');
+
+        if(!isset($UserData['Password']))
+            throw new Exception('Password field is mandatory!');
+
+        if(!isset($UserData['Authorization']))
+            throw new Exception('Authorization field is mandatory!');
+
+
+        try{
+
+            $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
+            $Filter = ['Email' => $UserData['Email']];
+
+            $Sql = 'SELECT Email, PasswordHash, ApiToken FROM users WHERE Email = :Email LIMIT 1';
+            $Stmt = $CustomersSystemConnection->prepare($Sql);
+            $Result = $Stmt->execute($Filter);
+
+            $UserDetails= [];
+
+            if($Result && $Stmt->rowCount() > 0)
+                $UserDetails = $Stmt->fetch();
+
+        } catch (Exception $Exception){
+
+            return ['Code' => 500,'Message' => 'Unable to fetch data!'];
+
+        }
+
+        if(empty($UserDetails))
+            return ['Code' => 401,'Message' => 'Invalid user!'];
+
+        if($UserData['Authorization'] != $UserDetails['ApiToken'])
+            return ['Code' => 401,'Message' => 'Invalid authorization!'];
+
+        if(!Password::verifyPasswordHash($UserData['Password'], $UserDetails['PasswordHash']))
+            return ['Code' => 401,'Message' => 'Invalid password!'];
+
+        return ['Code' => 200,'Message' => 'Logged in successfully!', 'JWT' => 'jwt here'];
 
     }
 
