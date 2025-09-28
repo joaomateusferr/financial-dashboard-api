@@ -7,6 +7,8 @@
     "require": {
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
-        "phpoffice/phpspreadsheet": "^4.4"
+        "phpoffice/phpspreadsheet": "^4.4",
+        "paragonie/sodium_compat": "^2.2",
+        "firebase/php-jwt": "^6.11"
     }
 }
