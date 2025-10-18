@@ -17,7 +17,7 @@ class JwtHelper {
         $JwtCredentials = $SharedMemory->read();
 
         if(empty($JwtCredentials))
-            throw new Exception('Unable to get servers info');
+            throw new Exception('Unable to get jwt credentials');
 
         if(empty($JwtCredentials['Key']))
             throw new Exception('Unable to get jwt credentials - key');
