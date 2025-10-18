@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Services\MariaDB;
 use App\Services\Password;
 use App\Helpers\ApiHelper;
+use App\Helpers\JwtHelper;
 use App\Constants\ServersConstants;
 use \Exception;
 
@@ -104,11 +105,11 @@ class UserRepository {
             $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
             $Filter = ['Email' => $UserData['Email']];
 
-            $Sql = 'SELECT Email, PasswordHash, ApiToken FROM users WHERE Email = :Email LIMIT 1';
+            $Sql = 'SELECT ID, Type, Email, PasswordHash, ApiToken FROM users WHERE Email = :Email LIMIT 1';
             $Stmt = $CustomersSystemConnection->prepare($Sql);
             $Result = $Stmt->execute($Filter);
 
-            $UserDetails= [];
+            $UserDetails = [];
 
             if($Result && $Stmt->rowCount() > 0)
                 $UserDetails = $Stmt->fetch();
@@ -128,7 +129,7 @@ class UserRepository {
         if(!Password::verifyPasswordHash($UserData['Password'], $UserDetails['PasswordHash']))
             return ['Code' => 401,'Message' => 'Invalid password!'];
 
-        return ['Code' => 200,'Message' => 'Logged in successfully!', 'JWT' => 'jwt here'];
+        return ['Code' => 200,'Message' => 'Logged in successfully!', 'JWT' => JwtHelper::create($UserDetails['ID'],$UserDetails['Type'])];
 
     }
 

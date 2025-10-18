@@ -5,6 +5,7 @@ DATA_FOLDER_PATH=$1
 
 SERVERS_LIST_FILE_NAME="servers-list.json"
 DB_CREDENTIALS_FILE_NAME="db-credentials.json"
+JWT_CREDENTIALS_FILE_NAME="jwt-credentials.json"
 
 if [ -z "$DATA_FOLDER_PATH" ];then
 
@@ -58,6 +59,15 @@ php $SCRIPT_FOLDER_PATH/loaders/db-credentials.php $DATA_FOLDER_PATH/$DB_CREDENT
 if [ $? -ne 0 ] ; then
 
     echo "db-credentials.php - $?"
+    exit 6
+
+fi
+
+php $SCRIPT_FOLDER_PATH/loaders/jwt-credentials.php $DATA_FOLDER_PATH/$JWT_CREDENTIALS_FILE_NAME
+
+if [ $? -ne 0 ] ; then
+
+    echo "jwt-credentials.php - $?"
     exit 6
 
 fi
