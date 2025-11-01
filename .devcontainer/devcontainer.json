@@ -11,5 +11,5 @@
 			"dockerDashComposeVersion": "v2"
 		}
 	},
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php composer php-zip"
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php composer php-zip php-dom php-gd"
 }
