@@ -9,11 +9,7 @@
 			"installDockerComposeSwitch": true,
 			"version": "latest",
 			"dockerDashComposeVersion": "v2"
-		},
-		"ghcr.io/devcontainers/features/php:1": {
-			"installComposer": true,
-			"version": "latest"
 		}
 	},
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php-zip"
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php composer php-zip"
 }
