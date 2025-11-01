@@ -1,8 +1,8 @@
 {
+	
 	"name": "PHP",
-	"image": "mcr.microsoft.com/devcontainers/php:1-8.4-bullseye",
-	"features": {
-		"ghcr.io/devcontainers-extra/features/composer:1": {}
-	},
-	"postCreateCommand": "apt-get update && apt-get install -y php-zip"
+	"build": { 
+		"dockerfile": "Dockerfile"
+	}
+
 }
