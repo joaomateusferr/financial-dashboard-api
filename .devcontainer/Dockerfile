@@ -1,2 +1,3 @@
-FROM mcr.microsoft.com/devcontainers/php:1-8.4-bullseye
-RUN apt-get update && apt-get install -y php-zip
+FROM mcr.microsoft.com/devcontainers/base:noble
+RUN apt-get update
+RUN apt-get -y install php php-redis php-soap php-xml php-curl php-opcache php-gd php-sqlite3 php-mysql php-mbstring php-zip composer
