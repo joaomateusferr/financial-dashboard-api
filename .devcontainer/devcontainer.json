@@ -1,4 +1,4 @@
 {
 	"name": "PHP",
-	"build": { "dockerfile": "/workspaces/financial-dashboard-api/environment/image/Dockerfile" }
+	"build": { "dockerfile": "/environment/image/Dockerfile" }
 }
