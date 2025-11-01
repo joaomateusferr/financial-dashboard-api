@@ -1,8 +1,8 @@
 {
-	
-	"name": "PHP",
-	"build": { 
-		"dockerfile": "Dockerfile"
-	}
-
+	"name": "Ubuntu",
+	"image": "mcr.microsoft.com/devcontainers/base:noble",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+	"postCreateCommand": "apt-get update && apt-get -y install php php-redis php-soap php-xml php-curl php-opcache php-gd php-sqlite3 php-mysql php-mbstring php-zip composer"
 }
