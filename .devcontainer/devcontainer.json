@@ -12,11 +12,8 @@
 		},
 		"ghcr.io/devcontainers/features/php:1": {
 			"installComposer": true,
-			"version": "latest",
-			"extensions": [
-				"zip",
-				"gd"
-			]
+			"version": "latest"
 		}
-	}
+	},
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php-zip"
 }
