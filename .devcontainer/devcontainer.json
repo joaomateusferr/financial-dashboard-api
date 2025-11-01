@@ -1,8 +1,22 @@
 {
 	"name": "Ubuntu",
-	"image": "mcr.microsoft.com/devcontainers/base:noble",
+	"image": "mcr.microsoft.com/devcontainers/base:jammy",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
-	},
-	"postCreateCommand": "apt-get update && apt-get -y install php php-redis php-soap php-xml php-curl php-opcache php-gd php-sqlite3 php-mysql php-mbstring php-zip composer"
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"moby": true,
+			"azureDnsAutoDetection": true,
+			"installDockerBuildx": true,
+			"installDockerComposeSwitch": true,
+			"version": "latest",
+			"dockerDashComposeVersion": "v2"
+		},
+		"ghcr.io/devcontainers/features/php:1": {
+			"installComposer": true,
+			"version": "latest",
+			"extensions": [
+				"zip",
+				"gd"
+			]
+		}
+	}
 }
