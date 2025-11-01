@@ -1,4 +1,7 @@
 {
 	"name": "PHP",
-	"build": { "dockerfile": "/environment/image/Dockerfile" }
+	"image": "mcr.microsoft.com/devcontainers/php:1-8.4-bullseye",
+	"features": {
+		"ghcr.io/devcontainers-extra/features/composer:1": {}
+	}
 }
