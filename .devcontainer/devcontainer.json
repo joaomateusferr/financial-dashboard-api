@@ -11,5 +11,5 @@
 			"dockerDashComposeVersion": "v2"
 		}
 	},
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php8.4 composer php8.4-zip php8.4-dom php8.4-gd"
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php8.3 composer php8.3-zip php8.3-dom php8.3-gd"
 }
