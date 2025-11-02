@@ -1,11 +1,15 @@
 {
-	"name": "PHP",
-	"image": "mcr.microsoft.com/devcontainers/php:1-8.4-bullseye",
-	"forwardPorts": [
-		8080
-	],
+	"name": "Ubuntu + PHP",
+	"image": "mcr.microsoft.com/devcontainers/base:noble",
 	"features": {
-		"ghcr.io/devcontainers-extra/features/composer:1": {}
-	}
-
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"moby": true,
+			"azureDnsAutoDetection": true,
+			"installDockerBuildx": true,
+			"installDockerComposeSwitch": true,
+			"version": "latest",
+			"dockerDashComposeVersion": "v2"
+		}
+	},
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php composer php-curl php-mysql php-mbstring php-zip php-dom php-gd php-redis"
 }
