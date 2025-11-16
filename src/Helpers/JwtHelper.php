@@ -34,7 +34,7 @@ class JwtHelper {
         return new Key(self::getKey(), self::getAlgorithm());
     }
 
-    public static function create(string $UserID, string $Type) : ?string {
+    public static function create(int $UserID, string $Type) : ?string {
 
 
         $Payload = [
