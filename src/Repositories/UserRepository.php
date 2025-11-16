@@ -129,7 +129,7 @@ class UserRepository {
         if(!Password::verifyPasswordHash($UserData['Password'], $UserDetails['PasswordHash']))
             return ['Code' => 401,'Message' => 'Invalid password!'];
 
-        return ['Code' => 200,'Message' => 'Logged in successfully!', 'JWT' => JwtHelper::create($UserDetails['ID'],$UserDetails['Type'])];
+        return ['Code' => 200,'Message' => 'Logged in successfully!', 'JWT' => JwtHelper::create((int) $UserDetails['ID'],$UserDetails['Type'])];
 
     }
 
