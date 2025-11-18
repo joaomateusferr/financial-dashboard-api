@@ -33,9 +33,28 @@ final class PingTest extends TestCase {
 
     }
 
+    public function testResponseHttpCodeIs200(): void {
+
+        $this->assertSame($this->HttpCode, 200);
+
+    }
+
     public function testResponseIsJson(): void {
 
         $this->assertTrue(json_validate($this->Response));
+
+    }
+
+    public function testResponseJsonDecode(): void {
+
+        $this->assertTrue(is_array(json_decode($this->Response,true)));
+
+    }
+
+    public function testResponseValues(): void {
+
+        $ResponseArray = json_decode($this->Response,true);
+        $this->assertSame($ResponseArray, ['result' => ['pong']]);
 
     }
 
