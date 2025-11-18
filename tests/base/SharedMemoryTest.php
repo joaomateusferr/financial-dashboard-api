@@ -43,4 +43,31 @@ final class SharedMemoryTest extends TestCase {
 
     }
 
+    public function testSharedMemoryResultControlID(): void {
+
+        $CRC = crc32($this->IDString);
+
+        if($CRC < 0)
+            $CRC = $CRC*-1;
+
+        $Result = $this->SharedMemory->read(true);
+        $this->assertSame($Result['Control']['ID'], $CRC);
+
+    }
+
+    public function testSharedMemoryResultControlString(): void {
+
+        $Result = $this->SharedMemory->read(true);
+        $this->assertSame($Result['Control']['String'], $this->IDString);
+
+    }
+
+    public function testSharedMemoryExist(): void {
+
+        $this->assertTrue($this->SharedMemory->exist());
+        $SharedMemory = new SharedMemory($this->IDString.'2');
+        $this->assertFalse($SharedMemory->exist());
+
+    }
+
 }
