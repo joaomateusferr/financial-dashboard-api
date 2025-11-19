@@ -14,5 +14,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^12.4"
+    },
+    "scripts": {
+        "environment-up": "@php ./environment/environment-up.php",
+        "environment-up-dev": "@environment-up DEV"
     }
 }

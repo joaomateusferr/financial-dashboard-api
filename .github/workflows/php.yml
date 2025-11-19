@@ -29,18 +29,15 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    - name: Server Up
+    - name: Install dependencies
+      run: composer run-script --timeout=60 environment-up
+
+    - name: Environment Up
       run: php -S localhost:8888 -t ./public/&
-
-    - name: Tests
-      run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
-
-    - name: Ubuntu
-      run: hostname -I
-
-    - name: MariaDB
-      run: docker run --name mariadb -d -e MYSQL_ROOT_PASSWORD='senha' -e MYSQL_DATABASE=system -p 3306:3306 mariadb:latest
 
     - name: MariaDB Test
       run: php ./scripts/pdo-tester.php -h 127.0.0.1 -u root -p "senha"
+
+    - name: Tests
+      run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
 
