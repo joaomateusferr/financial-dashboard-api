@@ -21,6 +21,8 @@ $Parameters =  [
 
 $Options = parseArguments($Parameters);
 
+sleep(20);
+
 $PDOOptions = [
     PDO::ATTR_PERSISTENT => false,
     PDO::ATTR_TIMEOUT => 30,
