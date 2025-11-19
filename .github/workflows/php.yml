@@ -42,5 +42,5 @@ jobs:
       run: docker run --name mariadb -d -e MYSQL_ROOT_PASSWORD='senha' -e MYSQL_DATABASE=system -p 3306:3306 mariadb:latest
 
     - name: MariaDB Test
-      run: php ./tests/scripts/pdo-tester.php -h $(hostname -I | awk '{print $1}') -u root -p "senha"
+      run: php ./scripts/pdo-tester.php -h $(hostname -I | awk '{print $1}') -u root -p "senha"
 
