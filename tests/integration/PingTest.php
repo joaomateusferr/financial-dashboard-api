@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+use TestDependencies\HTTP\HTTPResponseTest;
 
-final class PingTest extends TestCase {
-
-    private $Response;
-    private int $HttpCode;
+final class PingTest extends HTTPResponseTest {
 
     protected function setUp() : void {
 
@@ -21,37 +18,13 @@ final class PingTest extends TestCase {
 
     }
 
-    public function testResponseIsString(): void {
-
-        $this->assertTrue(is_string($this->Response));
-
-    }
-
-    public function testResponseIsNotBool(): void {
-
-        $this->assertFalse(is_bool($this->Response));
-
-    }
-
     public function testResponseHttpCodeIs200(): void {
 
         $this->assertSame($this->HttpCode, 200);
 
     }
 
-    public function testResponseIsJson(): void {
-
-        $this->assertTrue(json_validate($this->Response));
-
-    }
-
-    public function testResponseJsonDecode(): void {
-
-        $this->assertTrue(is_array(json_decode($this->Response,true)));
-
-    }
-
-    public function testResponseValues(): void {
+    public function testResponseDefaultExpectedValues(): void {
 
         $ResponseArray = json_decode($this->Response,true);
         $this->assertSame($ResponseArray, ['result' => ['pong']]);
