@@ -26,11 +26,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - name: Build and run Dev Container tests
-        uses: devcontainers/ci@v0.3
-        with:
-          push: never
-
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
