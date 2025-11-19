@@ -26,6 +26,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
+    - name: Ubuntu PHP
+      run: sudo apt-get update && sudo apt-get install -y php composer php-curl php-mysql php-mbstring php-zip php-dom php-gd php-redis
+
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
