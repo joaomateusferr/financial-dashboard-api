@@ -34,3 +34,7 @@ jobs:
 
     - name: Tests
       run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
+
+    - name: Ubuntu
+      run: docker -v
+
