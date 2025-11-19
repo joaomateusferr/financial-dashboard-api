@@ -32,7 +32,7 @@ final class JwtTest extends TestCase {
 
     }
 
-    public function testJwtCreationUserDataUserID(): void {
+    public function testJwtCreationUserDataUserId(): void {
 
         $Result = JwtHelper::parse($this->Jwt);
         $this->assertSame($Result['Data']['id'], $this->UserID);
