@@ -36,7 +36,7 @@ jobs:
       run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
 
     - name: Ubuntu
-      run: hostname -I | awk '{print $1}'
+      run: hostname -I
 
     - name: MariaDB
       run: docker run --name mariadb -d -e MYSQL_ROOT_PASSWORD='senha' -e MYSQL_DATABASE=system -p 3306:3306 mariadb:latest
