@@ -39,5 +39,5 @@ jobs:
       run: hostname -I | awk '{print $1}'
 
     - name: MariaDB
-      run: docker run --name mariadb -d --network network-db --network-alias db -e MYSQL_ROOT_PASSWORD='senha' -e MYSQL_DATABASE=system -p 3306:3306 mariadb:latest
+      run: docker run --name mariadb -d -e MYSQL_ROOT_PASSWORD='senha' -e MYSQL_DATABASE=system -p 3306:3306 mariadb:latest
 
