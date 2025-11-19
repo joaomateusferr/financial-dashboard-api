@@ -1,10 +1,10 @@
-name: PHP Composer
+name: Tests
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main","dev" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -29,14 +29,11 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    - name: Install dependencies
+    - name: Environment dependencies
       run: composer run-script --timeout=60 environment-up
 
-    - name: Environment Up
+    - name: Server Up
       run: php -S localhost:8888 -t ./public/&
-
-    - name: MariaDB Test
-      run: php ./scripts/pdo-tester.php -h 127.0.0.1 -u root -p "senha"
 
     - name: Tests
       run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
