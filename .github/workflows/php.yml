@@ -29,5 +29,8 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Server Up
+      run: php -S localhost:8888 -t ./public/&
+
     - name: Tests
-      run: ./vendor/bin/phpunit ./tests/unit/ExampleTest.php
+      run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
