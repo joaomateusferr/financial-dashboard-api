@@ -29,6 +29,22 @@ final class SharedMemoryTest extends TestCase {
 
     }
 
+    public function testSharedMemoryWriteAppend(): void {
+
+        $this->SharedMemory->write([$this->Key.'2' => $this->Value.'2'], true);
+        $Result = $this->SharedMemory->read();
+        $this->assertSame($Result, [$this->Key.'2' => $this->Value.'2', $this->Key => $this->Value]);
+
+    }
+
+    public function testSharedMemoryExist(): void {
+
+        $this->assertTrue($this->SharedMemory->exist());
+        $SharedMemory = new SharedMemory($this->IDString.'2');
+        $this->assertFalse($SharedMemory->exist());
+
+    }
+
     public function testSharedMemoryResultKey(): void {
 
         $Result = $this->SharedMemory->read();
@@ -43,7 +59,7 @@ final class SharedMemoryTest extends TestCase {
 
     }
 
-    public function testSharedMemoryResultControlID(): void {
+    public function testSharedMemoryResultControlId(): void {
 
         $CRC = crc32($this->IDString);
 
@@ -59,14 +75,6 @@ final class SharedMemoryTest extends TestCase {
 
         $Result = $this->SharedMemory->read(true);
         $this->assertSame($Result['Control']['String'], $this->IDString);
-
-    }
-
-    public function testSharedMemoryExist(): void {
-
-        $this->assertTrue($this->SharedMemory->exist());
-        $SharedMemory = new SharedMemory($this->IDString.'2');
-        $this->assertFalse($SharedMemory->exist());
 
     }
 
