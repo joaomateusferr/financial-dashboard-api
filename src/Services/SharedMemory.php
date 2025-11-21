@@ -37,7 +37,6 @@ class SharedMemory {
         if($Shmop === false){
             return false;
         } else {
-            shmop_close($Shmop);
             return true;
         }
 
@@ -51,7 +50,6 @@ class SharedMemory {
             return false;
         } else {
             $Size = shmop_size($Shmop);
-            shmop_close($Shmop);
             return $Size;
         }
 
@@ -97,7 +95,6 @@ class SharedMemory {
 
         $this->Size = shmop_write($Shmop, $DataString, 0);
         $this->Exists = true;
-        shmop_close($Shmop);
 
     }
 
@@ -112,8 +109,6 @@ class SharedMemory {
             throw new Exception('Unable to read shared memory - read - '.$this->IDString);
 
         $ShmopDataString = shmop_read($Shmop, 0, $this->Size);
-
-        shmop_close($Shmop);
 
         if(empty($ShmopDataString))
             return false;
@@ -150,7 +145,6 @@ class SharedMemory {
             throw new Exception('Unable to read shared memory - delete - '.$this->IDString);
 
         $Result = @shmop_delete($Shmop);
-        shmop_close($Shmop);
 
         if($Result == false)
             throw new Exception('Unable to delete shared memory - '.$this->IDString);
