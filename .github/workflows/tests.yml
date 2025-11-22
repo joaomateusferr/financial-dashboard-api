@@ -36,5 +36,5 @@ jobs:
       run: php -S localhost:8888 -t ./public/&
 
     - name: Tests
-      run: ./vendor/bin/phpunit ./tests/integration/PingTest.php
+      run: ./vendor/bin/phpunit
 
