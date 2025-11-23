@@ -78,7 +78,7 @@ class SharedMemory {
         $Data = [];
 
         if(!empty($AssociativeArray) && $Append)
-            $Information = array_merge($Information, $AssociativeArray['Data']);
+            $Information = array_merge($AssociativeArray['Data'], $Information);
 
         $Information = array_merge($Data, $Information);
 
