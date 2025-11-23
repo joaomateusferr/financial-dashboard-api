@@ -33,7 +33,7 @@ final class SharedMemoryTest extends TestCase {
 
         $this->SharedMemory->write([$this->Key.'2' => $this->Value.'2'], true);
         $Result = $this->SharedMemory->read();
-        $this->assertSame($Result, [$this->Key.'2' => $this->Value.'2', $this->Key => $this->Value]);
+        $this->assertSame($Result, [$this->Key => $this->Value, $this->Key.'2' => $this->Value.'2']);
 
     }
 
