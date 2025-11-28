@@ -8,12 +8,12 @@ use App\Constants\KeysConstants;
 
 class MariaDB {
 
-    private $Server = '';
-    Private $Database = '';
-    Private $Host = '';
-    Private $Port = 3306;
-    Private $PDO = null;
-    Private $Options = [
+    private string $Server;
+    private ?string $Database;
+    private string $Host;
+    private int $Port = 3306;
+    private $PDO = null;
+    private array $Options = [
         PDO::ATTR_TIMEOUT => 30, // Set timeout to 30s
         PDO::ATTR_EMULATE_PREPARES => false, // Disable emulation mode for "real" prepared statements
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Disable errors in the form of exceptions
@@ -21,7 +21,7 @@ class MariaDB {
     ];
 
 
-    public function __construct(string $Server, string $Database, array $Options = []) {
+    public function __construct(string $Server, ?string $Database = null, array $Options = []) {
 
         $this->Server = $Server;
         $this->Database = $Database;
@@ -56,9 +56,10 @@ class MariaDB {
 
     }
 
-    private function connect(){
+    private function connect() : void {
 
-        $DSN = "mysql:host=$this->Host;port=$this->Port;dbname=$this->Database;charset=utf8";
+        $DatabaseName = !empty($this->Database) ? "dbname=$this->Database;" : "";
+        $DSN = "mysql:host=$this->Host;port=$this->Port;".$DatabaseName."charset=utf8";
         $SharedMemory = new SharedMemory(KeysConstants::getDatabaseCredentials());
         $Credentials = $SharedMemory->read();
 
@@ -76,7 +77,7 @@ class MariaDB {
 
     }
 
-    public function close(){
+    public function close() : void {
 
         try{
             $this->PDO->query('KILL CONNECTION_ID()');
@@ -88,7 +89,9 @@ class MariaDB {
     }
 
     public function prepare(string $Sql){
+
         return $this->PDO->prepare($Sql);
+
     }
 
 }
