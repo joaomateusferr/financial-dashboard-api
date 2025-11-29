@@ -6,30 +6,30 @@ use PHPUnit\Framework\TestCase;
 
 abstract class HTTPResponseTest extends TestCase {
 
-    protected bool | string $Response;
-    protected int $HttpCode;
+    protected static bool | string $Response;
+    protected static int $HttpCode;
 
     public function testResponseIsNotBool(): void {
 
-        $this->assertFalse(is_bool($this->Response));
+        $this->assertFalse(is_bool(self::$Response));
 
     }
 
     public function testResponseIsString(): void {
 
-        $this->assertTrue(is_string($this->Response));
+        $this->assertTrue(is_string(self::$Response));
 
     }
 
     public function testResponseIsJson(): void {
 
-        $this->assertTrue(json_validate($this->Response));
+        $this->assertTrue(json_validate(self::$Response));
 
     }
 
     public function testResponseValidJsonDecode(): void {
 
-        $this->assertTrue(is_array(json_decode($this->Response, true)));
+        $this->assertTrue(is_array(json_decode(self::$Response, true)));
 
     }
 
