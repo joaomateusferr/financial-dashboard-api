@@ -17,6 +17,7 @@
     },
     "scripts": {
         "environment-up": "@php ./environment/environment-up.php",
-        "environment-up-dev": "@environment-up DEV"
+        "environment-up-dev": "@environment-up DEV",
+        "initialize-data-structures": "@php ./environment/initialize-data-structures.php"
     }
 }
