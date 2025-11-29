@@ -62,7 +62,22 @@ if($Mode != 'CI'){
 
 }
 
-testDatabase(['Host' => $DatabaseHost, 'Port' => 3306, 'User' => 'root', 'Password' => $DatabasePassword]);
+echo "Database:";
+
+while (true) {
+
+    echo '.';
+    $Result = testDatabase(['Host' => $DatabaseHost, 'Port' => 3306, 'User' => 'root', 'Password' => $DatabasePassword]);
+
+    sleep(1);
+
+    if(!is_null($Result))
+        break;
+
+}
+
+echo "\n";
+
 
 if($Mode == 'DB_ONLY')
     exit(0);
@@ -96,7 +111,7 @@ $ResultCode = 0;
 exec("openssl rand -base64 32", $Output, $ResultCode); //Creating a cryptographically strong random key
 
 if(!empty($ResultCode) || !isset($Output[0]))
-    exit(8);    //Unable to generate random key
+    exit(7);    //Unable to generate random key
 
 try{
 
@@ -105,7 +120,7 @@ try{
 
 } catch (Exception $Ex) {
 
-    exit(9); //Unable to load database credentials
+    exit(8); //Unable to load database credentials
 
 }
 
@@ -116,7 +131,7 @@ try{
 
 } catch (Exception $Ex) {
 
-    exit(10);   //Unable to load servers list
+    exit(9);   //Unable to load servers list
 
 }
 
@@ -129,40 +144,37 @@ try{
 
 } catch (Exception $Ex) {
 
-    exit(11);   //Unable to load jwt credentials
+    exit(10);   //Unable to load jwt credentials
 
 }
 
-function testDatabase(array $Options) {
-
-    sleep(10);
+function testDatabase(array $Options) : ?int {
 
     $PDOOptions = [
         PDO::ATTR_PERSISTENT => false,
-        PDO::ATTR_TIMEOUT => 30,
+        PDO::ATTR_TIMEOUT => 1,
         PDO::ATTR_EMULATE_PREPARES => false,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // Make the default fetch be an associative array
     ];
 
+    $Result = null;
 
     try {
 
-        $Numbers = [rand(1, 10), rand(1, 10)];
         $DSN = 'mysql:host='.$Options['Host'].';port='.$Options['Port'].';charset=utf8';
         $PDO = new PDO($DSN, $Options['User'], $Options['Password'], $PDOOptions);
-        $Sql = "SELECT ? + ? AS Sum";
+        $Sql = "SELECT 1 AS Result";
         $Stmt = $PDO->prepare($Sql);
-        $Result = $Stmt->execute($Numbers);
+        $Result = $Stmt->execute();
 
         if($Result && $Stmt->rowCount() > 0){
-            echo $Numbers[0].' + '.$Numbers[1].' = ' . $Stmt->fetch()['Sum']."\n";
+            $Result = $Stmt->fetch()['Result'];
         }
 
     } catch (Exception $Exception) {
 
-        echo "Error: " . $Exception->getMessage()."\n";
-        exit(7); //Database issue
+        //this will generate an error anyway
 
     } finally {
 
@@ -179,5 +191,7 @@ function testDatabase(array $Options) {
         }
 
     }
+
+    return $Result;
 
 }
