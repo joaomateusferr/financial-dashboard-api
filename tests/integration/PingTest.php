@@ -14,7 +14,6 @@ final class PingTest extends HTTPResponseTest {
         curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
         $this->Response = curl_exec($Curl);
         $this->HttpCode = curl_getinfo($Curl, CURLINFO_HTTP_CODE);
-        curl_close($Curl);
 
     }
 

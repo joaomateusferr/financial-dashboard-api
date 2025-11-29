@@ -52,8 +52,6 @@ if(!empty($ResultCode))
 
 if($Mode != 'CI'){
 
-    echo "Database Password: $DatabasePassword\n";
-
     $Output = [];
     $ResultCode = 0;
 
