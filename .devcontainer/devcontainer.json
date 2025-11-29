@@ -11,5 +11,5 @@
 			"dockerDashComposeVersion": "v2"
 		}
 	},
-	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php composer php-curl php-mysql php-mbstring php-zip php-dom php-gd php-redis && composer install && composer run-script --timeout=60 environment-up-dev"
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y php composer php-curl php-mysql php-mbstring php-zip php-dom php-gd php-redis && composer install && composer run-script --timeout=60 environment-up-dev && composer run-script --timeout=60 initialize-data-structures"
 }
