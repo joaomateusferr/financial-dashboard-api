@@ -32,6 +32,9 @@ jobs:
     - name: Environment dependencies
       run: composer run-script --timeout=60 environment-up
 
+    - name: Initialize data structures
+      run: composer run-script --timeout=60 initialize-data-structures
+
     - name: Server Up
       run: php -S localhost:8888 -t ./public/&
 
