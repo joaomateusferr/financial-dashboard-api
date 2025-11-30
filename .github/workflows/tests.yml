@@ -39,5 +39,8 @@ jobs:
       run: php -S localhost:8888 -t ./public/&
 
     - name: Tests
-      run: ./vendor/bin/phpunit
+      run: ./vendor/bin/phpunit --exclude-testsuite sequential-user
+
+    - name: Tests
+      run: ./vendor/bin/phpunit --testsuit sequential-user
 
