@@ -22,7 +22,7 @@ class AuthMiddleware {
 
             $ResponseFactory = new ResponseFactory();
             $Response = $ResponseFactory->createResponse(401);
-            $Response->getBody()->write(ResponseHelper::format('unauthorized', true));
+            $Response->getBody()->write(ResponseHelper::format('Unauthorized', true));
             return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType());
 
         }

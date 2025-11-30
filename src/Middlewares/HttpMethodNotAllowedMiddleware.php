@@ -20,7 +20,7 @@ class HttpMethodNotAllowedMiddleware {
 
             $ResponseFactory = new ResponseFactory();
             $Response = $ResponseFactory->createResponse(405);
-            $Response->getBody()->write(ResponseHelper::format('method not allowed', true));
+            $Response->getBody()->write(ResponseHelper::format('Method Not Allowed', true));
             return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType());
         }
     }
