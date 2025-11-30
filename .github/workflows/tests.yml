@@ -41,6 +41,6 @@ jobs:
     - name: Tests
       run: ./vendor/bin/phpunit --exclude-testsuite sequential-user
 
-    - name: Tests
+    - name: Sequential user tests
       run: ./vendor/bin/phpunit --testsuit sequential-user
 
