@@ -6,10 +6,10 @@ use \Exception;
 
 class SharedMemory {
 
-    public $IDString = null;
-    public $Exists = null;
-    private $ID = null;
-    private $Size = 0;
+    public ?string $IDString = null;
+    public bool $Exists = false;
+    private int $ID = 0;
+    private int $Size = 0;
     private $Permission = 0777;
 
     public function __construct(?string $IDString = null) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use App\Services\SharedMemory;
+use PhpParser\Node\Stmt\Unset_;
 
 final class SharedMemoryTest extends TestCase {
 
@@ -19,6 +20,19 @@ final class SharedMemoryTest extends TestCase {
         $this->Value = 'value';
         $this->SharedMemory = new SharedMemory($this->IDString);
         $this->SharedMemory->write([$this->Key => $this->Value]);
+
+    }
+
+    protected function tearDown(): void {
+
+        unset($this->IDString);
+        unset($this->Key);
+        unset($this->Value);
+
+        if($this->SharedMemory->exist())
+            $this->SharedMemory->delete();
+
+        unset($this->SharedMemory);
 
     }
 
@@ -42,6 +56,14 @@ final class SharedMemoryTest extends TestCase {
         $this->assertTrue($this->SharedMemory->exist());
         $SharedMemory = new SharedMemory($this->IDString.'2');
         $this->assertFalse($SharedMemory->exist());
+
+    }
+
+    public function testSharedMemoryDelete(): void {
+
+        $this->assertTrue($this->SharedMemory->exist());
+        $this->SharedMemory->delete();
+        $this->assertFalse($this->SharedMemory->exist());
 
     }
 
