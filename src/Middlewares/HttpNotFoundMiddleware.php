@@ -20,7 +20,7 @@ class HttpNotFoundMiddleware {
 
             $ResponseFactory = new ResponseFactory();
             $Response = $ResponseFactory->createResponse(404);
-            $Response->getBody()->write(ResponseHelper::format('not found', true));
+            $Response->getBody()->write(ResponseHelper::format('Not Found', true));
             return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType());
         }
     }
