@@ -7,31 +7,31 @@ use App\Services\Password;
 
 final class PasswordHashTest extends TestCase {
 
-    private string $Password;
-    private string $Hash;
+    private static string $Password;
+    private static string $Hash;
 
-    protected function setUp() : void {
+    public static function setUpBeforeClass(): void {
 
-        $this->Password = 'my-secret-password';
-        $this->Hash = Password::generatePasswordHash($this->Password);
+        self::$Password = 'my-secret-password';
+        self::$Hash = Password::generatePasswordHash(self::$Password);
 
     }
 
     public function testVerifyValidPasswordHash(): void {
 
-        $this->assertTrue(Password::verifyPasswordHash($this->Password, $this->Hash));
+        $this->assertTrue(Password::verifyPasswordHash(self::$Password, self::$Hash));
 
     }
 
     public function testVerifyInvalidPasswordHash(): void {
 
-        $this->assertFalse(Password::verifyPasswordHash('not-my-secret-password', $this->Hash));
+        $this->assertFalse(Password::verifyPasswordHash('not-my-secret-password', self::$Hash));
 
     }
 
     public function testRegeneratePasswordHash(): void {
 
-        $this->assertNotSame($this->Hash, Password::generatePasswordHash($this->Password));
+        $this->assertNotSame(self::$Hash, Password::generatePasswordHash(self::$Password));
 
     }
 

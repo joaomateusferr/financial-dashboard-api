@@ -7,42 +7,42 @@ use App\Services\Encryption;
 
 final class EncryptionTest extends TestCase {
 
-    private string $Key;
-    private string $Data;
-    private string $EncryptedData;
+    private static string $Key;
+    private static string $Data;
+    private static string $EncryptedData;
 
-    protected function setUp() : void {
+    public static function setUpBeforeClass(): void {
 
-        $this->Key = 'my-secret-key';
-        $this->Data = 'my secret phrase';
-        $this->EncryptedData = Encryption::encrypt($this->Key, $this->Data);
+        self::$Key = 'my-secret-key';
+        self::$Data = 'my secret phrase';
+        self::$EncryptedData = Encryption::encrypt(self::$Key, self::$Data);
 
     }
 
     public function testEncrypt(): void {
 
-        $this->assertFalse(empty($this->EncryptedData));
+        $this->assertFalse(empty(self::$EncryptedData));
 
     }
 
     public function testDecryptedDataNotEmpty(): void {
 
-        $DecryptedData = Encryption::decrypt($this->Key, $this->EncryptedData);
+        $DecryptedData = Encryption::decrypt(self::$Key, self::$EncryptedData);
         $this->assertFalse(empty($DecryptedData));
 
     }
 
     public function testDecryptedDataValue(): void {
 
-        $DecryptedData = Encryption::decrypt($this->Key, $this->EncryptedData);
-        $this->assertSame($DecryptedData, $this->Data);
+        $DecryptedData = Encryption::decrypt(self::$Key, self::$EncryptedData);
+        $this->assertSame($DecryptedData, self::$Data);
 
     }
 
     public function testDecryptionWrongKey(): void {
 
-        $DecryptedData = Encryption::decrypt('not-my-secret-key', $this->EncryptedData);
-        $this->assertNotSame($DecryptedData, $this->Data);
+        $DecryptedData = Encryption::decrypt('not-my-secret-key', self::$EncryptedData);
+        $this->assertNotSame($DecryptedData, self::$Data);
         $this->assertTrue(empty($DecryptedData));
 
     }
