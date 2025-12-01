@@ -7,41 +7,41 @@ use App\Helpers\JwtHelper;
 
 final class JwtTest extends TestCase {
 
-    private int $UserID;
-    private string $Type;
-    private ?string $Jwt;
+    private static int $UserID;
+    private static string $Type;
+    private static ?string $Jwt;
 
-    protected function setUp() : void {
+    public static function setUpBeforeClass(): void {
 
-        $this->UserID = 10;
-        $this->Type = 'ADMIN';
-        $this->Jwt = JwtHelper::create($this->UserID, $this->Type);
+        self::$UserID = 10;
+        self::$Type = 'ADMIN';
+        self::$Jwt = JwtHelper::create(self::$UserID, self::$Type);
 
     }
 
     public function testJwtCreation(): void {
 
-        $this->assertNotNull($this->Jwt);
+        $this->assertNotNull(self::$Jwt);
 
     }
 
     public function testJwtCreationUserDataType(): void {
 
-        $Result = JwtHelper::parse($this->Jwt);
-        $this->assertSame($Result['Data']['type'], $this->Type);
+        $Result = JwtHelper::parse(self::$Jwt);
+        $this->assertSame($Result['Data']['type'], self::$Type);
 
     }
 
     public function testJwtCreationUserDataUserId(): void {
 
-        $Result = JwtHelper::parse($this->Jwt);
-        $this->assertSame($Result['Data']['id'], $this->UserID);
+        $Result = JwtHelper::parse(self::$Jwt);
+        $this->assertSame($Result['Data']['id'], self::$UserID);
 
     }
 
     public function testJwtAlgorithm(): void {
 
-        $Result = JwtHelper::parse($this->Jwt);
+        $Result = JwtHelper::parse(self::$Jwt);
         $this->assertSame($Result['Headers']['alg'], 'HS256');
 
     }
