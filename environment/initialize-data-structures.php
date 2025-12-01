@@ -17,7 +17,6 @@ try{
             Email VARCHAR(255) NOT NULL,
             PasswordHash VARCHAR(255) NOT NULL,
             Type ENUM('STANDARD','ADMIN') NOT NULL DEFAULT 'STANDARD',
-            ApiToken VARCHAR(64) NOT NULL,
             CustomerServerID INT NOT NULL
         )",
         "CREATE INDEX Email ON users (Email)"
