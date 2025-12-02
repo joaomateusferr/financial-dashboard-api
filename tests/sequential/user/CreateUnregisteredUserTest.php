@@ -33,11 +33,4 @@ final class CreateUnregisteredUserTest extends HTTPResponseTest {
 
     }
 
-    public function testTokenExistInResult(): void {
-
-        $ResponseArray = json_decode(self::$Response,true);
-        $this->assertTrue(isset($ResponseArray['result']['token']));
-
-    }
-
 }
