@@ -22,11 +22,7 @@ class UserController {
             $UserResult = UserRepository::create($Data);
 
             $ResultCode = $UserResult['Code'];
-
-            if($UserResult['Code'] == 200)
-                $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message'], 'token' => $UserResult['ApiToken']]));
-            else
-                $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
+            $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
 
 
         } catch (Exception $Exception){
@@ -51,11 +47,7 @@ class UserController {
             $UserResult = UserRepository::login($Data);
 
             $ResultCode = $UserResult['Code'];
-
-            if($UserResult['Code'] == 200)
-                $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message'], 'token' => $UserResult['JWT']]));
-            else
-                $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
+            $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
 
 
         } catch (Exception $Exception){

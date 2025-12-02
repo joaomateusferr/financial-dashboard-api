@@ -62,18 +62,17 @@ class UserRepository {
             'Email' => $UserData['Email'],
             'PasswordHash' => Password::generatePasswordHash($UserData['Password']),
             'Type' => self::getDefaultType(),
-            'ApiToken' => ApiHelper::generateToken(),
             'CustomerServerID' => ServersConstants::getCurrentCustomerServerID(),
         ];
 
         try{
 
-            $Sql = 'INSERT INTO users (Email, PasswordHash, Type, ApiToken, CustomerServerID) VALUES (:Email, :PasswordHash, :Type, :ApiToken, :CustomerServerID)';
+            $Sql = 'INSERT INTO users (Email, PasswordHash, Type, CustomerServerID) VALUES (:Email, :PasswordHash, :Type, :CustomerServerID)';
             $Stmt = $CustomersSystemConnection->prepare($Sql);
             $Result = $Stmt->execute($User);
 
             if($Result)
-                return ['Code' => 200,'Message' => 'User created successfully!', 'ApiToken' => $User['ApiToken']];
+                return ['Code' => 200,'Message' => 'User created successfully!'];
 
         }catch (Exception $Exception){
 
@@ -96,16 +95,13 @@ class UserRepository {
         if(!isset($UserData['Password']))
             throw new Exception('Password field is mandatory!');
 
-        if(!isset($UserData['Authorization']))
-            throw new Exception('Authorization field is mandatory!');
-
 
         try{
 
             $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
             $Filter = ['Email' => $UserData['Email']];
 
-            $Sql = 'SELECT ID, Type, Email, PasswordHash, ApiToken FROM users WHERE Email = :Email LIMIT 1';
+            $Sql = 'SELECT ID, Type, Email, PasswordHash FROM users WHERE Email = :Email LIMIT 1';
             $Stmt = $CustomersSystemConnection->prepare($Sql);
             $Result = $Stmt->execute($Filter);
 
@@ -123,13 +119,10 @@ class UserRepository {
         if(empty($UserDetails))
             return ['Code' => 401,'Message' => 'Invalid user!'];
 
-        if($UserData['Authorization'] != $UserDetails['ApiToken'])
-            return ['Code' => 401,'Message' => 'Invalid authorization!'];
-
         if(!Password::verifyPasswordHash($UserData['Password'], $UserDetails['PasswordHash']))
             return ['Code' => 401,'Message' => 'Invalid password!'];
 
-        return ['Code' => 200,'Message' => 'Logged in successfully!', 'JWT' => JwtHelper::create((int) $UserDetails['ID'],$UserDetails['Type'])];
+        return ['Code' => 200,'Message' => 'Logged in successfully!'];
 
     }
 
