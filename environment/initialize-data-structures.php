@@ -19,7 +19,16 @@ try{
             Type ENUM('STANDARD','ADMIN') NOT NULL DEFAULT 'STANDARD',
             CustomerServerID INT NOT NULL
         )",
-        "CREATE INDEX Email ON users (Email)"
+        "CREATE INDEX IDX_Email ON users (Email)",
+        "CREATE TABLE sessions (
+            ID SERIAL PRIMARY KEY,
+            Token VARCHAR(96) NOT NULL UNIQUE,
+            UserID BIGINT UNSIGNED NOT NULL,
+            UserAgent VARCHAR(255) DEFAULT NULL,
+            CreatedAt INT UNSIGNED NOT NULL DEFAULT (UNIX_TIMESTAMP()),
+            ExpiresAt INT UNSIGNED NOT NULL,
+            FOREIGN KEY (UserID) REFERENCES users(ID)
+        )",
     ];
 
     foreach($Queries as $Sql){
