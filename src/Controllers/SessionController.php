@@ -4,11 +4,12 @@ namespace App\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Services\ApiBase;
 use App\Repositories\UserRepository;
-use App\Services\Password;
 use App\Repositories\SessionRepository;
+use App\Services\Password;
 
-class SessionController extends BaseController {
+class SessionController extends ApiBase {
 
     public function set(Request $Request, Response $Response) : Response {
 
