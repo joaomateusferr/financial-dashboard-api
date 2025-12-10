@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use TestDependencies\HTTP\HTTPResponseTest;
 
-final class MethodNotAllowedTest extends HTTPResponseTest {
+final class HttpMethodNotAllowedTest extends HTTPResponseTest {
 
     public static function setUpBeforeClass(): void {
 
@@ -29,7 +29,8 @@ final class MethodNotAllowedTest extends HTTPResponseTest {
     public function testResponseDefaultExpectedValues(): void {
 
         $ResponseArray = json_decode(self::$Response,true);
-        $this->assertSame($ResponseArray, ['error' => true, 'message' => 'Method Not Allowed']);
+        $this->assertSame($ResponseArray['error'], true);
+        $this->assertSame($ResponseArray['result'][0], 'Method Not Allowed');
 
     }
 
