@@ -5,10 +5,9 @@ namespace App\Middlewares;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpMethodNotAllowedException;
-use Slim\Psr7\Factory\ResponseFactory;
-use App\Helpers\ResponseHelper;
+use App\Services\ApiBase;
 
-class HttpMethodNotAllowedMiddleware {
+class HttpMethodNotAllowedMiddleware extends ApiBase {
 
     public function __invoke(Request $Request, $Handler): Response {
 
@@ -18,10 +17,8 @@ class HttpMethodNotAllowedMiddleware {
 
         } catch (HttpMethodNotAllowedException $Exception) {
 
-            $ResponseFactory = new ResponseFactory();
-            $Response = $ResponseFactory->createResponse(405);
-            $Response->getBody()->write(ResponseHelper::format('Method Not Allowed', true));
-            return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType());
+            return self::buildResponseFromFactory(['Method Not Allowed'], 405, true);
+
         }
     }
 }
