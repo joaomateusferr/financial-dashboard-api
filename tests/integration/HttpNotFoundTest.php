@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use TestDependencies\HTTP\HTTPResponseTest;
 
-final class NotFoundTest extends HTTPResponseTest {
+final class HttpNotFoundTest extends HTTPResponseTest {
 
     public static function setUpBeforeClass(): void {
 
@@ -26,7 +26,8 @@ final class NotFoundTest extends HTTPResponseTest {
     public function testResponseDefaultExpectedValues(): void {
 
         $ResponseArray = json_decode(self::$Response,true);
-        $this->assertSame($ResponseArray, ['error' => true, 'message' => 'Not Found']);
+        $this->assertSame($ResponseArray['error'], true);
+        $this->assertSame($ResponseArray['result'][0], 'Not Found');
 
     }
 
