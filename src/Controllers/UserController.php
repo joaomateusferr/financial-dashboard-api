@@ -4,60 +4,46 @@ namespace App\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Helpers\RequestHelper;
-use App\Helpers\ResponseHelper;
+use App\Services\ApiBase;
 use App\Repositories\UserRepository;
-use \Exception;
+use App\Services\Password;
 
-class UserController {
+class UserController extends ApiBase {
 
     public function create(Request $Request, Response $Response) {
 
-        $Data = RequestHelper::formatBody($Request->getBody()->getContents());
+        $Data = self::formatBody($Request->getBody()->getContents());
 
-        $ResultCode = 0;
+        if(!isset($Data['Email']))
+            return self::buildResponse($Response, ['Email field is mandatory!'], 400, true);
 
-        try{
+        if(!filter_var($Data['Email'], FILTER_VALIDATE_EMAIL))
+            return self::buildResponse($Response, ['Invalid email!'], 400, true);
 
-            $UserResult = UserRepository::create($Data);
+        if(!isset($Data['Password']))
+            return self::buildResponse($Response, ['Password field is mandatory!'], 400, true);
 
-            $ResultCode = $UserResult['Code'];
-            $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
+        $UserDetails = UserRepository::retrieveUserDetailsByEmail($Data['Email']);
 
+        if(is_null($UserDetails))
+            return self::buildResponse($Response, ['Unable to fetch user data!'], 500, true);
 
-        } catch (Exception $Exception){
+        if(!empty($UserDetails))
+            return self::buildResponse($Response, ['User already registered!'], 409, true);
 
-            $ResultCode = 400;
-            $Response->getBody()->write(ResponseHelper::format(['message' => $Exception->getMessage()]));
+        $PasswordMinimumPasswordSecurityResult = Password::validateMinimumPasswordSecurity($Data['Password']);
 
-        }
+        if(!empty($PasswordMinimumPasswordSecurityResult))
+            return self::buildResponse($Response, [$PasswordMinimumPasswordSecurityResult], 400, true);
 
-        return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType())->withStatus($ResultCode);
+        $Result = UserRepository::create($Data['Email'], $Data['Password']);
 
-    }
+        if(empty($Result))
+            return self::buildResponse($Response, ['Unable to create user!'], 500, true);
 
-    public function login(Request $Request, Response $Response) {
-
-        $Data = RequestHelper::formatBody($Request->getBody()->getContents());
-
-        $ResultCode = 0;
-
-        try{
-
-            $UserResult = UserRepository::login($Data);
-
-            $ResultCode = $UserResult['Code'];
-            $Response->getBody()->write(ResponseHelper::format(['message' => $UserResult['Message']]));
+        return self::buildResponse($Response, ['User created successfully!']);
 
 
-        } catch (Exception $Exception){
-
-            $ResultCode = 400;
-            $Response->getBody()->write(ResponseHelper::format(['message' => $Exception->getMessage()]));
-
-        }
-
-        return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType())->withStatus($ResultCode);
 
     }
 

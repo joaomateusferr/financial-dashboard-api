@@ -29,7 +29,8 @@ final class CreateUnregisteredUserTest extends HTTPResponseTest {
     public function testResponseDefaultExpectedMessage(): void {
 
         $ResponseArray = json_decode(self::$Response,true);
-        $this->assertSame($ResponseArray['result']['message'], 'User created successfully!');
+        $this->assertFalse(isset($ResponseArray['error']));
+        $this->assertSame($ResponseArray['result']['0'], 'User created successfully!');
 
     }
 

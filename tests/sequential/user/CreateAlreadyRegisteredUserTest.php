@@ -29,7 +29,8 @@ final class CreateAlreadyRegisteredUserTest extends HTTPResponseTest {
     public function testResponseDefaultExpectedMessage(): void {
 
         $ResponseArray = json_decode(self::$Response,true);
-        $this->assertSame($ResponseArray['result']['message'], 'User already registered!');
+        $this->assertSame($ResponseArray['error'], true);
+        $this->assertSame($ResponseArray['result'][0], 'User already registered!');
 
     }
 
