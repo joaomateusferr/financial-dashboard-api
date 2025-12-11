@@ -5,11 +5,10 @@ namespace App\Middlewares;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as Handler;
-use Slim\Psr7\Factory\ResponseFactory;
-use App\Helpers\ResponseHelper;
+use App\Services\ApiBase;
 use App\Helpers\RouteHelper;
 
-class AuthMiddleware {
+class AuthMiddleware extends ApiBase {
 
     public function __invoke(Request $Request, Handler $Handler): Response {
 
@@ -20,10 +19,7 @@ class AuthMiddleware {
 
         if (!$Auth) {
 
-            $ResponseFactory = new ResponseFactory();
-            $Response = $ResponseFactory->createResponse(401);
-            $Response->getBody()->write(ResponseHelper::format('Unauthorized', true));
-            return $Response->withHeader('Content-Type', ResponseHelper::getDefaultContentType());
+            return self::buildResponseFromFactory(['Unauthorized'], 401, true);
 
         }
 
