@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Services\MariaDB;
 use App\Services\Password;
-use App\Helpers\ApiHelper;
-use App\Helpers\JwtHelper;
 use App\Constants\ServersConstants;
 use \Exception;
 
@@ -19,110 +17,67 @@ class UserRepository {
 
     }
 
-    public static function create(array $UserData) : array {
-
-        if(!isset($UserData['Email']))
-            throw new Exception('Email field is mandatory!');
-
-        if(!filter_var($UserData['Email'], FILTER_VALIDATE_EMAIL))
-            throw new Exception('Invalid email!');
-
-        if(!isset($UserData['Password']))
-            throw new Exception('Password field is mandatory!');
-
-        $AlreadyExists = false;
-
-        try{
-
-            $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
-            $Filter = ['Email' => $UserData['Email']];
-
-            $Sql = 'SELECT ID FROM users WHERE Email = :Email LIMIT 1';
-            $Stmt = $CustomersSystemConnection->prepare($Sql);
-            $Result = $Stmt->execute($Filter);
-
-            if($Result && $Stmt->rowCount() > 0)
-                $AlreadyExists = true;
-
-        } catch (Exception $Exception){
-
-            return ['Code' => 500,'Message' => 'Unable to fetch data!'];
-
-        }
-
-        if($AlreadyExists)
-            return ['Code' => 409,'Message' => 'User already registered!'];
-
-        $PasswordResultString = Password::validateMinimumPasswordSecurity($UserData['Password']);
-
-        if(!empty($PasswordResultString))
-            throw new Exception($PasswordResultString);
+    public static function create(string $Email, string $Password) : ?bool {
 
         $User = [
-            'Email' => $UserData['Email'],
-            'PasswordHash' => Password::generatePasswordHash($UserData['Password']),
+            'Email' => $Email,
+            'PasswordHash' => Password::generatePasswordHash($Password),
             'Type' => self::getDefaultType(),
             'CustomerServerID' => ServersConstants::getCurrentCustomerServerID(),
         ];
 
         try{
 
+            $KernelConnection = new MariaDB('kernel', 'kernel');
             $Sql = 'INSERT INTO users (Email, PasswordHash, Type, CustomerServerID) VALUES (:Email, :PasswordHash, :Type, :CustomerServerID)';
-            $Stmt = $CustomersSystemConnection->prepare($Sql);
+            $Stmt = $KernelConnection->prepare($Sql);
             $Result = $Stmt->execute($User);
-
-            if($Result)
-                return ['Code' => 200,'Message' => 'User created successfully!'];
+            return true;
 
         }catch (Exception $Exception){
 
-            return ['Code' => 500,'Message' => 'Unable to update data!'];
+            //add logs hererws
+            return null;
+
+        } finally {
+
+            $KernelConnection->close();
 
         }
 
-        return ['Code' => 500,'Message' => 'Invalid Result!'];
+        return false;
 
     }
 
-    public static function login(array $UserData) : array {
+    public static function retrieveUserDetailsByEmail(string $Email) : ?array {
 
-        if(!isset($UserData['Email']))
-            throw new Exception('Email field is mandatory!');
 
-        if(!filter_var($UserData['Email'], FILTER_VALIDATE_EMAIL))
-            throw new Exception('Invalid email!');
-
-        if(!isset($UserData['Password']))
-            throw new Exception('Password field is mandatory!');
-
+        $UserDetails = [];
 
         try{
 
-            $CustomersSystemConnection = new MariaDB('kernel', 'kernel');
-            $Filter = ['Email' => $UserData['Email']];
+            $KernelConnection = new MariaDB('kernel', 'kernel');
+            $Filter = ['Email' => $Email];
 
             $Sql = 'SELECT ID, Type, Email, PasswordHash FROM users WHERE Email = :Email LIMIT 1';
-            $Stmt = $CustomersSystemConnection->prepare($Sql);
+            $Stmt = $KernelConnection->prepare($Sql);
             $Result = $Stmt->execute($Filter);
-
-            $UserDetails = [];
 
             if($Result && $Stmt->rowCount() > 0)
                 $UserDetails = $Stmt->fetch();
 
         } catch (Exception $Exception){
 
-            return ['Code' => 500,'Message' => 'Unable to fetch data!'];
+           //add logs here
+           return null;
+
+        } finally {
+
+            $KernelConnection->close();
 
         }
 
-        if(empty($UserDetails))
-            return ['Code' => 401,'Message' => 'Invalid user!'];
-
-        if(!Password::verifyPasswordHash($UserData['Password'], $UserDetails['PasswordHash']))
-            return ['Code' => 401,'Message' => 'Invalid password!'];
-
-        return ['Code' => 200,'Message' => 'Logged in successfully!'];
+        return $UserDetails;
 
     }
 
