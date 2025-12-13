@@ -26,7 +26,7 @@ class UserController extends ApiBase {
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($Data['Email']);
 
         if(is_null($UserDetails))
-            return self::buildResponse($Response, ['Unable to fetch user data!'], 500, true);
+            return self::buildResponse($Response, ['Unable to fetch data!'], 500, true);
 
         if(!empty($UserDetails))
             return self::buildResponse($Response, ['User already registered!'], 409, true);
@@ -34,7 +34,7 @@ class UserController extends ApiBase {
         $PasswordMinimumPasswordSecurityResult = Password::validateMinimumPasswordSecurity($Data['Password']);
 
         if(!empty($PasswordMinimumPasswordSecurityResult))
-            return self::buildResponse($Response, [$PasswordMinimumPasswordSecurityResult], 400, true);
+            return self::buildResponse($Response, $PasswordMinimumPasswordSecurityResult, 400, true);
 
         $Result = UserRepository::create($Data['Email'], $Data['Password']);
 
