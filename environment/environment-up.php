@@ -37,10 +37,18 @@ $DatabaseHost = empty($Output[0]) ? $DatabaseNetworkAlias : trim($Output[0]);
 $Output = [];
 $ResultCode = 0;
 
+exec("docker run --name mailcatcher -d -p 1080:1080 -p 1025:1025 sj26/mailcatcher", $Output, $ResultCode);
+
+if(!empty($ResultCode))
+    exit(4);    //Unable to run mailcatcher container
+
+$Output = [];
+$ResultCode = 0;
+
 exec("docker network create $DatabaseNetwork", $Output, $ResultCode);
 
 if(!empty($ResultCode))
-    exit(4);    //Unable to create database network
+    exit(5);    //Unable to create database network
 
 $Output = [];
 $ResultCode = 0;
@@ -48,7 +56,7 @@ $ResultCode = 0;
 exec("docker run --name mariadb -d --network $DatabaseNetwork --network-alias $DatabaseNetworkAlias -e MYSQL_ROOT_PASSWORD=$DatabasePassword -e MYSQL_DATABASE=system -p 3306:3306 mariadb:latest", $Output, $ResultCode);
 
 if(!empty($ResultCode))
-    exit(5);    //Unable to run mariadb container
+    exit(6);    //Unable to run mariadb container
 
 if($Mode != 'CI'){
 
@@ -58,7 +66,7 @@ if($Mode != 'CI'){
     exec("docker run --name phpmyadmin -d --network $DatabaseNetwork -p 8080:80 -e PMA_HOST=$DatabaseNetworkAlias -e PMA_PORT=3306 phpmyadmin:latest", $Output, $ResultCode);
 
     if(!empty($ResultCode))
-        exit(6);    //Unable to run phpmyadmin container
+        exit(7);    //Unable to run phpmyadmin container
 
 }
 
@@ -111,7 +119,7 @@ $ResultCode = 0;
 exec("openssl rand -base64 32", $Output, $ResultCode); //Creating a cryptographically strong random key
 
 if(!empty($ResultCode) || !isset($Output[0]))
-    exit(7);    //Unable to generate random key
+    exit(8);    //Unable to generate random key
 
 try{
 
@@ -120,7 +128,7 @@ try{
 
 } catch (Exception $Ex) {
 
-    exit(8); //Unable to load database credentials
+    exit(9); //Unable to load database credentials
 
 }
 
@@ -131,7 +139,7 @@ try{
 
 } catch (Exception $Ex) {
 
-    exit(9);   //Unable to load servers list
+    exit(10);   //Unable to load servers list
 
 }
 
