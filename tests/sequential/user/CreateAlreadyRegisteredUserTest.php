@@ -9,7 +9,7 @@ final class CreateAlreadyRegisteredUserTest extends HTTPResponseTest {
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888//user/create";
+        $Url = "http://localhost:8888/user";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
         curl_setopt($Curl, CURLOPT_POST, true);
