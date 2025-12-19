@@ -33,6 +33,11 @@ class EmailSender {
         $Mailer = new PHPMailer(true);
         $Mailer->isSMTP();
 
+        //Encoding
+
+        $Mailer->CharSet = 'UTF-8';
+        $Mailer->Encoding = 'base64';
+
         //Provider
 
         $Mailer->Host = $this->Provider->getHost();

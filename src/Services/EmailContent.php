@@ -20,7 +20,7 @@ class EmailContent {
             throw new Exception('When an email contains HTML, it is necessary to have an alternative body for email clients that do not support HTML.');
 
         $this->ContainsHtml = $ContainsHtml;
-        $this->$AltBody = $AltBody;
+        $this->AltBody = $AltBody;
 
     }
 
