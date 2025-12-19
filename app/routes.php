@@ -11,7 +11,7 @@ use App\Controllers\SessionController;
 return function (App $app) {
 
     $app->get('/ping', [PublicController::class, 'ping']);
-    $app->post('/user/create', [UserController::class, 'create']);
-    $app->post('/user/login', [SessionController::class, 'set']);
+    $app->post('/user', [UserController::class, 'create']);
+    $app->post('/session', [SessionController::class, 'set']);
 
 };
