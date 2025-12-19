@@ -5,7 +5,7 @@ namespace App\Helpers;
 class RouteHelper {
 
     private const NoAuth = [
-        'ping' => ['GET'],
+        'ping' => ['POST','GET'],
         'user'=>['POST'],
         'session' => ['POST'],
     ];
