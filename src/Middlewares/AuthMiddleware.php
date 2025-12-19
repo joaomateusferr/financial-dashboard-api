@@ -12,7 +12,7 @@ class AuthMiddleware extends ApiBase {
 
     public function __invoke(Request $Request, Handler $Handler): Response {
 
-        if(in_array(RouteHelper::getRouteRoot($Request->getUri()->getPath()), RouteHelper::getNoAuthRoots()))
+        if(!RouteHelper::requireAuthentication($Request->getUri()->getPath(), $Request->getMethod()))
             return $Handler->handle($Request);
 
         $Auth = $Request->getHeaderLine('Authorization');
