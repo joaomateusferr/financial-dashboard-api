@@ -21,7 +21,7 @@ class SessionController extends ApiBase {
         if(!filter_var($Data['Email'], FILTER_VALIDATE_EMAIL))
             return self::buildResponse($Response, ['Invalid email!'], 400, true);
 
-        if(!isset($UserData['Password']))
+        if(!isset($Data['Password']))
             return self::buildResponse($Response, ['Password field is mandatory!'], 400, true);
 
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($Data['Email']);
