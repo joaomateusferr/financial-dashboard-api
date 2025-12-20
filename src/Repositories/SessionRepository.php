@@ -91,4 +91,35 @@ class SessionRepository {
 
     }
 
+    public static function delete(string $Token) : bool {
+
+        $Session = self::get($Token, ['ID']);
+
+        if(!empty($Session)){
+
+            try{
+
+                $KernelConnection = new MariaDB('kernel', 'kernel');
+                $Sql = 'DELETE FROM sessions WHERE ID = :ID';
+                $Stmt = $KernelConnection->prepare($Sql);
+                $Result = $Stmt->execute($Session);
+                return (bool) $Result;
+
+            } catch (Exception $Exception) {
+
+                //add logs here
+                return false;
+
+            } finally {
+
+                $KernelConnection->close();
+
+            }
+
+        }
+
+        return true;
+
+    }
+
 }
