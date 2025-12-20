@@ -8,6 +8,7 @@ use Psr\Http\Server\RequestHandlerInterface as Handler;
 use App\Services\ApiBase;
 use App\Helpers\RouteHelper;
 use App\Repositories\SessionRepository;
+use App\Helpers\SessionHelper;
 
 class AuthMiddleware extends ApiBase {
 
@@ -27,7 +28,7 @@ class AuthMiddleware extends ApiBase {
         if(time() > $Session['ExpiresAt']){
 
             SessionRepository::delete($_COOKIE['sid']);
-            setcookie('sid', '', time() - 3600, '/', '', true, true);
+            setcookie('sid', '', time() - SessionHelper::getStandardDuration(), '/', '', true, true);
             return self::buildResponseFromFactory(['Unauthorized'], 401, true);
 
         }
