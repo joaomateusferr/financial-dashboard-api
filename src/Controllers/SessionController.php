@@ -40,9 +40,19 @@ class SessionController extends ApiBase {
         if(empty($Session))
             return self::buildResponse($Response, ['Invalid session!'], 401, true);
 
-       setcookie('sid', $Session['SID'], $Session['ExpiresAt'], '/', '', true);
+       setcookie('sid', $Session['SID'], $Session['ExpiresAt'], '/', '', true, true);
 
        return self::buildResponse($Response, ['Logged in successfully!']);
 
     }
+
+    public function delete(Request $Request, Response $Response) : Response {
+
+        SessionRepository::delete($_COOKIE['sid']);
+        setcookie('sid', '', time() - 3600, '/', '', true, true);
+        return self::buildResponse($Response, ['Logout successfully!']);
+
+
+    }
+
 }
