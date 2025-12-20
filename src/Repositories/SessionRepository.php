@@ -3,21 +3,10 @@
 namespace App\Repositories;
 
 use App\Services\MariaDB;
+use App\Helpers\SessionHelper;
 use \Exception;
 
 class SessionRepository {
-
-    private static function generateToken() : string {
-
-        return bin2hex(random_bytes(32));
-
-    }
-
-    private static function getStandardDuration() : int {
-
-        return 86400;   //a day
-
-    }
 
     public static function get(string $Token, array $Fields = []) : array {
 
@@ -62,10 +51,10 @@ class SessionRepository {
             $Result = [];
 
             $Session = [
-                'Token' =>self::generateToken(),
+                'Token' => SessionHelper::generateToken(),
                 'UserID' => $UserID,
                 'UserAgent' => $UserAgent,
-                'ExpiresAt' => time() + self::getStandardDuration()
+                'ExpiresAt' => time() + SessionHelper::getStandardDuration()
             ];
 
             $KernelConnection = new MariaDB('kernel', 'kernel');
