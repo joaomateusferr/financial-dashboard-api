@@ -19,6 +19,7 @@
         <testsuite name="sequential-user">
             <file>tests/sequential/user/CreateUnregisteredUserTest.php</file>
             <file>tests/sequential/user/CreateAlreadyRegisteredUserTest.php</file>
+            <file>tests/sequential/user/LoginRegisteredUserTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
