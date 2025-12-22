@@ -8,6 +8,37 @@ use \Exception;
 
 class SessionRepository {
 
+    public static function getNewestActiveSessionTokenfromUser(int $UserID) : ?string {
+
+        try{
+
+            $KernelConnection = new MariaDB('kernel', 'kernel');
+            $Filter = ['UserID' => $UserID, 'Time' => time()];
+
+            $Sql = 'SELECT Token FROM sessions WHERE UserID = :UserID AND ExpiresAt > :Time LIMIT 1';
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Result = $Stmt->execute($Filter);
+
+            $SessionID = null;
+
+            if($Result && $Stmt->rowCount() > 0)
+                $SessionID = ($Stmt->fetch())['Token'];
+
+            return $SessionID;
+
+        } catch (Exception $Exception){
+
+            //add logs here
+            return null;
+
+        } finally {
+
+            $KernelConnection->close();
+
+        }
+
+    }
+
     public static function get(string $Token, array $Fields = []) : array {
 
         try{
