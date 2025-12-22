@@ -70,18 +70,11 @@ final class LogoutRegisteredUserTest extends HTTPResponseTest {
 
     }
 
-    public function testSessionDuration(): void {
+    public function testCookieSidDeleted(): void {
 
         if(isset(self::$Cookies['sid'])){
 
-            $Session = SessionRepository::get(self::$Cookies['sid'],['CreatedAt','ExpiresAt']);
-
-            if(!empty($Session)){
-
-                $Duration = $Session['ExpiresAt'] - $Session['CreatedAt'];
-                $this->assertSame(SessionHelper::getStandardDuration(), $Duration);
-
-            }
+            $this->assertSame(self::$Cookies['sid'], 'deleted');
 
         }
 
