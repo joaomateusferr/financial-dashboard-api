@@ -5,9 +5,6 @@ declare(strict_types=1);
 use TestDependencies\HTTP\HTTPResponseTest;
 use App\Repositories\SessionRepository;
 use App\Repositories\UserRepository;
-use App\Helpers\SessionHelper;
-use \Exception;
-
 
 final class LogoutRegisteredUserTest extends HTTPResponseTest {
 
