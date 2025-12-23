@@ -5,8 +5,6 @@ declare(strict_types=1);
 use TestDependencies\HTTP\HTTPResponseTest;
 use App\Repositories\SessionRepository;
 use App\Repositories\UserRepository;
-use App\Helpers\SessionHelper;
-
 
 final class LogoutRegisteredUserTest extends HTTPResponseTest {
 
@@ -18,9 +16,12 @@ final class LogoutRegisteredUserTest extends HTTPResponseTest {
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($TestEmail);
 
         if(empty($UserDetails))
-            exit(1);
+            throw new Exception("Required user details are missing.");
 
-        $SessionToken = SessionRepository::getNewestActiveSessionTokenfromUser($UserDetails['ID']);
+        $SessionToken = SessionRepository::getNewestActiveSessionTokenFromUser($UserDetails['ID']);
+
+        if(empty($SessionToken))
+            throw new Exception("Required session token are missing.");
 
         $Curl = curl_init();
         $Url = "http://localhost:8888/session";
@@ -72,11 +73,11 @@ final class LogoutRegisteredUserTest extends HTTPResponseTest {
 
     public function testCookieSidDeleted(): void {
 
-        if(isset(self::$Cookies['sid'])){
+        if(!isset(self::$Cookies['sid']))
+            $this->fail("Required session id is missing.");
 
-            $this->assertSame(self::$Cookies['sid'], 'deleted');
+        $this->assertSame(self::$Cookies['sid'], 'deleted');
 
-        }
 
     }
 
