@@ -8,14 +8,14 @@ use \Exception;
 
 class SessionRepository {
 
-    public static function getNewestActiveSessionTokenfromUser(int $UserID) : ?string {
+    public static function getNewestActiveSessionTokenFromUser(int $UserID) : ?string {
 
         try{
 
             $KernelConnection = new MariaDB('kernel', 'kernel');
             $Filter = ['UserID' => $UserID, 'Time' => time()];
 
-            $Sql = 'SELECT Token FROM sessions WHERE UserID = :UserID AND ExpiresAt > :Time LIMIT 1';
+            $Sql = 'SELECT Token FROM sessions WHERE UserID = :UserID AND ExpiresAt > :Time ORDER BY ExpiresAt DESC LIMIT 1';
             $Stmt = $KernelConnection->prepare($Sql);
             $Result = $Stmt->execute($Filter);
 
