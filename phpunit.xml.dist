@@ -20,6 +20,7 @@
             <file>tests/sequential/user/CreateUnregisteredUserTest.php</file>
             <file>tests/sequential/user/CreateAlreadyRegisteredUserTest.php</file>
             <file>tests/sequential/user/LoginRegisteredUserTest.php</file>
+            <file>tests/sequential/user/LogoutRegisteredUserTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
