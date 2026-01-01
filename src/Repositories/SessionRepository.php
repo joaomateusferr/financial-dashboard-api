@@ -39,6 +39,47 @@ class SessionRepository {
 
     }
 
+    public static function isAdmin (string $Token) : ?bool {
+
+        try{
+
+            $KernelConnection = new MariaDB('kernel', 'kernel');
+
+            $SessionDetails = [];
+
+            $Filter = ['Token' => $Token];
+            $Sql = 'SELECT UserID FROM sessions WHERE Token = :Token';
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Result = $Stmt->execute($Filter);
+
+            if($Result && $Stmt->rowCount() > 0)
+                $SessionDetails = $Stmt->fetch();
+
+            if(empty($SessionDetails))
+                return null;
+
+            $Sql = 'SELECT Type FROM users WHERE ID = :UserID';
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Result = $Stmt->execute($SessionDetails);
+
+            if($Result && $Stmt->rowCount() > 0)
+                $UserDetails = $Stmt->fetch();
+
+            return $UserDetails['Type'] === 'ADMIN';
+
+        } catch (Exception $Exception){
+
+            //add logs here
+            return null;
+
+        } finally {
+
+            $KernelConnection->close();
+
+        }
+
+    }
+
     public static function get(string $Token, array $Fields = []) : array {
 
         try{
@@ -51,11 +92,11 @@ class SessionRepository {
             if(!empty($Fields))
                 $FieldsString = implode(', ', $Fields);
 
+            $SessionDetails = [];
+
             $Sql = 'SELECT '.$FieldsString.' FROM sessions WHERE Token = :Token';
             $Stmt = $KernelConnection->prepare($Sql);
             $Result = $Stmt->execute($Filter);
-
-            $SessionDetails = [];
 
             if($Result && $Stmt->rowCount() > 0)
                 $SessionDetails = $Stmt->fetch();
