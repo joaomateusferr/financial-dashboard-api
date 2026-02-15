@@ -18,10 +18,10 @@ class Investidor10Constants {
     ];
 
     private const DividendTableFieldMap = [
-        'Tipo' => 'Type',
-        'Pagamento' => 'PaymentDate',
-        'Valor' => 'Income',
-        'Data COM' => 'ExDate',
+        'tipo' => 'Type',
+        'pagamento' => 'PaymentDate',
+        'valor' => 'Income',
+        'data com' => 'ExDate',
     ];
 
     public static function getBaseUrl() : string {

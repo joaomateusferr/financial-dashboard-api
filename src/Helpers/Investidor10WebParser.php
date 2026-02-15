@@ -135,29 +135,29 @@ class Investidor10WebParser {
 
         foreach($TableData as $Index => $Line){
 
-            $TableData[$Index][$DividendTableFieldMap['Pagamento']] = $TableData[$Index]['Pagamento'];
-            unset($TableData[$Index]['Pagamento']);
+            $TableData[$Index][$DividendTableFieldMap['pagamento']] = $TableData[$Index]['pagamento'];
+            unset($TableData[$Index]['pagamento']);
 
-            $DataParcial = explode('/', $TableData[$Index][$DividendTableFieldMap['Pagamento']]);
-            $TableData[$Index][$DividendTableFieldMap['Pagamento']] = $DataParcial[1] . '/' . $DataParcial[0] . '/' . $DataParcial[2];
-            $TableData[$Index][$DividendTableFieldMap['Pagamento']] = strtotime($TableData[$Index][$DividendTableFieldMap['Pagamento']].' 00:00:00');
+            $DataParcial = explode('/', $TableData[$Index][$DividendTableFieldMap['pagamento']]);
+            $TableData[$Index][$DividendTableFieldMap['pagamento']] = $DataParcial[1] . '/' . $DataParcial[0] . '/' . $DataParcial[2];
+            $TableData[$Index][$DividendTableFieldMap['pagamento']] = strtotime($TableData[$Index][$DividendTableFieldMap['pagamento']].' 00:00:00');
 
-            $TableData[$Index][$DividendTableFieldMap['Data COM']] = $TableData[$Index]['Data COM'];
-            unset($TableData[$Index]['Data COM']);
+            $TableData[$Index][$DividendTableFieldMap['data com']] = $TableData[$Index]['data com'];
+            unset($TableData[$Index]['data com']);
 
-            $DataParcial = explode('/', $TableData[$Index][$DividendTableFieldMap['Data COM']]);
-            $TableData[$Index][$DividendTableFieldMap['Data COM']] = $DataParcial[1] . '/' . $DataParcial[0] . '/' . $DataParcial[2];
-            $TableData[$Index][$DividendTableFieldMap['Data COM']] = strtotime($TableData[$Index][$DividendTableFieldMap['Data COM']].' 00:00:00');
-
-
-            $TableData[$Index][$DividendTableFieldMap['Valor']] = $TableData[$Index]['Valor'];
-            unset($TableData[$Index]['Valor']);
-
-            $TableData[$Index][$DividendTableFieldMap['Valor']] = (float) str_replace(",",".",$TableData[$Index][$DividendTableFieldMap['Valor']]);
+            $DataParcial = explode('/', $TableData[$Index][$DividendTableFieldMap['data com']]);
+            $TableData[$Index][$DividendTableFieldMap['data com']] = $DataParcial[1] . '/' . $DataParcial[0] . '/' . $DataParcial[2];
+            $TableData[$Index][$DividendTableFieldMap['data com']] = strtotime($TableData[$Index][$DividendTableFieldMap['data com']].' 00:00:00');
 
 
-            $TableData[$Index][$DividendTableFieldMap['Tipo']] = $TableData[$Index]['Tipo'];
-            unset($TableData[$Index]['Tipo']);
+            $TableData[$Index][$DividendTableFieldMap['valor']] = $TableData[$Index]['valor'];
+            unset($TableData[$Index]['valor']);
+
+            $TableData[$Index][$DividendTableFieldMap['valor']] = (float) str_replace(",",".",$TableData[$Index][$DividendTableFieldMap['valor']]);
+
+
+            $TableData[$Index][$DividendTableFieldMap['tipo']] = $TableData[$Index]['tipo'];
+            unset($TableData[$Index]['tipo']);
 
         }
 
