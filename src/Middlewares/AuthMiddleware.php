@@ -14,9 +14,6 @@ class AuthMiddleware extends ApiBase {
 
     public function __invoke(Request $Request, Handler $Handler): Response {
 
-        if(!RouteHelper::requireAuthentication($Request->getUri()->getPath(), $Request->getMethod()))
-            return $Handler->handle($Request);
-
         if (empty($_COOKIE['sid']))
             return self::buildResponseFromFactory(['Unauthorized'], 401, true);
 
