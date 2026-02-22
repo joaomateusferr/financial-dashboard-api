@@ -76,9 +76,9 @@ class ExchangeTradedAssetsController extends ApiBase {
         }
 
         $AssetsToUpdate = ExchangeTradedAssetsRepository::insert($Assets);
-        ExchangeTradedAssetsRepository::update($AssetsToUpdate);
+        $UpdateResult = ExchangeTradedAssetsRepository::update($AssetsToUpdate);
 
-        return self::buildResponse($Response, ['Exchange traded assets created successfully!']);
+        return self::buildResponse($Response, $UpdateResult);
 
 
 
