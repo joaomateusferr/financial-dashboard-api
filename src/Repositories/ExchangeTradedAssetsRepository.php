@@ -18,9 +18,16 @@ class ExchangeTradedAssetsRepository {
 
             foreach($Assets as $Asset){
 
-                $Sql = "SELECT ID FROM exchange_traded_assets WHERE Ticker = :Ticker AND AssetQualificationID = :AssetQualificationID";
+                $AssetQualificationStrng = empty($Asset['AssetQualificationID']) ? "AssetQualificationID IS NULL" : "AssetQualificationID = :AssetQualificationID";
+
+                $Sql = "SELECT ID FROM exchange_traded_assets WHERE Ticker = :Ticker AND $AssetQualificationStrng";
                 $Stmt = $KernelConnection->prepare($Sql);
-                $Result = $Stmt->execute(['Ticker' => $Asset['Ticker'], 'AssetQualificationID' => $Asset['AssetQualificationID']]);
+                $Stmt->bindValue(':Ticker', $Asset['Ticker']);
+
+                if(!empty($Asset['AssetQualificationID']))
+                    $Stmt->bindValue(':AssetQualificationID', $Asset['AssetQualificationID']);
+
+                $Result = $Stmt->execute();
 
                 if($Result && $Stmt->rowCount() > 0){
 
@@ -66,9 +73,16 @@ class ExchangeTradedAssetsRepository {
 
                 $AssetDetails = [];
 
-                $Sql = "SELECT ID, AssetTypeID FROM exchange_traded_assets WHERE Ticker = :Ticker AND AssetQualificationID = :AssetQualificationID";
+                $AssetQualificationStrng = empty($Asset['AssetQualificationID']) ? "AssetQualificationID IS NULL" : "AssetQualificationID = :AssetQualificationID";
+
+                $Sql = "SELECT ID, AssetTypeID FROM exchange_traded_assets WHERE Ticker = :Ticker AND $AssetQualificationStrng";
                 $Stmt = $KernelConnection->prepare($Sql);
-                $Result = $Stmt->execute($Asset);
+                $Stmt->bindValue(':Ticker', $Asset['Ticker']);
+
+                if(!empty($Asset['AssetQualificationID']))
+                    $Stmt->bindValue(':AssetQualificationID', $Asset['AssetQualificationID']);
+
+                $Result = $Stmt->execute();
 
                 $FullTicker = $Asset['Ticker'];
 
