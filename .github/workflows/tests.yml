@@ -35,6 +35,12 @@ jobs:
     - name: Initialize data structures
       run: composer run-script --timeout=60 initialize-data-structures
 
+    - name: Initialize common information data structures
+      run: composer run-script --timeout=60 initialize-data-structures-common-information
+
+    - name: Initial common information data dump
+      run: composer run-script --timeout=60 initial-data-dump-common-information
+
     - name: Server Up
       run: php -S localhost:8888 -t ./public/&
 
