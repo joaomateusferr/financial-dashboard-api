@@ -35,6 +35,9 @@ class SessionController extends ApiBase {
         if(!Password::verifyPasswordHash($Data['Password'], $UserDetails['PasswordHash']))
             return self::buildResponse($Response, ['Invalid password!'], 401, true);
 
+        if(empty($_SERVER['HTTP_USER_AGENT']))
+            $_SERVER['HTTP_USER_AGENT'] = 'unknown';
+
         $Session = SessionRepository::set($UserDetails['ID'], $_SERVER['HTTP_USER_AGENT']);
 
         if(empty($Session))
