@@ -26,3 +26,21 @@ composer run-script --timeout=60 environment-up-dev
 ```shell
 composer run-script --timeout=60 initialize-data-structures
 ```
+
+### Initialize common information database structures
+
+```shell
+composer run-script --timeout=60 initialize-data-structures-common-information
+```
+
+### Common information initial data dump
+
+```shell
+composer run-script --timeout=60 initial-data-dump-common-information
+```
+
+### Start the development server
+
+```shell
+php -S localhost:8888 -t ./public/
+```
