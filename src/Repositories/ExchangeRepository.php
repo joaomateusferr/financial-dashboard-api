@@ -49,4 +49,42 @@ class ExchangeRepository {
 
     }
 
+    public static function getExchanges(array $Exchanges) : array {
+
+        $ExchangesDetails = [];
+
+        try{
+
+            $KernelConnection = new MariaDB('kernel', 'common_information');
+            $Sql = "SELECT ID, YFinanceAlias, Name, Alias FROM exchanges WHERE Alias IN (".implode(',', array_fill(0, count($Exchanges), '?')).")";
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Result = $Stmt->execute($Exchanges);
+
+            if($Result && $Stmt->rowCount() > 0){
+
+                while($Row = $Stmt->fetch()){
+
+                    $Alias = $Row['Alias'];
+                    unset($Row['Alias']);
+                    $ExchangesDetails[$Alias] = $Row;
+
+                }
+
+            }
+
+        } catch (Exception $Exception){
+
+           //add logs here
+           return [];
+
+        } finally {
+
+            $KernelConnection->close();
+
+        }
+
+        return $ExchangesDetails;
+
+    }
+
 }
