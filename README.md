@@ -44,3 +44,9 @@ composer run-script --timeout=60 initial-data-dump-common-information
 ```shell
 php -S localhost:8888 -t ./public/
 ```
+
+### Clear all application containers
+
+```shell
+composer run-script --timeout=60 environment-clear
+```
