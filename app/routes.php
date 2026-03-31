@@ -14,6 +14,7 @@ use App\Middlewares\AuthMiddleware;
 return function (App $app) {
 
     $app->get('/ping', [PublicController::class, 'ping']);
+    $app->get('/limits', [PublicController::class, 'getApiLimits']);
     $app->post('/user', [UserController::class, 'create']);
     $app->post('/session', [SessionController::class, 'set']);
     $app->delete('/session', [SessionController::class, 'delete'])->add(new AuthMiddleware());
