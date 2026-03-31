@@ -17,6 +17,8 @@
         "phpunit/phpunit": "^12.4"
     },
     "scripts": {
+        "prepare-environment-dev":["@environment-up-dev","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information"],
+        "prepare-environment":["@environment-up","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information"],
         "environment-up": "@php ./environment/environment-up.php",
         "environment-up-dev": "@environment-up DEV",
         "environment-clear": "sh ./environment/containers/clear.sh",
