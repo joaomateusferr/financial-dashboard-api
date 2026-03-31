@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\ApiBase;
+use App\Constants\ApiLimitsConstants;
 use App\Repositories\SessionRepository;
 use App\Repositories\ExchangeRepository;
 use App\Repositories\ExchangeTradedAssetsRepository;
@@ -23,7 +24,7 @@ class ExchangeTradedAssetsController extends ApiBase {
 
         $Assets = self::formatBody($Request->getBody()->getContents());
 
-        if(count($Assets) > 25)
+        if(count($Assets) > ApiLimitsConstants::getExchangeTradedAssetsPost())
             return self::buildResponse($Response, ['Asset limit per request is 25!'], 400, true);
 
         $ExchangeIDs = [];
