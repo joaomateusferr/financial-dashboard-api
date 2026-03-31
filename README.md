@@ -15,28 +15,10 @@ sudo apt-get update && sudo apt-get install -y php composer php-curl php-mysql p
 ```shell
 composer install
 ```
-### Run all necessary containers
+### Run all necessary containers and data structures
 
 ```shell
-composer run-script --timeout=60 environment-up-dev
-```
-
-### Initialize database structures
-
-```shell
-composer run-script --timeout=60 initialize-data-structures
-```
-
-### Initialize common information database structures
-
-```shell
-composer run-script --timeout=60 initialize-data-structures-common-information
-```
-
-### Common information initial data dump
-
-```shell
-composer run-script --timeout=60 initial-data-dump-common-information
+composer run-script --timeout=120 prepare-environment-dev
 ```
 
 ### Start the development server
