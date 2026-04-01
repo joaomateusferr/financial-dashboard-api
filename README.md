@@ -21,6 +21,12 @@ composer install
 composer run-script --timeout=120 prepare-environment-dev
 ```
 
+### Run shared memory debug tool
+
+```shell
+composer run-script --timeout=60 shared-memory-debug-tool
+```
+
 ### Start the development server
 
 ```shell

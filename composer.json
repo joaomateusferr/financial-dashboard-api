@@ -24,7 +24,8 @@
         "environment-clear": "sh ./environment/containers/clear.sh",
         "initialize-data-structures": "@php ./environment/initialize-data-structures.php",
         "initialize-data-structures-common-information": "@php ./environment/initialize-data-structures-common-information.php",
-        "initial-data-dump-common-information": "@php ./environment/initial-data-dump-common-information.php"
+        "initial-data-dump-common-information": "@php ./environment/initial-data-dump-common-information.php",
+        "shared-memory-debug-tool": "@php ./scripts/shared-memory/debug-tool.php"
     },
     "config": {
     "audit": {
