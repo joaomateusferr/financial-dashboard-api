@@ -5,24 +5,17 @@ namespace App\Repositories;
 use App\Services\MariaDB;
 use App\Services\Password;
 use App\Constants\ServersConstants;
+use App\Constants\UsersConstants;
 use \Exception;
 
 class UserRepository {
-
-    private const DefaultType = 'STANDARD';
-
-    private static function getDefaultType() {
-
-        return self::DefaultType;
-
-    }
 
     public static function create(string $Email, string $Password) : ?bool {
 
         $User = [
             'Email' => $Email,
             'PasswordHash' => Password::generatePasswordHash($Password),
-            'Type' => self::getDefaultType(),
+            'Type' => UsersConstants::getDefaultType(),
             'CustomerServerID' => ServersConstants::getCurrentCustomerServerID(),
         ];
 
@@ -78,6 +71,37 @@ class UserRepository {
         }
 
         return $UserDetails;
+
+    }
+
+    public static function changeUserType(int $ID, string $Type) : bool {
+
+        if(!in_array($Type, UsersConstants::getSupportedTypes()))
+            return false;
+
+        try{
+
+            $KernelConnection = new MariaDB('kernel', 'kernel');
+            $Sql = 'UPDATE users SET Type = :Type WHERE ID = :ID';
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Stmt->bindValue(':Type', $Type);
+            $Stmt->bindValue(':ID', $ID);
+            $Result = $Stmt->execute();
+
+            if($Result)
+                return true;
+
+        }catch (Exception $Exception){
+
+            //add logs hererws
+
+        } finally {
+
+            $KernelConnection->close();
+
+        }
+
+        return false;
 
     }
 
