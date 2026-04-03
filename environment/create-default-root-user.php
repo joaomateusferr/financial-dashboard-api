@@ -5,26 +5,17 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Repositories\UserRepository;
 use App\Constants\UsersConstants;
 
-$Port = '8888';
-$Url = "http://localhost:$Port/user";
-
 $DefaultRootCredentials = UsersConstants::getDefaultRootCredentials();
-$Email = $DefaultRootCredentials['Email'];
-$Password = $DefaultRootCredentials['Password'];
-
-$UserDetails = UserRepository::retrieveUserDetailsByEmail($Email);
+$UserDetails = UserRepository::retrieveUserDetailsByEmail($DefaultRootCredentials['Email']);
 
 if(empty($UserDetails)){
 
-    $Options = [ 'http' => ['user_agent' => 'script','header'  => "Content-type: application/json",'method'  => 'POST', 'content' => json_encode(['Email' => $Email, 'Password' => $Password])]];
-    $Result = @file_get_contents($Url, false, stream_context_create($Options));
+    $Result = UserRepository::create($DefaultRootCredentials['Email'], $DefaultRootCredentials['Password']);
 
     if(empty($Result))
         exit("User creation failed!\n");
 
-    $Result = json_decode($Result, true);
-    $Result = $Result['result'][0];
-    echo $Result."\n";
+    echo "User created successfully!\n";
 
 } else {
 
@@ -35,7 +26,7 @@ if(empty($UserDetails)){
 
 }
 
-$UserDetails = UserRepository::retrieveUserDetailsByEmail($Email);
+$UserDetails = UserRepository::retrieveUserDetailsByEmail($DefaultRootCredentials['Email']);
 $Result = UserRepository::changeUserType($UserDetails['ID'],'ADMIN');
 
 if(!$Result)
