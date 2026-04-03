@@ -17,11 +17,12 @@
         "phpunit/phpunit": "^12.4"
     },
     "scripts": {
-        "prepare-environment-dev":["@environment-up-dev","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information"],
-        "prepare-environment":["@environment-up","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information"],
+        "prepare-environment-dev":["@environment-up-dev","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information","@create-default-root-user"],
+        "prepare-environment":["@environment-up","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information","@create-default-root-user"],
         "environment-up": "@php ./environment/environment-up.php",
         "environment-up-dev": "@environment-up DEV",
         "environment-clear": "sh ./environment/containers/clear.sh",
+        "create-default-root-user": "@php ./environment/create-default-root-user.php",
         "initialize-data-structures": "@php ./environment/initialize-data-structures.php",
         "initialize-data-structures-common-information": "@php ./environment/initialize-data-structures-common-information.php",
         "initial-data-dump-common-information": "@php ./environment/initial-data-dump-common-information.php",
