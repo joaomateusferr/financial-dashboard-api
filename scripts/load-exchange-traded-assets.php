@@ -5,37 +5,29 @@ $GLOBALS["Issue"] = [];
 
 $User = isset($argv[1]) ? $argv[1] : exit;
 $Password = isset($argv[2]) ? $argv[2] : exit;
+$TemplatePath = isset($argv[3]) ? $argv[3] : exit;
 
-$Assets = [
+if (!file_exists($TemplatePath))
+    exit;
 
-    [
-        'Ticker' => 'HGLG',
-        'AssetQualification' => 11,
-        'Exchange' => 'B3',
-        'Type' => 'FII',
-        'IsoCode' => "BRL"
-    ],
-    [
-        'Ticker' => 'NDIV',
-        'AssetQualification' => 11,
-        'Exchange' => 'B3',
-        'Type' => 'ETF-BR',
-        'Subtype' => 'ACAO',
-        'IsoCode' => "BRL"
-    ],
-    [
-        'Ticker' => 'VXUS',
-        'Type' => 'ETF-US',
-        'Subtype' => 'STOCK',
-        'IsoCode' => "USD"
-    ],
+if(pathinfo($TemplatePath, PATHINFO_EXTENSION) != 'json')
+    exit;
 
-];
+$Assets = file_get_contents($TemplatePath);
+
+if(!json_validate($Assets))
+    exit;
+
+$Assets = json_decode($Assets, true);
 
 $AssetTypes = [];
+$AssetQualifications = [];
 $Exchanges = [];
 
 foreach($Assets as $Asset){
+
+    if(isset($Asset['Qualification']) && !isset($AssetQualifications[$Asset['Qualification']]))
+        $AssetQualifications[$Asset['Qualification']] = 1;
 
     if(!isset($AssetTypes[$Asset['Type']]))
         $AssetTypes[$Asset['Type']] = 1;
@@ -49,12 +41,21 @@ foreach($Assets as $Asset){
 }
 
 $AssetTypes = array_keys($AssetTypes);
+$AssetQualifications = array_keys($AssetQualifications);
 $Exchanges = array_keys($Exchanges);
 
 $ApiLimits = getApiLimits();
 
 if(empty($ApiLimits) && !empty($GLOBALS["Issue"]))
     exit(var_export($GLOBALS["Issue"])."\nApi limits issue!\n");
+
+$AssetQualificationsDetails = getAssetQualificationsDetails($AssetQualifications);
+
+if(empty($AssetQualificationsDetails) && !empty($GLOBALS["Issue"]))
+    exit(var_export($GLOBALS["Issue"])."\nAsset qualifications details issue!\n");
+
+if(empty($AssetQualificationsDetails))
+    exit("Asset qualifications details is empty!\n");
 
 $AssetTypesDetails = getAssetTypesDetails($AssetTypes);
 
@@ -76,12 +77,15 @@ $AssetsToAdd = [];
 
 foreach($Assets as $Asset){
 
+    if(isset($Asset['Qualification']) && !isset($AssetQualificationsDetails[$Asset['Qualification']]))  //ignore invalids
+        continue;
+
     $AssetToAdd = [];
 
     $AssetToAdd['Ticker'] = $Asset['Ticker'];
 
-    if(isset($Asset['AssetQualification']))
-        $AssetToAdd['AssetQualificationID'] = $Asset['AssetQualification'];
+    if(isset($Asset['Qualification']))
+        $AssetToAdd['AssetQualificationID'] = $Asset['Qualification'];
 
     if(isset($Asset['Exchange']) && isset($ExchangesDetails[$Asset['Exchange']]))
         $AssetToAdd['ExchangeID'] = $ExchangesDetails[$Asset['Exchange']]['ID'];
@@ -100,6 +104,7 @@ foreach($Assets as $Asset){
 
 unset($Assets);
 unset($AssetTypesDetails);
+unset($AssetQualificationsDetails);
 unset($ExchangesDetails);
 
 $Cookie = login($User, $Password);
@@ -125,6 +130,10 @@ foreach($Chunks as $Chunk){
 
     $Result = json_decode($Result, true);
     $Result = $Result['result'];
+
+    if(empty($Result))
+        continue;
+
     $Response['Failure'] = array_merge($Response['Failure'], $Result['Failure']);
     $Response['Success'] = array_merge($Response['Success'], $Result['Success']);
 
@@ -175,6 +184,23 @@ function getApiLimits() : ?array {
     $ApiLimits = $ApiLimits['result'];
 
     return $ApiLimits;
+
+}
+
+function getAssetQualificationsDetails(array $AssetQualifications) : ?array {
+
+    $Options = [ 'http' => ['header'  => "Content-type: application/json",'method'  => 'GET', 'content' => json_encode($AssetQualifications)]];
+    $AssetQualificationsDetails = @file_get_contents($GLOBALS["BaseURL"].'common-information/asset-qualification', false, stream_context_create($Options));
+
+    if(empty($AssetQualificationsDetails)){
+        $GLOBALS["Issue"] = $http_response_header;
+        return null;
+    }
+
+    $AssetQualificationsDetails = json_decode($AssetQualificationsDetails,true);
+    $AssetQualificationsDetails = $AssetQualificationsDetails['result'];
+
+    return $AssetQualificationsDetails;
 
 }
 
