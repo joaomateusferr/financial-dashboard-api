@@ -1,0 +1,201 @@
+[
+    {
+        "Ticker": "HGBS",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "KNRI",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "HGLG",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "ALZR",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "XPML",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "XPLG",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "CPTS",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "BCIA",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "FII",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "IVVB",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "ETF-BR",
+        "Subtype": "STOCK",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "LFTS",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "ETF-BR",
+        "Subtype": "RF",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "HASH",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "ETF-BR",
+        "Subtype": "CRYPTO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "NDIV",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "ETF-BR",
+        "Subtype": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "AUVP",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "ETF-BR",
+        "Subtype": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "BBDC",
+        "Qualification": 4,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "VALE",
+        "Qualification": 3,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "B3SA",
+        "Qualification": 3,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "BPAC",
+        "Qualification": 11,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "BBAS",
+        "Qualification": 3,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "BBSE",
+        "Qualification": 3,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "WEGE",
+        "Qualification": 3,
+        "Exchange": "B3",
+        "Type": "ACAO",
+        "IsoCode": "BRL"
+    },
+    {
+        "Ticker": "IVV",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "VNQ",
+        "Type": "ETF-US",
+        "Subtype": "REIT",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "NOBL",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "SCHD",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "SPHQ",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "SPHD",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "VXUS",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "IYJ",
+        "Type": "ETF-US",
+        "Subtype": "STOCK",
+        "IsoCode": "USD"
+    },
+    {
+        "Ticker": "SGOV",
+        "Type": "ETF-US",
+        "Subtype": "FI",
+        "IsoCode": "USD"
+    }
+]
