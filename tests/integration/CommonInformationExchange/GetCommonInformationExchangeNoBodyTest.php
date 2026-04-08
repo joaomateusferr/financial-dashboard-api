@@ -9,7 +9,7 @@ final class GetCommonInformationExchangeNoBodyTest extends HTTPResponseTest {
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/common-information/exchange";
+        $Url = self::getApiBase()."/common-information/exchange";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
         self::$Response = curl_exec($Curl);

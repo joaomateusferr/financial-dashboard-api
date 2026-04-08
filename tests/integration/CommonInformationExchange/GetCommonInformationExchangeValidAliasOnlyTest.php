@@ -9,7 +9,7 @@ final class GetCommonInformationExchangeValidAliasOnlyTest extends HTTPResponseT
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/common-information/exchange";
+        $Url = self::getApiBase()."/common-information/exchange";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
         curl_setopt($Curl, CURLOPT_CUSTOMREQUEST, 'GET');

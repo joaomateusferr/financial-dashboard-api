@@ -9,7 +9,7 @@ final class GetCommonInformationAssetQualificationInvalidIdentifierOnlyTest exte
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/common-information/asset-qualification";
+        $Url = self::getApiBase()."/common-information/asset-qualification";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
         curl_setopt($Curl, CURLOPT_CUSTOMREQUEST, 'GET');

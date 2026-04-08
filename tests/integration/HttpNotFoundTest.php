@@ -9,7 +9,7 @@ final class HttpNotFoundTest extends HTTPResponseTest {
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/ping/endpoint-that-does-not-exist";
+        $Url = self::getApiBase()."/ping/endpoint-that-does-not-exist";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
         self::$Response = curl_exec($Curl);
