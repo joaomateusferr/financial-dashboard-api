@@ -9,7 +9,7 @@ final class PingTest extends HTTPResponseTest {
     public static function setUpBeforeClass() : void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/ping";
+        $Url = self::getApiBase()."/ping";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
         self::$Response = curl_exec($Curl);

@@ -9,6 +9,12 @@ abstract class HTTPResponseTest extends TestCase {
     protected static bool | string $Response;
     protected static int $HttpCode;
 
+    protected static function getApiBase(): string {
+
+        return 'http://localhost:8888';
+
+    }
+
     public function testResponseIsNotBool(): void {
 
         $this->assertFalse(is_bool(self::$Response));

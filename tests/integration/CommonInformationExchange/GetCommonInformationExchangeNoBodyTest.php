@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use TestDependencies\HTTP\HTTPResponseTest;
 
-final class GetCommonInformationAssetQualificationNoBodyTest extends HTTPResponseTest {
+final class GetCommonInformationExchangeNoBodyTest extends HTTPResponseTest {
 
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/common-information/asset-qualification";
+        $Url = self::getApiBase()."/common-information/exchange";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
         self::$Response = curl_exec($Curl);
@@ -27,7 +27,7 @@ final class GetCommonInformationAssetQualificationNoBodyTest extends HTTPRespons
 
         $ResponseArray = json_decode(self::$Response,true);
         $this->assertSame($ResponseArray['error'], true);
-        $this->assertSame($ResponseArray['result'][0], 'Asset qualifications are required!');
+        $this->assertSame($ResponseArray['result'][0], 'Exchange alias are required!');
 
     }
 

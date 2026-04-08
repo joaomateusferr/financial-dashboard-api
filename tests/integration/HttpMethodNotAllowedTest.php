@@ -9,7 +9,7 @@ final class HttpMethodNotAllowedTest extends HTTPResponseTest {
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/ping";
+        $Url = self::getApiBase()."/ping";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
         curl_setopt($Curl, CURLOPT_POST, true);
