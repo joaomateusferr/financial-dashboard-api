@@ -31,8 +31,9 @@
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetTypeIDAsetTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoIsoCodeAsetTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoExchangeIDAsetTest.php</file>
-            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsInvalidExchangeIDAsetTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetQualificationIDAsetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsInvalidExchangeIDAsetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidAsetTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
