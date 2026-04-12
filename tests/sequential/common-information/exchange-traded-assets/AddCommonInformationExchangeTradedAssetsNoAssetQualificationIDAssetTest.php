@@ -5,7 +5,7 @@ declare(strict_types=1);
 use TestDependencies\HTTP\HTTPResponseTest;
 use App\Constants\UsersConstants;
 
-final class AddCommonInformationExchangeTradedAssetsNoAssetQualificationIDAsetTest extends HTTPResponseTest {
+final class AddCommonInformationExchangeTradedAssetsNoAssetQualificationIDAssetTest extends HTTPResponseTest {
 
     protected static ?string $Cookie;
 
