@@ -29,6 +29,7 @@
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsAssetsLimitPerRequestTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoTickerAsetTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetTypeIDAsetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoIsoCodeAsetTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
