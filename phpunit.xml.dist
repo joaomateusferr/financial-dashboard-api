@@ -22,5 +22,8 @@
             <file>tests/sequential/user/LoginRegisteredUserTest.php</file>
             <file>tests/sequential/user/LogoutRegisteredUserTest.php</file>
         </testsuite>
+        <testsuite name="sequential-common-information-exchange-traded-assets">
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsAssetsLimitPerRequestTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>
