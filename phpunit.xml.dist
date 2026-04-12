@@ -22,5 +22,18 @@
             <file>tests/sequential/user/LoginRegisteredUserTest.php</file>
             <file>tests/sequential/user/LogoutRegisteredUserTest.php</file>
         </testsuite>
+        <testsuite name="sequential-common-information-exchange-traded-assets">
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAuthTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsStandardUserUnauthorizedTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsAssetsLimitPerRequestTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoTickerAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetTypeIDAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoIsoCodeAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoExchangeIDAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetQualificationIDAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsInvalidExchangeIDAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidAssetTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

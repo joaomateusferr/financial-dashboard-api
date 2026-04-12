@@ -25,7 +25,7 @@ class ExchangeTradedAssetsController extends ApiBase {
         $Assets = self::formatBody($Request->getBody()->getContents());
 
         if(count($Assets) > ApiLimitsConstants::getExchangeTradedAssetsPost())
-            return self::buildResponse($Response, ['Asset limit per request is 25!'], 400, true);
+            return self::buildResponse($Response, ['Asset limit per request is '.ApiLimitsConstants::getExchangeTradedAssetsPost().'!'], 400, true);
 
         $ExchangeIDs = [];
 

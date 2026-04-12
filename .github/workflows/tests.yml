@@ -35,9 +35,12 @@ jobs:
     - name: Server Up
       run: php -S localhost:8888 -t ./public/&
 
-    - name: Tests
-      run: ./vendor/bin/phpunit --exclude-testsuite sequential-user
-
     - name: Sequential user tests
       run: ./vendor/bin/phpunit --testsuit sequential-user
+
+    - name: Sequential common information exchange traded assets tests
+      run: ./vendor/bin/phpunit --testsuit sequential-common-information-exchange-traded-assets
+
+    - name: Tests
+      run: ./vendor/bin/phpunit --exclude-testsuite sequential-user,sequential-common-information-exchange-traded-assets
 
