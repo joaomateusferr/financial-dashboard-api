@@ -14,7 +14,7 @@ final class LoginRegisteredUserTest extends HTTPResponseTest {
     public static function setUpBeforeClass(): void {
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/session";
+        $Url = self::getApiBase()."/session";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
         curl_setopt($Curl, CURLOPT_POST, true);
