@@ -24,7 +24,7 @@ final class LogoutRegisteredUserTest extends HTTPResponseTest {
             throw new Exception("Required session token are missing.");
 
         $Curl = curl_init();
-        $Url = "http://localhost:8888/session";
+        $Url = self::getApiBase()."/session";
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
         curl_setopt($Curl, CURLOPT_COOKIE, "sid=$SessionToken");
