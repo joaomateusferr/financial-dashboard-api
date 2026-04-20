@@ -5,7 +5,7 @@ declare(strict_types=1);
 use TestDependencies\HTTP\HTTPResponseTest;
 use App\Constants\UsersConstants;
 
-final class AddCommonInformationExchangeTradedAssetsValidAssetTest extends HTTPResponseTest {
+final class AddCommonInformationExchangeTradedAssetsValidUsdAssetTest extends HTTPResponseTest {
 
     protected static ?string $Cookie;
 
@@ -20,7 +20,7 @@ final class AddCommonInformationExchangeTradedAssetsValidAssetTest extends HTTPR
         curl_setopt($Curl, CURLOPT_URL, $Url);
         curl_setopt($Curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json", "Cookie: ".self::$Cookie]);
         curl_setopt($Curl, CURLOPT_POST, true);
-        curl_setopt($Curl, CURLOPT_POSTFIELDS, json_encode([["Ticker" => "HGLG", "AssetQualificationID" => 11,"ExchangeID" => 1,"AssetTypeID" => 11,"IsoCode" => "BRL"]]));
+        curl_setopt($Curl, CURLOPT_POSTFIELDS, json_encode([["Ticker" => "IVV", "AssetTypeID" => 1, "AssetSubtypeID" => 2, "IsoCode" => "USD"]]));
         curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
         self::$Response = curl_exec($Curl);
         self::$HttpCode = curl_getinfo($Curl, CURLINFO_HTTP_CODE);
@@ -37,10 +37,10 @@ final class AddCommonInformationExchangeTradedAssetsValidAssetTest extends HTTPR
 
     public function testResponseDefaultExpectedMessage(): void {
 
-        $ResponseArray = json_decode(self::$Response,true);
+        $ResponseArray = json_decode(self::$Response, true);
         $this->assertFalse(isset($ResponseArray['error']));
         $this->assertTrue(empty($ResponseArray['result']['Failure']));
-        $this->assertSame($ResponseArray['result']['Success'][0], 'HGLG11');
+        $this->assertSame($ResponseArray['result']['Success'][0], 'IVV');
 
     }
 

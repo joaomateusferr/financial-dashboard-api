@@ -33,7 +33,10 @@
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoExchangeIDAssetTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsNoAssetQualificationIDAssetTest.php</file>
             <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsInvalidExchangeIDAssetTest.php</file>
-            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidBrlAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidBrlWithSubtypeAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidUsdAssetTest.php</file>
+            <file>tests/sequential/common-information/exchange-traded-assets/AddCommonInformationExchangeTradedAssetsValidUsdWithoutSubtypeAssetTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
