@@ -12,6 +12,19 @@ use App\Repositories\ExchangeTradedAssetsRepository;
 
 class ExchangeTradedAssetsController extends ApiBase {
 
+    public function get(Request $Request, Response $Response) {
+
+        $Assets = self::formatBody($Request->getBody()->getContents());
+
+        if(empty($Assets))
+            return self::buildResponse($Response, ['Assets are required!'], 400, true);
+
+        $AssetsDetails = ExchangeTradedAssetsRepository::get($Assets);
+
+        return self::buildResponse($Response, $AssetsDetails);
+
+    }
+
     public function create(Request $Request, Response $Response) {
 
         $IsAdmin = SessionRepository::isAdmin($_COOKIE["sid"]);

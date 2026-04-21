@@ -8,6 +8,51 @@ use \Exception;
 
 class ExchangeTradedAssetsRepository {
 
+    public static function get(array $Assets) : array {
+
+        $AssetsDetails = [];
+
+        try{
+
+            $KernelConnection = new MariaDB('kernel', 'common_information');
+            $Sql = "SELECT ID, Ticker, AssetQualificationID, ExchangeID, MarketPrice, UpdateDate, AverageAnnualDividend, NetAverageAnnualDividend, AssetTypeID, AssetSubtypeID, IsoCode FROM exchange_traded_assets WHERE Ticker IN (".implode(',', array_fill(0, count($Assets), '?')).")";
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Result = $Stmt->execute($Assets);
+
+            if($Result && $Stmt->rowCount() > 0){
+
+                while($Row = $Stmt->fetch()){
+
+                    foreach($Row as $Field => $Value){
+
+                        if(is_null($Value))
+                            unset($Row[$Field]);
+
+                    }
+
+                    $Ticker = $Row['Ticker'];
+                    unset($Row['Ticker']);
+                    $AssetsDetails[$Ticker] = $Row;
+
+                }
+
+            }
+
+        } catch (Exception $Exception){
+
+            return [];
+           //add logs here
+
+        } finally {
+
+            $KernelConnection->close();
+
+        }
+
+        return $AssetsDetails;
+
+    }
+
     public static function insert(array $Assets) : array {
 
         try{
