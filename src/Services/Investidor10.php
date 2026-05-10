@@ -60,4 +60,20 @@ class Investidor10 {
 
     }
 
+    public static function getAssetData(string $FullTicker, string $Type) : array {
+
+        $BaseUrl = Investidor10Constants::getBaseUrl();
+        $AsetTypeMap = Investidor10Constants::getAsetTypeMap();
+        $Taxes = TaxesConstants::getTaxesMap();
+
+        if(!isset($AsetTypeMap[$Type])) //ignore
+            return [];
+
+        $AssetUrl = $BaseUrl.'/'.$AsetTypeMap[$Type].'/'.strtolower($FullTicker).'/';
+        $Investidor10Parser = new Investidor10WebParser($AssetUrl);
+
+        return ['MarketPrice' => $Investidor10Parser->getMarketPrice(), 'DividendsHistory' => $Investidor10Parser->getDividendsHistory()];
+
+    }
+
 }
