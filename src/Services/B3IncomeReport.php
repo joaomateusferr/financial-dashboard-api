@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Constants\TaxesConstants;
 use App\Services\Investidor10;
 use \Exception;
 use \DateTime;
@@ -11,7 +12,7 @@ class B3IncomeReport {
 
     private array $Operations = [];
 
-    public function __construct(string $ReportPath) {
+    public function __construct(string $ReportPath, array $Assets = []) {
 
         if(!file_exists($ReportPath))
             throw new Exception('Report file not found');
@@ -27,6 +28,7 @@ class B3IncomeReport {
         $this->Operations = [];
         $Keys = [];
         $Line = [];
+        $Refund = [];
 
         $KeyMap = [
             'Produto' => 'Asset',
@@ -72,12 +74,19 @@ class B3IncomeReport {
             $Line['Earnings'] = round($Line['EarningsPerShare']*$Line['NumberOfShares'], 2);
             $Line['Taxes'] = round($Line['Earnings'] - $Line['NetEarnings'],2);
 
-            if(empty($Line['NumberOfShares']))
+            if(empty($Line['NumberOfShares'])){
+
                 $Line['NetEarningsPerShare'] = 0;
-            else
+                $Refund[$Line['Asset']] = true;
+
+
+            } else {
+
                 $Line['NetEarningsPerShare'] = round($Line['NetEarnings']/$Line['NumberOfShares'],2);
 
-            $Line['PaymentDateTimestamp'] = (DateTime::createFromFormat('d/m/Y', $Line['PaymentDate']))->getTimestamp();
+            }
+
+            $Line['PaymentDateTimestamp'] = (DateTime::createFromFormat('d/m/Y', $Line['PaymentDate']))->setTime(0, 0, 0)->getTimestamp();
 
             $this->Operations[] = $Line;
             $Line = [];
@@ -89,27 +98,67 @@ class B3IncomeReport {
         });
 
         $this->Operations = array_values($this->Operations);
-        $this->filloutRefund();
+
+        if(!empty($Refund)){
+
+            foreach($Refund as $Ticker => $Value){
+
+                if(!isset($Assets[$Ticker]))
+                    throw new Exception("When refunds exist, it is necessary to insert the asset into the assets array, $Ticker not found");
+
+                $Refund[$Ticker] = $Assets[$Ticker]; //Add refund asset type
+
+            }
+
+            $this->filloutRefund($Refund);
+        }
 
     }
 
-    private function filloutRefund() {
+    private function filloutRefund(array $RefundAssets) {
 
-        $Investidor10Assets = [];
+        $RefundAssetsDetails = [];
+        $Taxes = TaxesConstants::getTaxesMap();
+
+        foreach($RefundAssets as $Ticker => $Type){
+
+            $RefundAssetsDetails[$Ticker] = Investidor10::getAssetData($Ticker, $Type);
+
+        }
 
         foreach($this->Operations as $Index => $Operation){
 
             if($Operation['EventType'] == 'Reembolso'){
 
-                $Investidor10Assets[$Operation['Asset']] = 'ACAO';
+                $Data = null;
+
+                foreach($RefundAssetsDetails[$Operation['Asset']]['DividendsHistory'] as $Event){
+
+                    if($Event['PaymentDate'] == $Operation['PaymentDateTimestamp']){
+
+                        $Data = $Event;
+                        break;
+
+                    }
+
+                }
+
+                if(empty($Data))
+                    continue;
+
+                $AssetType = $RefundAssets[$Operation['Asset']];
+                $OperationType = $Data['Type'];
+                $Multiplier = isset($Taxes[$AssetType][$OperationType]) ? $Taxes[$AssetType][$OperationType] : 0;
+
+                $this->Operations[$Index]['EarningsPerShare'] = $Data['Income'];
+                $this->Operations[$Index]['NetEarningsPerShare'] = $this->Operations[$Index]['EarningsPerShare'] * (1 - $Multiplier);
+                $this->Operations[$Index]['NumberOfShares'] = ceil($this->Operations[$Index]['NetEarnings']/$this->Operations[$Index]['NetEarningsPerShare']);
+                $this->Operations[$Index]['Earnings'] = $this->Operations[$Index]['NumberOfShares']*$this->Operations[$Index]['EarningsPerShare'];
+                $this->Operations[$Index]['Taxes'] = round($this->Operations[$Index]['Earnings'] - $this->Operations[$Index]['NetEarnings'],2);
 
             }
 
         }
-
-        $AssetsData = Investidor10::getAssetsData($Investidor10Assets);
-
-        var_dump($AssetsData);exit;
 
     }
 
