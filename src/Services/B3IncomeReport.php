@@ -162,4 +162,10 @@ class B3IncomeReport {
 
     }
 
+    public function getOperations() : array {
+
+        return $this->Operations;
+
+    }
+
 }
