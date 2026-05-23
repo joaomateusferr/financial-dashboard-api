@@ -51,12 +51,18 @@ foreach ($SheetData as $Index => $Row) {
     $Line['Asset'] = trim(explode('-', $Line['Asset'])[0]);
     unset($Line['EventType']);
     $Line['NumberOfShares'] = str_replace('.','',$Line['NumberOfShares']);
-    $Line['NumberOfShares'] = (int) $Line['NumberOfShares'];
-    $Line['EarningsPerShare'] = (float) substr($Line['EarningsPerShare'], 3);
-    $Line['NetEarnings'] = (float) substr($Line['NetEarnings'], 3);
+    $Line['NumberOfShares'] = (float) $Line['NumberOfShares'];
+    $Line['EarningsPerShare'] = str_ireplace('R$ ', '', $Line['EarningsPerShare']);
+    $Line['EarningsPerShare'] = (float) $Line['EarningsPerShare'];
+    $Line['NetEarnings'] = str_ireplace('R$ ', '', $Line['NetEarnings']);
+    $Line['NetEarnings'] = (float) $Line['NetEarnings'];
     $Line['Earnings'] = round($Line['EarningsPerShare']*$Line['NumberOfShares'], 2);
     $Line['Taxes'] = round($Line['Earnings'] - $Line['NetEarnings'],2);
-    $Line['NetEarningsPerShare'] = round($Line['NetEarnings']/$Line['NumberOfShares'],2);
+
+    if(empty($Line['NumberOfShares']))
+        $Line['NetEarningsPerShare'] = 0;
+    else
+        $Line['NetEarningsPerShare'] = round($Line['NetEarnings']/$Line['NumberOfShares'],2);
 
 
     $Data[] = $Line;
