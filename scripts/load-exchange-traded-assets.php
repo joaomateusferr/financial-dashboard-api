@@ -123,7 +123,7 @@ echo "Loading assets...\n";
 foreach($Chunks as $Chunk){
 
     $Options = [ 'http' => ['header'  => "Content-type: application/json\r\nCookie: $Cookie\r\n",'method'  => 'POST', 'content' => json_encode($Chunk)]];
-    $Result = @file_get_contents($BaseURL.'common-information/exchange-traded-assets', false, stream_context_create($Options));
+    $Result = @file_get_contents($GLOBALS["BaseURL"].'common-information/exchange-traded-assets', false, stream_context_create($Options));
 
     if(empty($Result))
         continue;
