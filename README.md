@@ -10,6 +10,11 @@ A simple API that aims to create a dashboard to help automate finances and inves
 sudo apt-get update && sudo apt-get install -y php composer php-curl php-mysql php-mbstring php-zip php-dom php-gd php-redis
 ```
 
+### Installing python dependencies in ubuntu
+```shell
+apt-get update && apt-get -y install python3 python3-pip && python3 -m pip install requests yfinance --break-system-packages
+```
+
 ### Install composer dependencies
 
 ```shell
