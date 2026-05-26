@@ -4,6 +4,16 @@ A simple API that aims to create a dashboard to help automate finances and inves
 
 ## Preparing the development environment
 
+### Installing python dependencies in ubuntu
+```shell
+sudo apt-get update && apt-get -y install python3 python3-pip && python3 -m pip install requests yfinance --break-system-packages
+```
+
+### Update yfinance
+```shell
+sudo python3 -m pip install  yfinance --upgrade --break-system-packages
+```
+
 ### Installing PHP dependencies in ubuntu
 
 ```shell
