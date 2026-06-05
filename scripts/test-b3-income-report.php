@@ -8,7 +8,6 @@ use App\Services\AssetsClosePrice;
 $File = '/home/john/Desktop/b3_dividend_data.xlsx';
 $B3IncomeReport = new B3IncomeReport($File, ['BBDC4' => 'ACAO']);
 $Operations = $B3IncomeReport->getOperations();
-$Folder = '/tmp/';
 
 $AssetsByDate = [];
 
@@ -30,26 +29,7 @@ foreach($AssetsByDate as $Date => $Assets){
 }
 
 $AssetsClosePrice =  new AssetsClosePrice($AssetsByDate);
-
-$FilePath = $Folder.uniqid().'.json';
-file_put_contents($FilePath, json_encode($AssetsByDate));
-
-
-
-$Command = 'python3 '.__DIR__.'/../adapters/assets-close-price-on-date.py '.$FilePath;
-$Output = [];
-$ResultCode = 0;
-exec($Command, $Output, $ResultCode);
-
-unlink($FilePath);
-
-if(empty($ResultCode)){
-    $Output = $Output[0];
-} else {
-    var_dump($Output);exit;
-}
-
-$AssetsByDate = json_decode($Output, true);
+$AssetsByDate = $AssetsClosePrice->fetch();
 
 foreach($AssetsByDate as $Date => $Infos){
 

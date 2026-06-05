@@ -41,7 +41,30 @@ class AssetsClosePrice {
 
     public function fetch() : array {
 
-        return [];
+        $FilePath = $this->AdapterFolder.uniqid().'.json';
+        file_put_contents($FilePath, json_encode($this->AssetsByDate));
+
+        $Command = 'python3 '.$this->ClosePriceOnDateAdapterPath.' '.$FilePath;
+        $Output = [];
+        $ResultCode = 0;
+        exec($Command, $Output, $ResultCode);
+        unlink($FilePath);
+
+        if(!empty($ResultCode)){
+
+            $ExceptionString = "$ResultCode - ";
+
+            foreach($Output as $Line){
+                $ExceptionString .= "$Line ";
+            }
+
+            $ExceptionString = substr($ExceptionString, 0, -1);
+            $ExceptionString .= "!";
+
+            throw new Exception($ExceptionString);
+        }
+
+        return json_decode($Output[0], true);
 
     }
 
