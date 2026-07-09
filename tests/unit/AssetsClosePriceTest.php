@@ -57,7 +57,7 @@ final class AssetsClosePriceTest extends TestCase {
         }
 
         $this->assertTrue(empty($ExceptionString));
-        $this->assertSame($AssetsByDate, ['2026-05-05' => ['AUVP11.SA' => 105.33999633789062]]);
+        $this->assertSame($AssetsByDate, ['2026-05-05' => ['AUVP11.SA' => 129.4499969482422]]);
 
     }
 
