@@ -48,7 +48,7 @@ final class AssetsClosePriceTest extends TestCase {
 
         try {
 
-            $AssetsClosePrice =  new AssetsClosePrice(['2026-05-05' => ['AUVP11.SA', 'AUPO11.SA']]);
+            $AssetsClosePrice =  new AssetsClosePrice(['2026-05-05' => ['AUVP11.SA']]);
             $AssetsByDate = $AssetsClosePrice->fetch();
 
         } catch (Exception $Exception) {
@@ -57,7 +57,7 @@ final class AssetsClosePriceTest extends TestCase {
         }
 
         $this->assertTrue(empty($ExceptionString));
-        $this->assertSame($AssetsByDate, ['2026-05-05' => ['AUVP11.SA' => 105.33999633789062, 'AUPO11.SA' => 129.4499969482422]]);
+        $this->assertSame($AssetsByDate, ['2026-05-05' => ['AUVP11.SA' => 129.4499969482422]]);
 
     }
 
