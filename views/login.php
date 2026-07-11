@@ -1,4 +1,4 @@
-<section class="page-shell">
+<section class="page-shell overflow-x-auto">
 
     <div class="page-card">
 
