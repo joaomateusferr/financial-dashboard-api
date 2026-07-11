@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS["BaseURL"] = 'http://localhost:8888/';
+$GLOBALS["BaseURL"] = 'http://localhost:8888/api/';
 $GLOBALS["Issue"] = [];
 
 $User = isset($argv[1]) ? $argv[1] : exit;

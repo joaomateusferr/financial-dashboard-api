@@ -14,16 +14,15 @@ use App\Middlewares\AuthMiddleware;
 
 return function (App $app) {
 
-    $app->get('/', [PublicController::class, 'ui']);
-    $app->get('/ping', [PublicController::class, 'ping']);
-    $app->get('/limits', [PublicController::class, 'getApiLimits']);
-    $app->post('/user', [UserController::class, 'create']);
-    $app->post('/session', [SessionController::class, 'set']);
-    $app->delete('/session', [SessionController::class, 'delete'])->add(new AuthMiddleware());
-    $app->post('/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'create'])->add(new AuthMiddleware());
-    $app->get('/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'get']);
-    $app->get('/common-information/asset-qualification', [AssetQualificationController::class, 'get']);
-    $app->get('/common-information/asset-type', [AssetTypeController::class, 'get']);
-    $app->get('/common-information/exchange', [ExchangeController::class, 'get']);
+    $app->get('/api/ping', [PublicController::class, 'ping']);
+    $app->get('/api/limits', [PublicController::class, 'getApiLimits']);
+    $app->post('/api/user', [UserController::class, 'create']);
+    $app->post('/api/session', [SessionController::class, 'set']);
+    $app->delete('/api/session', [SessionController::class, 'delete'])->add(new AuthMiddleware());
+    $app->post('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'create'])->add(new AuthMiddleware());
+    $app->get('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'get']);
+    $app->get('/api/common-information/asset-qualification', [AssetQualificationController::class, 'get']);
+    $app->get('/api/common-information/asset-type', [AssetTypeController::class, 'get']);
+    $app->get('/api/common-information/exchange', [ExchangeController::class, 'get']);
 
 };
