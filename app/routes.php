@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Slim\App;
+use App\UiControllers\HomeUiController;
 use App\Controllers\PublicController;
 use App\Controllers\UserController;
 use App\Controllers\SessionController;
@@ -12,17 +13,18 @@ use App\Controllers\AssetTypeController;
 use App\Controllers\ExchangeController;
 use App\Middlewares\AuthMiddleware;
 
-return function (App $app) {
+return function (App $App) {
 
-    $app->get('/api/ping', [PublicController::class, 'ping']);
-    $app->get('/api/limits', [PublicController::class, 'getApiLimits']);
-    $app->post('/api/user', [UserController::class, 'create']);
-    $app->post('/api/session', [SessionController::class, 'set']);
-    $app->delete('/api/session', [SessionController::class, 'delete'])->add(new AuthMiddleware());
-    $app->post('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'create'])->add(new AuthMiddleware());
-    $app->get('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'get']);
-    $app->get('/api/common-information/asset-qualification', [AssetQualificationController::class, 'get']);
-    $app->get('/api/common-information/asset-type', [AssetTypeController::class, 'get']);
-    $app->get('/api/common-information/exchange', [ExchangeController::class, 'get']);
+    $App->get('/', [HomeUiController::class, 'home']);
+    $App->get('/api/ping', [PublicController::class, 'ping']);
+    $App->get('/api/limits', [PublicController::class, 'getApiLimits']);
+    $App->post('/api/user', [UserController::class, 'create']);
+    $App->post('/api/session', [SessionController::class, 'set']);
+    $App->delete('/api/session', [SessionController::class, 'delete'])->add(new AuthMiddleware());
+    $App->post('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'create'])->add(new AuthMiddleware());
+    $App->get('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'get']);
+    $App->get('/api/common-information/asset-qualification', [AssetQualificationController::class, 'get']);
+    $App->get('/api/common-information/asset-type', [AssetTypeController::class, 'get']);
+    $App->get('/api/common-information/exchange', [ExchangeController::class, 'get']);
 
 };
