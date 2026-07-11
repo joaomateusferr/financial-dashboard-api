@@ -50,6 +50,7 @@ $AveragePrice = [
     'CPTS11' => 7.88,
     'ALZR11' => 10.69,
     'XPML11' => 106.22,
+    'BBAS3' => 21,69,
 ];
 
 $ExportFields = ['PaymentDate', 'Asset', 'NumberOfShares', 'Earnings', 'Taxes', 'NetEarnings', 'NetEarningsPerShare', 'ClosingPrice' , 'DividendYield', 'AveragePrice', 'NetDividendYieldOnCost', 'Type', 'Brokerage'];
