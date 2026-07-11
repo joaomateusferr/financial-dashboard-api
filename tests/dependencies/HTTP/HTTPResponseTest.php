@@ -11,7 +11,7 @@ abstract class HTTPResponseTest extends TestCase {
 
     protected static function getApiBase(): string {
 
-        return 'http://localhost:8888';
+        return 'http://localhost:8888/api';
 
     }
 
