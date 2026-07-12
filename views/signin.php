@@ -9,7 +9,7 @@
         <div class="form-alert" id="form-alert" role="alert" aria-live="polite" hidden>
         </div>
 
-        <form class="form-grid" method="post" novalidate>
+        <form class="form-grid" method="post" action="/signin/result" novalidate>
 
             <div class="form-field">
                 <label class="form-label" for="email">E-mail</label>
@@ -42,7 +42,7 @@
         </form>
 
         <div class="page-footer">
-            Já tem uma conta? <a href="<?php echo "/";?>">Entrar</a>
+            Já tem uma conta? <a href="<?php echo "/login";?>">Entrar</a>
         </div>
 
     </div>
