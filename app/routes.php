@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use Slim\App;
-use App\UiControllers\HomeUiController;
+use App\UiControllers\HomeController;
+use App\UiControllers\OperationController;
 use App\Controllers\PublicController;
 use App\Controllers\UserController;
 use App\Controllers\SessionController;
@@ -15,7 +16,18 @@ use App\Middlewares\AuthMiddleware;
 
 return function (App $App) {
 
-    $App->get('/', [HomeUiController::class, 'home']);
+    //Home
+    $App->get('/', [HomeController::class, 'home']);
+
+    //UI
+    $App->get('/signin', [HomeController::class, 'signin']);
+    $App->get('/login', [HomeController::class, 'login']);
+    $App->get('/reset-password', [HomeController::class, 'resetPassword']);
+
+    //Operations
+    $App->post('/signin/result', [OperationController::class, 'signin']);
+
+    //API
     $App->get('/api/ping', [PublicController::class, 'ping']);
     $App->get('/api/limits', [PublicController::class, 'getApiLimits']);
     $App->post('/api/user', [UserController::class, 'create']);

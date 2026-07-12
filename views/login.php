@@ -24,7 +24,7 @@
                     <span>Lembrar-me</span>
                 </label>
 
-                <a class="form-link" href="<?php echo "/?page=start-reset-password";?>">Esqueci minha senha</a>
+                <a class="form-link" href="/reset-password">Esqueci minha senha</a>
 
             </div>
 
@@ -32,7 +32,7 @@
         </form>
 
         <div class="page-footer">
-            Não tem uma conta? <a href="<?php echo "/?page=signin";?>">Criar conta</a>
+            Não tem uma conta? <a href="/signin">Criar conta</a>
         </div>
 
     </div>
