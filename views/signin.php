@@ -12,28 +12,28 @@
         <form class="form-grid" method="post" action="/signin/result" novalidate>
 
             <div class="form-field">
-                <label class="form-label" for="email">E-mail</label>
-                <input class="form-input" type="email" id="email" name="email" placeholder="user@domain.com" autocomplete="email" required>
+                <label class="form-label" for="Email">E-mail</label>
+                <input class="form-input" type="email" id="Email" name="Email" placeholder="user@domain.com" autocomplete="email" required>
             </div>
 
             <div class="form-field">
-                <label class="form-label" for="email_confirmation">Confirmar e-mail</label>
-                <input class="form-input" type="email" id="email_confirmation" name="email_confirmation" placeholder="user@domain.com" autocomplete="email" required>
+                <label class="form-label" for="EmailConfirmation">Email Confirmation</label>
+                <input class="form-input" type="email" id="EmailConfirmation" name="EmailConfirmation" placeholder="user@domain.com" autocomplete="email" required>
             </div>
 
             <div class="form-field">
-                <label class="form-label" for="password">Senha</label>
-                <input class="form-input" type="password" id="password" name="password" placeholder="Create a password" autocomplete="new-password" minlength="8" maxlength="50" required>
+                <label class="form-label" for="Password">Password</label>
+                <input class="form-input" type="password" id="Password" name="Password" placeholder="Create a password" autocomplete="new-password" minlength="8" maxlength="50" required>
             </div>
 
             <div class="form-field">
-                <label class="form-label" for="password_confirmation">Confirmar senha</label>
-                <input class="form-input" type="password" id="password_confirmation" name="password_confirmation" placeholder="Repeat your password" autocomplete="new-password" minlength="8" maxlength="50" required>
+                <label class="form-label" for="PasswordConfirmation">Password Confirmation</label>
+                <input class="form-input" type="password" id="PasswordConfirmation" name="PasswordConfirmation" placeholder="Repeat your password" autocomplete="new-password" minlength="8" maxlength="50" required>
             </div>
 
             <div class="form-row">
-                <label class="form-check" for="terms">
-                    <input type="checkbox" id="terms" name="terms" required>
+                <label class="form-check" for="Terms">
+                    <input type="checkbox" id="Terms" name="Terms" value="true" required>
                     <span>Li e aceito os termos de uso</span>
                 </label>
             </div>
@@ -42,7 +42,7 @@
         </form>
 
         <div class="page-footer">
-            Já tem uma conta? <a href="<?php echo "/login";?>">Entrar</a>
+            Já tem uma conta? <a href="/login">Entrar</a>
         </div>
 
     </div>
