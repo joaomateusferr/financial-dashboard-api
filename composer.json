@@ -1,10 +1,20 @@
 {
+    "name": "john/financial-dashboard",
+    "description": "A simple project that aims to create a dashboard to help automate finances and investments.",
+    "type": "project",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "App\\": "src/",
             "TestDependencies\\": "tests/dependencies/"
         }
     },
+    "authors": [
+        {
+            "name": "Joao Ferreira",
+            "email": "joaomateusferr@gmail.com"
+        }
+    ],
     "require": {
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
