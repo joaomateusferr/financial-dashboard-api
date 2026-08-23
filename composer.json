@@ -19,6 +19,7 @@
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
         "slim/php-view": "^3.4",
+        "vlucas/phpdotenv": "^5.6",
         "phpoffice/phpspreadsheet": "^4.4",
         "paragonie/sodium_compat": "^2.2",
         "firebase/php-jwt": "^6.11",

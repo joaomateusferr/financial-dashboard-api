@@ -2,7 +2,7 @@
 
 use Slim\Factory\AppFactory;
 
-require __DIR__ . '/../vendor/autoload.php';
+require dirname(__DIR__, 1).'/config.php';
 
 $App = AppFactory::create();
 
