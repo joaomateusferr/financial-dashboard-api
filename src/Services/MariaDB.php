@@ -12,7 +12,7 @@ class MariaDB {
     private ?string $Database;
     private string $Host;
     private int $Port = 3306;
-    private $PDO = null;
+    private ?PDO $PDO = null;
     private array $Options = [
         PDO::ATTR_TIMEOUT => 30, // Set timeout to 30s
         PDO::ATTR_EMULATE_PREPARES => false, // Disable emulation mode for "real" prepared statements
@@ -46,11 +46,6 @@ class MariaDB {
 
         $this->Host = $ServersInfo[$this->Server]['Host'];
         $this->Port = $ServersInfo[$this->Server]['Port'];
-
-        if($ServersInfo[$this->Server]['HasSSL']){
-            $Options[PDO::MYSQL_ATTR_SSL_CA] = $ServersInfo[$this->Server]['SSLCertificatePath'];
-            $Options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
-        }
 
         $this->connect();
 
