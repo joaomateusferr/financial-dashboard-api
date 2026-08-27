@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Constants\KeysConstants;
-use App\Services\SharedMemory;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use \Exception;
@@ -12,18 +10,7 @@ use \stdClass;
 class JwtHelper {
 
     private static function getKey() : string { //openssl rand -base64 32
-
-        $SharedMemory = new SharedMemory(KeysConstants::getJwtCredentials());
-        $JwtCredentials = $SharedMemory->read();
-
-        if(empty($JwtCredentials))
-            throw new Exception('Unable to get jwt credentials');
-
-        if(empty($JwtCredentials['Key']))
-            throw new Exception('Unable to get jwt credentials - key');
-
-        return $JwtCredentials['Key'];
-
+        return $_SERVER['JWT_KEY'];
     }
 
     private static function getAlgorithm() : string {
