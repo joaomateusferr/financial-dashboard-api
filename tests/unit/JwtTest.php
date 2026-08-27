@@ -13,6 +13,7 @@ final class JwtTest extends TestCase {
 
     public static function setUpBeforeClass(): void {
 
+        require dirname(__DIR__,2).'/config.php';
         self::$UserID = 10;
         self::$Type = 'ADMIN';
         self::$Jwt = JwtHelper::create(self::$UserID, self::$Type);

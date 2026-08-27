@@ -1,14 +1,25 @@
 {
+    "name": "john/financial-dashboard",
+    "description": "A simple project that aims to create a dashboard to help automate finances and investments.",
+    "type": "project",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "App\\": "src/",
             "TestDependencies\\": "tests/dependencies/"
         }
     },
+    "authors": [
+        {
+            "name": "Joao Ferreira",
+            "email": "joaomateusferr@gmail.com"
+        }
+    ],
     "require": {
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
         "slim/php-view": "^3.4",
+        "vlucas/phpdotenv": "^5.6",
         "phpoffice/phpspreadsheet": "^4.4",
         "paragonie/sodium_compat": "^2.2",
         "firebase/php-jwt": "^6.11",
@@ -22,12 +33,11 @@
         "prepare-environment":["@environment-up","@initialize-data-structures","@initialize-data-structures-common-information","@initial-data-dump-common-information","@create-default-root-user"],
         "environment-up": "@php ./environment/environment-up.php",
         "environment-up-dev": "@environment-up DEV",
-        "environment-clear": "sh ./environment/containers/clear.sh",
+        "clean-up": "sh ./environment/clean-up-docker-resources.sh",
         "create-default-root-user": "@php ./environment/create-default-root-user.php",
         "initialize-data-structures": "@php ./environment/initialize-data-structures.php",
         "initialize-data-structures-common-information": "@php ./environment/initialize-data-structures-common-information.php",
-        "initial-data-dump-common-information": "@php ./environment/initial-data-dump-common-information.php",
-        "shared-memory-debug-tool": "@php ./scripts/shared-memory/debug-tool.php"
+        "initial-data-dump-common-information": "@php ./environment/initial-data-dump-common-information.php"
     },
     "config": {
     "audit": {

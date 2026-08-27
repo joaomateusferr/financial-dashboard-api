@@ -31,10 +31,10 @@ composer install
 composer run-script --timeout=120 prepare-environment-dev
 ```
 
-### Run shared memory debug tool
+### Delete all app containers
 
 ```shell
-composer run-script --timeout=60 shared-memory-debug-tool
+composer run-script --timeout=120 clean-up
 ```
 
 ### Start the development server

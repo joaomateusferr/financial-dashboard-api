@@ -2,17 +2,22 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Services\SharedMemory;
-use App\Constants\KeysConstants;
+use Composer\Autoload\ClassLoader;
 
 $Mode = isset($argv[1]) ? $argv[1] : 'CI';
 
-$SupportedModes = ['CI', 'DEV', 'DB_ONLY'];
+$SupportedModes = ['CI', 'DEV'];
 $DatabaseNetwork = 'network-db';
 $DatabaseNetworkAlias = 'db';
 
 if(!in_array($Mode, $SupportedModes))
     exit(1);    //Mode not supported
+
+$ProjectRoot = dirname((new ReflectionClass(ClassLoader::class))->getFileName(), 3);
+$EnvPath = $ProjectRoot.'/.env';
+
+if(file_exists($EnvPath))
+    unlink($EnvPath);
 
 $Output = [];
 $ResultCode = 0;
@@ -23,6 +28,7 @@ if(!empty($ResultCode) || !isset($Output[0]))
     exit(2);    //Unable to generate database password
 
 $DatabasePassword = trim($Output[0]);
+$DatabaseUser = 'root';
 
 $Output = [];
 $ResultCode = 0;
@@ -33,6 +39,7 @@ if(!empty($ResultCode) || !isset($Output[0]))
     exit(3);    //Unable to get database host
 
 $DatabaseHost = empty($Output[0]) ? $DatabaseNetworkAlias : trim($Output[0]);
+$DatabasePort = 3306;
 
 $Output = [];
 $ResultCode = 0;
@@ -75,7 +82,7 @@ echo "Database:";
 while (true) {
 
     echo '.';
-    $Result = testDatabase(['Host' => $DatabaseHost, 'Port' => 3306, 'User' => 'root', 'Password' => $DatabasePassword]);
+    $Result = testDatabase(['Host' => $DatabaseHost, 'Port' => $DatabasePort, 'User' => $DatabaseUser, 'Password' => $DatabasePassword]);
 
     sleep(1);
 
@@ -87,74 +94,39 @@ while (true) {
 echo "\n";
 
 
-if($Mode == 'DB_ONLY')
-    exit(0);
-
-$ServersList = [
-
-    'kernel' => [
-        'Host' => $DatabaseHost,
-        'Port' => 3306,
-        'HasSSL' => false,
-    ],
-
-    'common-information' => [
-        'Host' => $DatabaseHost,
-        'Port' => 3306,
-        'HasSSL' => false,
-    ],
-
-    'customers-server-1' => [
-        'Host' => $DatabaseHost,
-        'Port' => 3306,
-        'HasSSL' => false,
-    ],
-];
-
-$DatabaseCredentials = ['User' => 'root', 'Password' => $DatabasePassword];
-
 $Output = [];
 $ResultCode = 0;
 
-exec("openssl rand -base64 32", $Output, $ResultCode); //Creating a cryptographically strong random key
+exec("openssl rand -base64 45 | tr -dc 'A-Za-z0-9-().!@?#,/;+' | head -c32", $Output, $ResultCode); //Creating a cryptographically strong random key
 
 if(!empty($ResultCode) || !isset($Output[0]))
     exit(8);    //Unable to generate random key
 
-try{
+$JwtKey = trim($Output[0]);
 
-    $SharedMemory = new SharedMemory(KeysConstants::getServersList());
-    $SharedMemory->write($ServersList);
+$EnvVariables = [
+    'KERNEL_DB_HOST' => $DatabaseHost,
+    'KERNEL_DB_PORT' => $DatabasePort,
+    'COMMON_INFORMATION_DB_HOST' => $DatabaseHost,
+    'COMMON_INFORMATION_DB_PORT' => $DatabasePort,
+    'CUSTOMERS_SERVER_1_DB_HOST' => $DatabaseHost,
+    'CUSTOMERS_SERVER_1_DB_PORT' => $DatabasePort,
+    'DB_USER' => $DatabaseUser,
+    'DB_PASSWORD' => $DatabasePassword,
+    'JWT_KEY' => $JwtKey,
+];
 
-} catch (Exception $Ex) {
+$EnvContent = '';
 
-    exit(9); //Unable to load database credentials
-
+foreach($EnvVariables as $Key => $Value){
+    $EnvContent .="$Key=$Value\n";
 }
 
-try{
+$EnvContent = substr($EnvContent, 0, -1);
+$EnvResult = file_put_contents($EnvPath, $EnvContent);
 
-    $SharedMemory = new SharedMemory(KeysConstants::getDatabaseCredentials());
-    $SharedMemory->write($DatabaseCredentials);
-
-} catch (Exception $Ex) {
-
-    exit(10);   //Unable to load servers list
-
-}
-
-$JwtCredentials = ['Key' => trim($Output[0])];
-
-try{
-
-    $SharedMemory = new SharedMemory(KeysConstants::getJwtCredentials());
-    $SharedMemory->write($JwtCredentials);
-
-} catch (Exception $Ex) {
-
-    exit(10);   //Unable to load jwt credentials
-
-}
+if(empty($EnvResult))
+    exit(9); //Unable to load credentials
 
 function testDatabase(array $Options) : ?int {
 

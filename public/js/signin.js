@@ -29,7 +29,7 @@ const Signin = {
 
         }
 
-        const Email = document.getElementById('email');
+        const Email = document.getElementById('Email');
         let Regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if(!Regex.test(Email.value)){
@@ -41,7 +41,7 @@ const Signin = {
 
         }
 
-        const EmailConfirmation = document.getElementById('email_confirmation');
+        const EmailConfirmation = document.getElementById('EmailConfirmation');
 
         if(Email.value != EmailConfirmation.value){
 
@@ -52,7 +52,7 @@ const Signin = {
 
         }
 
-        const Password = document.getElementById('password');
+        const Password = document.getElementById('Password');
 
         Regex = /[A-Z]/;
 
@@ -76,7 +76,7 @@ const Signin = {
 
         }
 
-        const PasswordConfirmation = document.getElementById('password_confirmation');
+        const PasswordConfirmation = document.getElementById('PasswordConfirmation');
 
         if(Password.value != PasswordConfirmation.value){
 
