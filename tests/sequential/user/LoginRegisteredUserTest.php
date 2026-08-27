@@ -13,7 +13,7 @@ final class LoginRegisteredUserTest extends HTTPResponseTest {
 
     public static function setUpBeforeClass(): void {
 
-        require dirname(__DIR__,3 ).'/config.php';
+        require dirname(__DIR__,3).'/config.php';
 
         $Curl = curl_init();
         $Url = self::getApiBase()."/session";
