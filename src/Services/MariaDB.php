@@ -4,7 +4,7 @@ namespace App\Services;
 
 use \PDO;
 use \Exception;
-use App\Constants\KeysConstants;
+use App\Helpers\ServerHelper;
 
 class MariaDB {
 
@@ -29,23 +29,9 @@ class MariaDB {
         if(!empty($Options))
             $this->Options = array_merge($this->Options, $Options); //Replace duplicates with $Options data
 
-        $SharedMemory = new SharedMemory(KeysConstants::getServersList());
-        $ServersInfo = $SharedMemory->read();
-
-        if(empty($ServersInfo))
-            throw new Exception('Unable to get servers info');
-
-        if(empty($ServersInfo[$this->Server]))
-            throw new Exception('Unable to get server info - '.$this->Server);
-
-        if(empty($ServersInfo[$this->Server]['Host']))
-            throw new Exception('Empty Host - '.$this->Server);
-
-        if(empty($ServersInfo[$this->Server]['Port']))
-            throw new Exception('Empty Port - '.$this->Server);
-
-        $this->Host = $ServersInfo[$this->Server]['Host'];
-        $this->Port = $ServersInfo[$this->Server]['Port'];
+        $ServersInfo = ServerHelper::getDatabaseInfo($Server);
+        $this->Host = $ServersInfo['Host'];
+        $this->Port = $ServersInfo['Port'];
 
         $this->connect();
 
@@ -55,14 +41,7 @@ class MariaDB {
 
         $DatabaseName = !empty($this->Database) ? "dbname=$this->Database;" : "";
         $DSN = "mysql:host=$this->Host;port=$this->Port;".$DatabaseName."charset=utf8";
-        $SharedMemory = new SharedMemory(KeysConstants::getDatabaseCredentials());
-        $Credentials = $SharedMemory->read();
-
-        if(empty($Credentials['User']))
-            throw new Exception("Empty Database User");
-
-        if(empty($Credentials['Password']))
-            throw new Exception("Empty Database Password");
+        $Credentials = ServerHelper::getDatabaseCredentials();
 
         try {
             $this->PDO = new PDO($DSN, $Credentials['User'], $Credentials['Password'], $this->Options);
@@ -81,12 +60,19 @@ class MariaDB {
         }
 
         $this->PDO = null;
+
     }
 
     public function prepare(string $Sql){
-
         return $this->PDO->prepare($Sql);
+    }
 
+    public function lastInsertId() : int {
+        return $this->PDO->lastInsertId();
+    }
+
+    public function connected() : bool {
+        return !is_null($this->PDO);
     }
 
 }
