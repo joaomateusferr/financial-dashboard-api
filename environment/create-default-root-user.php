@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require dirname(__DIR__, 1).'/config.php';
 
 use App\Repositories\UserRepository;
 use App\Constants\UsersConstants;
