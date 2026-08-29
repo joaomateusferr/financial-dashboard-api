@@ -11,6 +11,7 @@ abstract class HTTPResponseTest extends TestCase {
 
     protected static function getApiBase(): string {
 
+        require dirname(__DIR__, 3).'/config.php';
         return $_SERVER['API_BASE_URL'].'/api';
 
     }
