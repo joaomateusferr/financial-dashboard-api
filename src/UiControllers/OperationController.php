@@ -49,7 +49,7 @@ class OperationController extends UiBase {
         if(empty($Data['Terms']))
             return self::buildResponse($Response, 'signin-result.php', ['Title' => $DefaultErrorTitle, 'Description' => 'Accepting the terms is mandatory!', 'Footer' => $DefaultErrorFooter]);
 
-        $Options = [ 'http' => ['ignore_errors' => true, 'timeout' => 5, 'user_agent' => $_SERVER['HTTP_USER_AGENT'],'header'  => "Content-type: application/json",'method'  => 'POST', 'content' => json_encode(['Email' => $Data['Email'], 'Password' => $Data['Password']])]];
+        $Options = [ 'http' => ['ignore_errors' => true, 'timeout' => $_SERVER['UI_API_REQUEST_TIMEOUT'], 'user_agent' => $_SERVER['HTTP_USER_AGENT'],'header'  => "Content-type: application/json",'method'  => 'POST', 'content' => json_encode(['Email' => $Data['Email'], 'Password' => $Data['Password']])]];
         $Result = @file_get_contents($_SERVER['API_BASE_URL'].'/api/user', false, stream_context_create($Options));
 
         if(!empty($Result))
