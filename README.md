@@ -40,7 +40,7 @@ composer run-script --timeout=120 clean-up
 ### Start the development server
 
 ```shell
-php -S localhost:8888 -t ./public/
+PHP_CLI_SERVER_WORKERS=2 php -S localhost:8888 -t ./public/
 ```
 
 ### Clear all application containers

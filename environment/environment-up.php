@@ -114,6 +114,7 @@ $EnvVariables = [
     'DB_USER' => $DatabaseUser,
     'DB_PASSWORD' => $DatabasePassword,
     'JWT_KEY' => $JwtKey,
+    'API_BASE_URL' => 'http://localhost:8888', //default value for the development environment
 ];
 
 $EnvContent = '';
