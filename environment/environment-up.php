@@ -115,6 +115,7 @@ $EnvVariables = [
     'DB_PASSWORD' => $DatabasePassword,
     'JWT_KEY' => $JwtKey,
     'API_BASE_URL' => 'http://localhost:8888', //default value for the development environment
+    'UI_API_REQUEST_TIMEOUT' => 5,
 ];
 
 $EnvContent = '';
