@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Slim\App;
 use App\UiControllers\HomeController;
 use App\UiControllers\OperationController;
+use App\UiControllers\DashboardController;
 use App\Controllers\PublicController;
 use App\Controllers\UserController;
 use App\Controllers\SessionController;
@@ -26,6 +27,9 @@ return function (App $App) {
 
     //Operations
     $App->post('/signin/result', [OperationController::class, 'signin']);
+    $App->post('/login/result', [OperationController::class, 'login']);
+
+    $App->get('/dashboard', [DashboardController::class, 'dashboard']);
 
     //API
     $App->get('/api/ping', [PublicController::class, 'ping']);
