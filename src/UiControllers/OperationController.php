@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\UiBase;
 use App\Services\Password;
 use App\Helpers\CookieHelper;
+use App\Constants\DashboardTabsConstants;
 
 class OperationController extends UiBase {
 
@@ -100,10 +101,12 @@ class OperationController extends UiBase {
         else
             $Result = json_decode($Result, true);
 
+        $DashboardTabsConstants = DashboardTabsConstants::getDashboardTabs();
+
         $Title = !empty($Result['error'])  ? 'Error:' : 'Success:';
         $Description = !empty($Result['result']) ? $Result['result'][0] : '';
         $Footer = !empty($Result['error'])  ? 'Do you want to try again? <a href="/login">Login</a>' : '';
-        $Redirect = !empty($Result['error']) ? '' : '/dashboard';
+        $Redirect = !empty($Result['error']) ? '' : '/dashboard/'.array_key_first($DashboardTabsConstants);
 
         if(empty($Result['error'])){
 

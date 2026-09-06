@@ -8,9 +8,9 @@ use App\Services\UiBase;
 
 class DashboardController extends UiBase {
 
-    public function dashboard(Request $Request, Response $Response) {
+    public function dashboard(Request $Request, Response $Response, array $Args) {
 
-        return self::buildResponse($Response, 'dashboard-main.php');
+        return self::buildResponse($Response, 'dashboard-main.php', ['Tab' => $Args['Tab']]);
 
     }
 

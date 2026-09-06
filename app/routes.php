@@ -29,7 +29,7 @@ return function (App $App) {
     $App->post('/signin/result', [OperationController::class, 'signin']);
     $App->post('/login/result', [OperationController::class, 'login']);
 
-    $App->get('/dashboard', [DashboardController::class, 'dashboard']);
+    $App->get('/dashboard/{Tab}', [DashboardController::class, 'dashboard']);
 
     //API
     $App->get('/api/ping', [PublicController::class, 'ping']);
