@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\ApiBase;
 use App\Repositories\UserRepository;
 use App\Services\Password;
+use App\Helpers\DatabaseHelper;
 
 class UserController extends ApiBase {
 
@@ -43,7 +44,14 @@ class UserController extends ApiBase {
 
         return self::buildResponse($Response, ['User created successfully!']);
 
+    }
 
+    public function get(Request $Request, Response $Response) {
+
+        DatabaseHelper::connect('kernel', 'kernel');
+        $UserData = UserRepository::retrieveUserDetailsBySID($_COOKIE['sid']);
+        DatabaseHelper::disconnect('kernel');
+        return self::buildResponse($Response, $UserData);
 
     }
 

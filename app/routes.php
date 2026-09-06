@@ -36,6 +36,7 @@ return function (App $App) {
     $App->get('/api/limits', [PublicController::class, 'getApiLimits']);
     $App->post('/api/user', [UserController::class, 'create']);
     $App->post('/api/session', [SessionController::class, 'set']);
+    $App->get('/api/user', [UserController::class, 'get'])->add(new AuthMiddleware());
     $App->delete('/api/session', [SessionController::class, 'delete'])->add(new AuthMiddleware());
     $App->post('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'create'])->add(new AuthMiddleware());
     $App->get('/api/common-information/exchange-traded-assets', [ExchangeTradedAssetsController::class, 'get']);

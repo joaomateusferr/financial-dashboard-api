@@ -100,23 +100,48 @@ class OperationController extends UiBase {
         else
             $Result = json_decode($Result, true);
 
-        $Cookie = null;
-
-        if(empty($Result['error'])){
-
-            $SID = CookieHelper::getSID($http_response_header);
-            session_start();
-            $_SESSION['SID'] = $SID;
-            session_regenerate_id(true);
-
-            //get user ditails here and add to session
-
-        }
-
         $Title = !empty($Result['error'])  ? 'Error:' : 'Success:';
         $Description = !empty($Result['result']) ? $Result['result'][0] : '';
         $Footer = !empty($Result['error'])  ? 'Do you want to try again? <a href="/login">Login</a>' : '';
         $Redirect = !empty($Result['error']) ? '' : '/dashboard';
+
+        if(empty($Result['error'])){
+
+            $SID = CookieHelper::getSID($http_response_header);
+
+            session_start();
+            $_SESSION['SID'] = $SID;
+            session_regenerate_id(true);
+
+            $Options = [ 'http' => ['ignore_errors' => true, 'timeout' => $_SERVER['UI_API_REQUEST_TIMEOUT'], 'user_agent' => $_SERVER['HTTP_USER_AGENT'],'header'  => "Cookie: ".$SID."\r\nContent-type: application/json",'method'  => 'GET']];
+            $Result = @file_get_contents($_SERVER['API_BASE_URL'].'/api/user', false, stream_context_create($Options));
+
+            if($Result === false){
+
+                $Result = ['error' => true, 'result' => ['Request issue!']];
+
+            }else{
+
+                $Result = json_decode($Result, true);
+                $Result = $Result['result'];
+
+            }
+
+            if(!empty($Result['error'])){
+
+                $Title = 'Error';
+                $Description = !empty($Result['result']) ? $Result['result'][0] : '';
+                $Redirect = '';
+
+            }
+
+            $_SESSION['UserID'] = $Result['ID'];
+            $_SESSION['UserName'] = $Result['Name'];
+            $_SESSION['UserEmail'] = $Result['Email'];
+            $_SESSION['UserType'] = $Result['Type'];
+            $_SESSION['CustomerServerID'] = $Result['CustomerServerID'];
+
+        }
 
         return self::buildResponse($Response, 'login-result.php', ['Title' => $Title, 'Description' => $Description, 'Footer' => $Footer, 'Redirect' => $Redirect]);
 

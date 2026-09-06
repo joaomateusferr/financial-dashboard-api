@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
+use \Exception;
 use App\Services\MariaDB;
 use App\Services\Password;
+use App\Repositories\SessionRepository;
 use App\Constants\ServersConstants;
 use App\Constants\UsersConstants;
-use \Exception;
+use App\Helpers\DatabaseHelper;
 
 class UserRepository {
 
@@ -102,6 +104,48 @@ class UserRepository {
         }
 
         return false;
+
+    }
+
+    public static function retrieveUserDetailsBySID(string $SID) : bool | array  {
+
+        $Session = SessionRepository::get($SID, ['UserID']);
+        $UserDetails = self::retrieveUserDetailsByID($Session['UserID'], ['ID', 'Name', 'Email', 'Type', 'CustomerServerID']);
+        return $UserDetails;
+
+    }
+
+    public static function retrieveUserDetailsByID(string $ID, array $Fields = []) : bool | array  {
+
+        $KernelConnection = DatabaseHelper::getConnection('kernel');
+
+        if(empty($KernelConnection))
+            return false;
+
+        $UserDetails = false;
+
+        $FieldsString = '*';
+
+        if(!empty($Fields))
+            $FieldsString = implode(', ', $Fields);
+
+        try{
+
+            $Sql = "SELECT $FieldsString FROM users WHERE ID = :ID";
+            $Stmt = $KernelConnection->prepare($Sql);
+            $Stmt->bindValue(':ID', $ID);
+            $Result = $Stmt->execute();
+
+            if($Result && $Stmt->rowCount() > 0)
+                $UserDetails = $Stmt->fetch();
+
+        } catch (Exception $Exception){
+
+           //add logs here
+
+        }
+
+        return $UserDetails;
 
     }
 
