@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class SessionHelper {
 
-    private const StandardDuration = 86400; //a day
+    private const StandardDuration = 1445; //24 mins and 5 seconds
 
 
     public static function generateToken() : string {

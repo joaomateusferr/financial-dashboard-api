@@ -1,6 +1,4 @@
-<section class="page-shell">
-
-    <?php
+<?php
 
     if(!empty($Redirect)){
 
@@ -9,7 +7,9 @@
 
     }
 
-    ?>
+?>
+
+<section class="page-shell">
 
     <div class="page-card">
 

@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+if(!empty($_SESSION['UserID'])){
+
+    $DashboardTabsConstants = App\Constants\DashboardTabsConstants::getDashboardTabs();
+    $Redirect = '/dashboard/'.array_key_first($DashboardTabsConstants);
+    header("Location: $Redirect");
+    exit;
+
+}
+
+?>
+
 <section class="page-shell overflow-x-auto">
 
     <div class="page-card">
