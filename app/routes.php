@@ -28,6 +28,7 @@ return function (App $App) {
     //Operations
     $App->post('/signin/result', [OperationController::class, 'signin']);
     $App->post('/login/result', [OperationController::class, 'login']);
+    $App->post('/logout/result', [OperationController::class, 'logout']);
 
     $App->get('/dashboard/{Tab}', [DashboardController::class, 'dashboard']);
 

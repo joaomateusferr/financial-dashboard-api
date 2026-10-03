@@ -140,8 +140,16 @@ class OperationController extends UiBase {
     }
 
     public function logout(Request $Request, Response $Response) {
+
         session_start();
+
+        $Result = APIRequestHelper::sendRequest($_SERVER['HTTP_USER_AGENT'], 'DELETE','/session',[],["Cookie: sid=".$_SESSION['SID'],"Content-type: application/json"]);
+
+        if($Result === false)
+            $Result = ['error' => true, 'result' => ['Request issue!']];
+
         session_destroy();
+
         return self::buildResponse($Response, 'login.php');
     }
 }
