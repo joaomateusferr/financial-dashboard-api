@@ -150,6 +150,7 @@ class OperationController extends UiBase {
 
         session_destroy();
 
-        return self::buildResponse($Response, 'login.php');
+        return self::buildResponse($Response, 'redirect.php', ['Redirect' => '/login']);
+
     }
 }
