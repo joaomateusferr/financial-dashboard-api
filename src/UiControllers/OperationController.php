@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\UiBase;
 use App\Services\Password;
-use App\Helpers\CookieHelper;
+use App\Helpers\APIRequestHelper;
 use App\Constants\DashboardTabsConstants;
 
 class OperationController extends UiBase {
@@ -51,12 +51,9 @@ class OperationController extends UiBase {
         if(empty($Data['Terms']))
             return self::buildResponse($Response, 'signin-result.php', ['Title' => $DefaultErrorTitle, 'Description' => 'Accepting the terms is mandatory!', 'Footer' => $DefaultErrorFooter]);
 
-        $Options = [ 'http' => ['ignore_errors' => true, 'timeout' => $_SERVER['UI_API_REQUEST_TIMEOUT'], 'user_agent' => $_SERVER['HTTP_USER_AGENT'],'header'  => "Content-type: application/json",'method'  => 'POST', 'content' => json_encode(['Email' => $Data['Email'], 'Password' => $Data['Password']])]];
-        $Result = @file_get_contents($_SERVER['API_BASE_URL'].'/api/user', false, stream_context_create($Options));
+        $Result = APIRequestHelper::sendRequest($_SERVER['HTTP_USER_AGENT'], 'POST','/user',['Email' => $Data['Email'], 'Password' => $Data['Password']],["Content-type: application/json"]);
 
-        if(!empty($Result))
-            $Result = json_decode($Result, true);
-        else
+        if(empty($Result))
             $Result = ['error' => true, 'result' => ['Request issue!']];
 
         $Title = !empty($Result['error'])  ? 'Error:' : 'Success:';
@@ -93,13 +90,10 @@ class OperationController extends UiBase {
         if(!empty($PasswordMinimumPasswordSecurityResult))
             return self::buildResponse($Response, 'login-result.php', ['Title' => $DefaultErrorTitle, 'Description' => $PasswordMinimumPasswordSecurityResult[0], 'Footer' => $DefaultErrorFooter]);
 
-        $Options = [ 'http' => ['ignore_errors' => true, 'timeout' => $_SERVER['UI_API_REQUEST_TIMEOUT'], 'user_agent' => $_SERVER['HTTP_USER_AGENT'],'header'  => "Content-type: application/json",'method'  => 'POST', 'content' => json_encode(['Email' => $Data['Email'], 'Password' => $Data['Password']])]];
-        $Result = @file_get_contents($_SERVER['API_BASE_URL'].'/api/session', false, stream_context_create($Options));
+        $Result = APIRequestHelper::sendRequest($_SERVER['HTTP_USER_AGENT'], 'POST','/session',['Email' => $Data['Email'], 'Password' => $Data['Password']],["Content-type: application/json"]);
 
         if($Result === false)
             $Result = ['error' => true, 'result' => ['Request issue!']];
-        else
-            $Result = json_decode($Result, true);
 
         $DashboardTabsConstants = DashboardTabsConstants::getDashboardTabs();
 
@@ -110,25 +104,19 @@ class OperationController extends UiBase {
 
         if(empty($Result['error'])){
 
-            $SID = CookieHelper::getSID($http_response_header);
+            $SetCookie = APIRequestHelper::parseSetCookie($Result['Headers']['Set-Cookie']);
 
+            session_set_cookie_params($SetCookie['Max-Age']);
             session_start();
-            $_SESSION['SID'] = $SID;
+            $_SESSION['SID'] = $SetCookie['sid'];
             session_regenerate_id(true);
 
-            $Options = [ 'http' => ['ignore_errors' => true, 'timeout' => $_SERVER['UI_API_REQUEST_TIMEOUT'], 'user_agent' => $_SERVER['HTTP_USER_AGENT'],'header'  => "Cookie: ".$SID."\r\nContent-type: application/json",'method'  => 'GET']];
-            $Result = @file_get_contents($_SERVER['API_BASE_URL'].'/api/user', false, stream_context_create($Options));
+            $Result = APIRequestHelper::sendRequest($_SERVER['HTTP_USER_AGENT'], 'GET','/user',[],["Cookie: sid=".$SetCookie['sid'],"Content-type: application/json"]);
 
-            if($Result === false){
-
+            if($Result === false)
                 $Result = ['error' => true, 'result' => ['Request issue!']];
-
-            }else{
-
-                $Result = json_decode($Result, true);
+            else
                 $Result = $Result['result'];
-
-            }
 
             if(!empty($Result['error'])){
 
@@ -143,6 +131,7 @@ class OperationController extends UiBase {
             $_SESSION['UserEmail'] = $Result['Email'];
             $_SESSION['UserType'] = $Result['Type'];
             $_SESSION['CustomerServerID'] = $Result['CustomerServerID'];
+            $_SESSION['ExpiresIn'] = time() + $SetCookie['Max-Age'];
 
         }
 
@@ -150,4 +139,9 @@ class OperationController extends UiBase {
 
     }
 
+    public function logout(Request $Request, Response $Response) {
+        session_start();
+        session_destroy();
+        return self::buildResponse($Response, 'login.php');
+    }
 }
