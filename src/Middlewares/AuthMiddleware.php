@@ -26,7 +26,7 @@ class AuthMiddleware extends ApiBase {
 
             SessionRepository::delete($_COOKIE['sid']);
             setcookie('sid', '', time() - SessionHelper::getStandardDuration(), '/', '', true, true);
-            return self::buildResponseFromFactory(['Unauthorized'], 401, true);
+            return self::buildResponseFromFactory(['Unauthorized'], 401, true, true);
 
         }
 
