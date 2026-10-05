@@ -32,4 +32,11 @@ class HomeController extends UiBase {
 
     }
 
+    public function resetPassword(Request $Request, Response $Response, array $Args) {
+
+        $ID = !empty($Args['ID']) ? $Args['ID'] : '';
+        return self::buildResponse($Response, 'reset-password.php', ['ID' => $ID]);
+
+    }
+
 }

@@ -24,6 +24,8 @@ class UserController extends ApiBase {
         if(!isset($Data['Password']))
             return self::buildResponse($Response, ['Password field is mandatory!'], 400, true);
 
+        DatabaseHelper::connect('kernel', 'kernel');
+
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($Data['Email']);
 
         if(is_null($UserDetails))
@@ -38,6 +40,8 @@ class UserController extends ApiBase {
             return self::buildResponse($Response, $PasswordMinimumPasswordSecurityResult, 400, true);
 
         $Result = UserRepository::create($Data['Email'], $Data['Password']);
+
+        DatabaseHelper::disconnect('kernel');
 
         if(empty($Result))
             return self::buildResponse($Response, ['Unable to create user!'], 500, true);

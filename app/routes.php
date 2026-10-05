@@ -24,12 +24,14 @@ return function (App $App) {
     $App->get('/signin', [HomeController::class, 'signin']);
     $App->get('/login', [HomeController::class, 'login']);
     $App->get('/start-reset-password', [HomeController::class, 'startResetPassword']);
+    $App->get('/reset-password/{ID}', [HomeController::class, 'resetPassword']);
 
     //Operations
     $App->post('/signin/result', [OperationController::class, 'signin']);
     $App->post('/login/result', [OperationController::class, 'login']);
     $App->post('/logout/result', [OperationController::class, 'logout']);
-    $App->post('/start-reset-password/result', [OperationController::class, 'resetPassword']);
+    $App->post('/start-reset-password/result', [OperationController::class, 'startResetPassword']);
+    $App->post('/reset-password/result', [OperationController::class, 'resetPassword']);
 
     $App->get('/dashboard/{Tab}', [DashboardController::class, 'dashboard']);
 

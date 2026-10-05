@@ -12,7 +12,7 @@ use App\Helpers\DatabaseHelper;
 
 class UserRepository {
 
-    public static function create(string $Email, string $Password) : ?bool {
+    public static function create(string $Email, string $Password) : bool {
 
         $User = [
             'Email' => $Email,
@@ -23,6 +23,11 @@ class UserRepository {
 
         try{
 
+            $KernelConnection = DatabaseHelper::getConnection('kernel');
+
+            if(empty($KernelConnection))
+                return false;
+
             $KernelConnection = new MariaDB('kernel', 'kernel');
             $Sql = 'INSERT INTO users (Email, PasswordHash, Type, CustomerServerID) VALUES (:Email, :PasswordHash, :Type, :CustomerServerID)';
             $Stmt = $KernelConnection->prepare($Sql);
@@ -32,11 +37,6 @@ class UserRepository {
         }catch (Exception $Exception){
 
             //add logs hererws
-            return null;
-
-        } finally {
-
-            $KernelConnection->close();
 
         }
 
@@ -46,12 +46,15 @@ class UserRepository {
 
     public static function retrieveUserDetailsByEmail(string $Email) : ?array {
 
-
-        $UserDetails = [];
-
         try{
 
-            $KernelConnection = new MariaDB('kernel', 'kernel');
+            $KernelConnection = DatabaseHelper::getConnection('kernel');
+
+            if(empty($KernelConnection))
+                return null;
+
+            $UserDetails = [];
+
             $Filter = ['Email' => $Email];
 
             $Sql = 'SELECT ID, Type, Email, PasswordHash FROM users WHERE Email = :Email LIMIT 1';
@@ -66,10 +69,6 @@ class UserRepository {
            //add logs here
            return null;
 
-        } finally {
-
-            $KernelConnection->close();
-
         }
 
         return $UserDetails;
@@ -82,6 +81,11 @@ class UserRepository {
             return false;
 
         try{
+
+            $KernelConnection = DatabaseHelper::getConnection('kernel');
+
+            if(empty($KernelConnection))
+                return false;
 
             $KernelConnection = new MariaDB('kernel', 'kernel');
             $Sql = 'UPDATE users SET Type = :Type WHERE ID = :ID';
@@ -96,10 +100,6 @@ class UserRepository {
         }catch (Exception $Exception){
 
             //add logs hererws
-
-        } finally {
-
-            $KernelConnection->close();
 
         }
 
@@ -117,19 +117,19 @@ class UserRepository {
 
     public static function retrieveUserDetailsByID(string $ID, array $Fields = []) : bool | array  {
 
-        $KernelConnection = DatabaseHelper::getConnection('kernel');
-
-        if(empty($KernelConnection))
-            return false;
-
-        $UserDetails = false;
-
         $FieldsString = '*';
 
         if(!empty($Fields))
             $FieldsString = implode(', ', $Fields);
 
+        $UserDetails = false;
+
         try{
+
+            $KernelConnection = DatabaseHelper::getConnection('kernel');
+
+            if(empty($KernelConnection))
+                return false;
 
             $Sql = "SELECT $FieldsString FROM users WHERE ID = :ID";
             $Stmt = $KernelConnection->prepare($Sql);
