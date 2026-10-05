@@ -1,4 +1,3 @@
-<?php echo $ID; ?>
 <section class="page-shell overflow-x-auto">
 
     <div class="page-card">
@@ -10,21 +9,11 @@
         <div class="form-alert" id="form-alert" role="alert" aria-live="polite" hidden>
         </div>
 
-        <form class="form-grid" method="post" action="/reset-password/result" novalidate>
+        <form class="form-grid" method="post" action="/start-reset-password/result" novalidate>
 
             <div class="form-field">
-                <label class="form-label" for="Email">E-mail</label>
+                <label class="form-label" for="email">E-mail</label>
                 <input class="form-input" type="email" id="Email" name="Email" placeholder="user@domain.com" autocomplete="email" required>
-            </div>
-
-            <div class="form-field">
-                <label class="form-label" for="Password">Password</label>
-                <input class="form-input" type="password" id="Password" name="Password" placeholder="Create a password" autocomplete="new-password" minlength="8" required>
-            </div>
-
-            <div class="form-field">
-                <label class="form-label" for="PasswordConfirmation">Confirmar senha</label>
-                <input class="form-input" type="password" id="PasswordConfirmation" name="PasswordConfirmation" placeholder="Repeat your password" autocomplete="new-password" minlength="8" required>
             </div>
 
             <button class="btn-primary" type="submit">Reset password</button>
@@ -39,7 +28,7 @@
 
 </section>
 
-<script src="/js/reset-password.js" defer></script>
+<script src="/js/start-reset-password.js" defer></script>
 
 <script>
 
@@ -50,7 +39,7 @@
 
         Form.addEventListener('submit', (Event) => {
 
-            const IsValid = ResetPassword.validateForm(Form, AlertBox);
+            const IsValid = StartResetPassword.validateForm(Form, AlertBox);
 
             if (!IsValid) {
 

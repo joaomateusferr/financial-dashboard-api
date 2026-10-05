@@ -34,7 +34,7 @@
             <div class="form-row">
                 <label class="form-check" for="Terms">
                     <input type="checkbox" id="Terms" name="Terms" value="true" required>
-                    <span>Li e aceito os termos de uso</span>
+                    <span>I have read and accept the terms of use.</span>
                 </label>
             </div>
 
@@ -42,7 +42,7 @@
         </form>
 
         <div class="page-footer">
-            Já tem uma conta? <a href="/login">Entrar</a>
+            Do you already have an account? <a href="/login">Login</a>
         </div>
 
     </div>

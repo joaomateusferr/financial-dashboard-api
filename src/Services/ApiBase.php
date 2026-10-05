@@ -25,12 +25,15 @@ abstract class ApiBase {
 
     }
 
-    private static function formatResponse(array $Payload, bool $Error = false) : string {
+    private static function formatResponse(array $Payload, bool $Error = false, bool $DestroySession = false) : string {
 
         $Response = [];
 
         if($Error)
             $Response['error'] = true;
+
+        if($DestroySession)
+            $Response['destroy-session'] = true;
 
         $Response['result'] = $Payload;
 
@@ -45,11 +48,11 @@ abstract class ApiBase {
 
     }
 
-    protected static function buildResponseFromFactory(array $Data, int $Status = 400, bool $IsError = false) : Response {
+    protected static function buildResponseFromFactory(array $Data, int $Status = 400, bool $IsError = false, bool $DestroySession = false) : Response {
 
         $ResponseFactory = new ResponseFactory();
         $Response = $ResponseFactory->createResponse($Status);
-        $Response->getBody()->write(self::formatResponse($Data, $IsError));
+        $Response->getBody()->write(self::formatResponse($Data, $IsError, $DestroySession));
         return $Response->withHeader('Content-Type', self::getDefaultContentType());
 
     }

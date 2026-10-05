@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\ApiBase;
 use App\Repositories\UserRepository;
 use App\Services\Password;
+use App\Helpers\DatabaseHelper;
 
 class UserController extends ApiBase {
 
@@ -23,6 +24,8 @@ class UserController extends ApiBase {
         if(!isset($Data['Password']))
             return self::buildResponse($Response, ['Password field is mandatory!'], 400, true);
 
+        DatabaseHelper::connect('kernel', 'kernel');
+
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($Data['Email']);
 
         if(is_null($UserDetails))
@@ -38,12 +41,21 @@ class UserController extends ApiBase {
 
         $Result = UserRepository::create($Data['Email'], $Data['Password']);
 
+        DatabaseHelper::disconnect('kernel');
+
         if(empty($Result))
             return self::buildResponse($Response, ['Unable to create user!'], 500, true);
 
         return self::buildResponse($Response, ['User created successfully!']);
 
+    }
 
+    public function get(Request $Request, Response $Response) {
+
+        DatabaseHelper::connect('kernel', 'kernel');
+        $UserData = UserRepository::retrieveUserDetailsBySID($_COOKIE['sid']);
+        DatabaseHelper::disconnect('kernel');
+        return self::buildResponse($Response, $UserData);
 
     }
 
