@@ -5,6 +5,7 @@ declare(strict_types=1);
 use TestDependencies\HTTP\HTTPResponseTest;
 use App\Repositories\SessionRepository;
 use App\Repositories\UserRepository;
+use App\Helpers\DatabaseHelper;
 
 final class LogoutRegisteredUserTest extends HTTPResponseTest {
 
@@ -13,7 +14,10 @@ final class LogoutRegisteredUserTest extends HTTPResponseTest {
     public static function setUpBeforeClass(): void {
 
         $TestEmail = 'joao.ferreira@gmail.com';
+
+        DatabaseHelper::connect('kernel', 'kernel');
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($TestEmail);
+        DatabaseHelper::disconnect('kernel');
 
         if(empty($UserDetails))
             throw new Exception("Required user details are missing.");
