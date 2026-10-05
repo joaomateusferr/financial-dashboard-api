@@ -41,7 +41,7 @@ if(!empty($_SESSION['UserID'])){
                     <span>Remember me</span>
                 </label>
 
-                <a class="form-link" href="/reset-password">Forgot your password?</a>
+                <a class="form-link" href="/start-reset-password">Forgot your password?</a>
 
             </div>
 

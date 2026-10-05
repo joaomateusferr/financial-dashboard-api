@@ -23,12 +23,13 @@ return function (App $App) {
     //UI
     $App->get('/signin', [HomeController::class, 'signin']);
     $App->get('/login', [HomeController::class, 'login']);
-    $App->get('/reset-password', [HomeController::class, 'resetPassword']);
+    $App->get('/start-reset-password', [HomeController::class, 'startResetPassword']);
 
     //Operations
     $App->post('/signin/result', [OperationController::class, 'signin']);
     $App->post('/login/result', [OperationController::class, 'login']);
     $App->post('/logout/result', [OperationController::class, 'logout']);
+    $App->post('/start-reset-password/result', [OperationController::class, 'resetPassword']);
 
     $App->get('/dashboard/{Tab}', [DashboardController::class, 'dashboard']);
 

@@ -26,9 +26,9 @@ class HomeController extends UiBase {
 
     }
 
-    public function resetPassword(Request $Request, Response $Response) {
+    public function startResetPassword(Request $Request, Response $Response) {
 
-        return self::buildResponse($Response, 'reset-password.php');
+        return self::buildResponse($Response, 'start-reset-password.php');
 
     }
 

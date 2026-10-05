@@ -153,4 +153,5 @@ class OperationController extends UiBase {
         return self::buildResponse($Response, 'redirect.php', ['Redirect' => '/login']);
 
     }
+
 }
