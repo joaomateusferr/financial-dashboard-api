@@ -8,6 +8,7 @@ use App\Services\ApiBase;
 use App\Repositories\UserRepository;
 use App\Repositories\SessionRepository;
 use App\Services\Password;
+use App\Helpers\DatabaseHelper;
 
 class SessionController extends ApiBase {
 
@@ -24,6 +25,8 @@ class SessionController extends ApiBase {
         if(!isset($Data['Password']))
             return self::buildResponse($Response, ['Password field is mandatory!'], 400, true);
 
+        DatabaseHelper::connect('kernel', 'kernel');
+
         $UserDetails = UserRepository::retrieveUserDetailsByEmail($Data['Email']);
 
         if(is_null($UserDetails))
@@ -39,6 +42,8 @@ class SessionController extends ApiBase {
             $_SERVER['HTTP_USER_AGENT'] = 'unknown';
 
         $Session = SessionRepository::set($UserDetails['ID'], $_SERVER['HTTP_USER_AGENT']);
+
+        DatabaseHelper::disconnect('kernel');
 
         if(empty($Session))
             return self::buildResponse($Response, ['Invalid session!'], 401, true);
