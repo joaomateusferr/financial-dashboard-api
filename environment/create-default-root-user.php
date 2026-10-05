@@ -4,8 +4,12 @@ require dirname(__DIR__, 1).'/config.php';
 
 use App\Repositories\UserRepository;
 use App\Constants\UsersConstants;
+use App\Helpers\DatabaseHelper;
 
 $DefaultRootCredentials = UsersConstants::getDefaultRootCredentials();
+
+DatabaseHelper::connect('kernel', 'kernel');
+
 $UserDetails = UserRepository::retrieveUserDetailsByEmail($DefaultRootCredentials['Email']);
 
 if(empty($UserDetails)){
@@ -28,6 +32,8 @@ if(empty($UserDetails)){
 
 $UserDetails = UserRepository::retrieveUserDetailsByEmail($DefaultRootCredentials['Email']);
 $Result = UserRepository::changeUserType($UserDetails['ID'],'ADMIN');
+
+DatabaseHelper::disconnect('kernel');
 
 if(!$Result)
     exit("User type change failed!\n");
