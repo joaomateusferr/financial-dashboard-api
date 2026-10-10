@@ -1,6 +1,6 @@
-# Financial Dashboard API
+# Financial Dashboard
 
-A simple API that aims to create a dashboard to help automate finances and investments.
+A simple project that aims to create a dashboard to help automate finances and investments.
 
 ## Preparing the development environment
 
